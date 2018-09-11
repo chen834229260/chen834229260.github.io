@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #ADD8E6; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="BOOK," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第一章节:深入WEB请求过程;">
+<meta name="keywords" content="BOOK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入分析Java Web技术内幕:第一章">
+<meta property="og:url" content="http://yoursite.com/2018/08/28/JavaWeb/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第一章节:深入WEB请求过程;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2018/08/28/JavaWeb/20180831103126.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/28/JavaWeb/20180901084618.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/28/JavaWeb/20180901085134.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/28/JavaWeb/20180903134257.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/28/JavaWeb/20180903160539.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/28/JavaWeb/20180903161058.png">
+<meta property="og:updated_time" content="2018-09-10T01:32:33.264Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入分析Java Web技术内幕:第一章">
+<meta name="twitter:description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第一章节:深入WEB请求过程;">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/28/JavaWeb/20180831103126.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/28/JavaWeb/"/>
+
+
+
+
+
+  <title>深入分析Java Web技术内幕:第一章 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">god helps those who help themselves</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/28/JavaWeb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="浅浅">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入分析Java Web技术内幕:第一章</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-28T10:58:05+08:00">
+                2018-08-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/28/JavaWeb/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/08/28/JavaWeb/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第一章节:深入WEB请求过程;<br><a id="more"></a></p>
+</blockquote>
+<h2 id="第一章-深入WEB请求过程"><a href="#第一章-深入WEB请求过程" class="headerlink" title="第一章: 深入WEB请求过程"></a>第一章: 深入WEB请求过程</h2><h3 id="1-1-B-S-Browser-Server-网络架构概述"><a href="#1-1-B-S-Browser-Server-网络架构概述" class="headerlink" title="1.1 B/S(Browser/Server)网络架构概述"></a>1.1 B/S(Browser/Server)网络架构概述</h3><blockquote>
+<p>　B/S网络架构从前端到后端的简化,都基于统一的应用层协议HTTP来交互数据,HTTP的交互模式为短连接,通常情况下,一次请求就完成一次数据交互,对应一个业务逻辑,之后连接断开,当前互联网应用每天都处理上亿的用户请求,所以每个用户访问一次后不可能一直保持这个连接;</p>
+</blockquote>
+<h4 id="一个请求发起的过程"><a href="#一个请求发起的过程" class="headerlink" title="一个请求发起的过程"></a>一个请求发起的过程</h4><blockquote>
+<p>　当用户输入一个URL时(<a href="http://www.taobao.com)后,首先它会请求DNS把这个域名解析成对应的IP地址,然后根据这个IP地址找到对应的服务器,想这个服务器发起一个get请求,然后服务器返回默认的数据资源给访问的用户" target="_blank" rel="noopener">www.taobao.com)后,首先它会请求DNS把这个域名解析成对应的IP地址,然后根据这个IP地址找到对应的服务器,想这个服务器发起一个get请求,然后服务器返回默认的数据资源给访问的用户</a><br>　服务器端也存在复杂的业务逻辑,例如服务器存在多台,当用户访问时,服务器指定哪台服务器去处理该请求,这需要一个负载均衡设备来分均分配所有用户的请求<br><img src="/2018/08/28/JavaWeb/20180831103126.png" alt="CDN架构图"></p>
+</blockquote>
+<h4 id="网络架构固定不变的原则"><a href="#网络架构固定不变的原则" class="headerlink" title="网络架构固定不变的原则"></a>网络架构固定不变的原则</h4><blockquote>
+<p>　1. 互联网所有的资源都用一个URL来表示,URL就是统一资源定位符,如果你要发布一个服务或者一个资源到互联网上,让别人能够访问到,那么首先要有一个在世界上独一无二的URL;<br>　2. 必须基于HTTP与服务端交互,不管你要访问的是国内的还是国外的数据,是文本数据还是流媒体,都必须按照套路出牌,也就是都的采用统一打招呼的方式,这样人家才会明白你要的是什么<br>　3. 数据展示必须在浏览器中进行,当你获取到数据资源后,必须在浏览器上才能恢复它的容貌</p>
+</blockquote>
+<h3 id="1-3-HTTP解析"><a href="#1-3-HTTP解析" class="headerlink" title="1.3 HTTP解析"></a>1.3 HTTP解析</h3><blockquote>
+<p>　B/S的网络架构核心为HTTP,HTTP中的HTTP Header控制互联网用户的数据传输,最关键的是,它控制着用户浏览器的渲染行为和服务器执行的逻辑</p>
+</blockquote>
+<h3 id="1-3-2-浏览器缓存机制"><a href="#1-3-2-浏览器缓存机制" class="headerlink" title="1.3.2 浏览器缓存机制"></a>1.3.2 浏览器缓存机制</h3><blockquote>
+<p>　Ctrl+F5为向目标URL发送请求,而不会使用浏览器缓存的数据,当为服务器端返回的数据时,请求中会增加两个请求项:Pragma:no-cache和Cache-Control:no-cache</p>
+</blockquote>
+<h3 id="1-4-DNS域名解析"><a href="#1-4-DNS域名解析" class="headerlink" title="1.4 DNS域名解析"></a>1.4 DNS域名解析</h3><h4 id="第一步-检查缓存"><a href="#第一步-检查缓存" class="headerlink" title="第一步: 检查缓存"></a>第一步: 检查缓存</h4><blockquote>
+<p>　浏览器会检查缓存中是否有对应并且解析过的IP地址,如果缓存中有,这个解析过程就结束了,浏览器缓存域名也是有限制的,而且缓存实践也有限制,域名被缓存的时间限制可以通过TTL属性来设置,时间不宜太长或太短</p>
+</blockquote>
+<h4 id="第二步-查找操作系统的缓存"><a href="#第二步-查找操作系统的缓存" class="headerlink" title="第二步: 查找操作系统的缓存"></a>第二步: 查找操作系统的缓存</h4><blockquote>
+<p>　如果浏览器缓存中没有,浏览器会查找操作系统缓存中是否有这个域名对应的DNS解析结果,操作系统也存在一个域名解析的过程,在windos中可以通过C:\Windows\System32\drivers\etc\hosts文件来设置,因为这种本地DNS的解析规程,黑客有可能通过修改你的域名解析来挟持你的域名</p>
+</blockquote>
+<h4 id="第三步-域名服务器"><a href="#第三步-域名服务器" class="headerlink" title="第三步: 域名服务器"></a>第三步: 域名服务器</h4><blockquote>
+<p>　在我们的网络配置中都会有”DNS服务器地址”这以选项,这个地址就用于解决前面所说的如果两个过程无法解析 时要怎么办,操作系统会把这个域名发送给这里设置的LDNS,也就是本地区的域名服务器,windos下可以通过ipconfig来查看这个地址,大约百分之八十的域名解析到这里就完成了,所以LDNS主要承担了域名的解析工作</p>
+</blockquote>
+<h4 id="第四步-Root-Server"><a href="#第四步-Root-Server" class="headerlink" title="第四步: Root Server"></a>第四步: Root Server</h4><blockquote>
+<p>　如果LDNS任然没有命中,就直接通过Root Server域名服务器请求解析</p>
+</blockquote>
+<h4 id="第五步-GTLD-Server"><a href="#第五步-GTLD-Server" class="headerlink" title="第五步: GTLD Server"></a>第五步: GTLD Server</h4><blockquote>
+<p>　根域名服务器返回给本地域名服务器一个所查询域的主域名服务器地址,gTLD是国际顶级域名服务器,如.com,.cn,.org等,全球只有13台左右</p>
+</blockquote>
+<h4 id="第六步-Local-DNS-Server"><a href="#第六步-Local-DNS-Server" class="headerlink" title="第六步: Local DNS Server"></a>第六步: Local DNS Server</h4><blockquote>
+<p>　本地域名服务器再向上一步返回的gTLC服务器发送请求(本地再次解析?)</p>
+</blockquote>
+<h4 id="第七步-本地发起请求"><a href="#第七步-本地发起请求" class="headerlink" title="第七步: 本地发起请求"></a>第七步: 本地发起请求</h4><blockquote>
+<p>　接收请求的个TLD服务器查找并返回域名对应的NameServer域名服务器的地址,这个NameServer通常就是你注册的域名服务器,例如你在某个域名服务提供商申请的域名,那么这个域名解析任务就由这个域名提供商的服务器来完成</p>
+</blockquote>
+<h4 id="第八步"><a href="#第八步" class="headerlink" title="第八步"></a>第八步</h4><blockquote>
+<p>　Name Server域名服务器会查询存储的域名和IP的映射关系表,在正常情况下都根据域名得到目标的IP记录,连同一个TTL值返回给DNS Server域名服务器</p>
+</blockquote>
+<h4 id="第九步"><a href="#第九步" class="headerlink" title="第九步"></a>第九步</h4><blockquote>
+<p>　返回该域名对应的IP和TTL值,Local DNS Server缓存这个域名和IP的对应关系,缓存的实践由TTL值控制</p>
+</blockquote>
+<h4 id="第十步"><a href="#第十步" class="headerlink" title="第十步"></a>第十步</h4><blockquote>
+<p>　把解析的结果返回给用户,用户根据TTL值缓存在本地系统缓存中,域名解析过程结束</p>
+</blockquote>
+<blockquote>
+<p>　在实际的DNS解析过程中,可能不止这10个步骤,如NameServer也可能有多级,或者有一个GTM来负载均衡控制<br>　用户发起请求后,首先找浏览器缓存,没有找操作系统缓存,如果还没有就去本地解析,当本地解析失败时,会去找主域名服务器解析,当主域名服务器解析后,返回到本地系统缓存中,之后用户访问成功,%80的域名解析都由LDNS解析的缘故?</p>
+</blockquote>
+<h3 id="1-4-2查看域名解析Server"><a href="#1-4-2查看域名解析Server" class="headerlink" title="1.4.2查看域名解析Server"></a>1.4.2查看域名解析Server</h3><p><img src="/2018/08/28/JavaWeb/20180901084618.png" alt="Alt text"></p>
+<h3 id="1-4-3清除缓存的域名"><a href="#1-4-3清除缓存的域名" class="headerlink" title="1.4.3清除缓存的域名"></a>1.4.3清除缓存的域名</h3><blockquote>
+<p>　DNS域名解析后,主要在两个地方缓存结果,一个是Local DNS server,另外一个是用户的本地机器,这两个缓存都是TTL值和本地缓存大小控制的,但是最大缓存时间是TTL值,基本上Local DNS Server的缓存时间就是TTL控制的,很难人工介入,但是我们的本机缓存在Windows下可以在命令行模式下清楚,在命令行输入ipconfig/flushdns命令来刷新缓存<br>　JAVA中DNS的缓存<br><img src="/2018/08/28/JavaWeb/20180901085134.png" alt="Alt text"></p>
+</blockquote>
+<h3 id="1-4-4几种域名解析方式"><a href="#1-4-4几种域名解析方式" class="headerlink" title="1.4.4几种域名解析方式"></a>1.4.4几种域名解析方式</h3><blockquote>
+<p>　域名解析记录主要分为A记录,MX记录,CNAME记录,NS记录和TXT记录</p>
+</blockquote>
+<p>1.　A记录,A代表的是Address,用来指定域名对应的IP地址,入江item.taobao.com指定到115.238.23.xxx,将switch.taobao.com指定到121.14.24.xxx,A记录可以将多个域名解析到同一个IP地址,但是不能将一个域名解析到多个IP地址<br>2.　MX记录,表示的是Mail Exchange,就是可以将某个域名下的邮件服务器指向自己的Mail Server,如taobao.com域名的A记录IP地址是115.238.25.xxx,如果将MX记录设置为115.238.25.xxx,即<a href="mailto:xx@taobao.com" target="_blank" rel="noopener">xx@taobao.com</a>的邮件路由,DNS会将邮件发送到115.238.25.xxx所在的服务器,而正常通过Web请求的话仍然解析到A记录的IP地址<br>3.　CNAME记录,全称是Canonical Name(别名解析),所谓的别名解析就是可以为一个域名设置一个或多个别名,如将taobao.com解析到xulingbo.net,将srcfan.com也解析到xulingbo.net,其中xulingbo.net分别是淘宝.com和srcfan.com的别名,前面的跟踪域名解析中的”<a href="http://www.taobao.com&quot;" target="_blank" rel="noopener">www.taobao.com&quot;</a> 1542 IN CHAME <a href="http://www.gslb.taobao.com" target="_blank" rel="noopener">www.gslb.taobao.com</a> 就是CNAME解析<br>4.　NS记录,为某个域名指定的NDS解析服务器,也就是这个域名有指定的IP地址的NDS服务器去解析,前面”gslb.taobao.com. 86400 IN NS gslbns2.taobao.com.”就是NS解析<br>5.　TXT记录,为某个主机名或域名设置说明,如可以为xulingbo.net设置TXT记录为”xulingbo”这样的说明</p>
+<h3 id="1-5-CDN工作机制"><a href="#1-5-CDN工作机制" class="headerlink" title="1.5 CDN工作机制"></a>1.5 CDN工作机制</h3><blockquote>
+<p>　CDN(Content Delivery Network)内容分布网络,它是构建在现有Internet上的一种先进的流量分配网络,它比镜像更智能,可以做这样一个比喻:CND= 镜像(Mirror)+缓存(cache)+整体负载均衡(GSLB),因而,CDN可以明显提高Internet中信息流动的效率<br>　目前CDN都以缓存网站中的静态数据为主,如CSS,JS,图片和静态网页等数据,用户在从主站服务器请求到动态内容后,再从CDN上下载这些静态数据,从而加速网页数据内容的下载速度,如淘宝有百分之九十以上的数据都是由CDN提供的;</p>
+</blockquote>
+<h4 id="CDN的目标"><a href="#CDN的目标" class="headerlink" title="CDN的目标"></a>CDN的目标</h4><h5 id="可扩展-Scalability"><a href="#可扩展-Scalability" class="headerlink" title="可扩展(Scalability)"></a>可扩展(Scalability)</h5><blockquote>
+<p>　性能可扩展性:应对新增的大量数据,用户和事务的扩展能力,成本可扩展性,低廉的运营成本提供动态的服务能力和高质量的内容分发</p>
+</blockquote>
+<h5 id="安全性-Security"><a href="#安全性-Security" class="headerlink" title="安全性(Security)"></a>安全性(Security)</h5><blockquote>
+<p>　强调提供物理设备,网络,软件,数据和服务过程的安全性,减少因为DDos攻击或者其它而已行为造成商业网站的业务中断</p>
+</blockquote>
+<h5 id="可靠性-响应和执行-Rekuzbility-Responsiveness和Performance"><a href="#可靠性-响应和执行-Rekuzbility-Responsiveness和Performance" class="headerlink" title="可靠性,响应和执行(Rekuzbility,Responsiveness和Performance)"></a>可靠性,响应和执行(Rekuzbility,Responsiveness和Performance)</h5><blockquote>
+<p>　服务可用性指能够处理可能的故障和用户体验下降的问题,通过负载均衡及时提供网络的容错机制</p>
+</blockquote>
+<h3 id="1-5-1-CDN架构"><a href="#1-5-1-CDN架构" class="headerlink" title="1.5.1 CDN架构"></a>1.5.1 CDN架构</h3><blockquote>
+<p>　不是很理解的图,先存着,用户首先在本地CND去访问需要的静态文件,如果本地没有,就会再去源站获取这个文件,然后再返回给用户<br><img src="/2018/08/28/JavaWeb/20180903134257.png" alt="Alt CDN架构"></p>
+</blockquote>
+<h3 id="1-5-2-负载均衡-Load-Balance"><a href="#1-5-2-负载均衡-Load-Balance" class="headerlink" title="1.5.2 负载均衡(Load Balance)"></a>1.5.2 负载均衡(Load Balance)</h3><blockquote>
+<p>　对工作任务进行平衡和分摊,提高服务器响应速度以及利用效率,避免访问出现单点失效,解决网络拥塞问题,实现地理位置无关性</p>
+</blockquote>
+<h4 id="常见的三种负载均衡架构"><a href="#常见的三种负载均衡架构" class="headerlink" title="常见的三种负载均衡架构"></a>常见的三种负载均衡架构</h4><h5 id="链路负载均衡"><a href="#链路负载均衡" class="headerlink" title="链路负载均衡"></a>链路负载均衡</h5><blockquote>
+<p>　链路负载均衡通过DNS解析成不同的ip,然后用户根据IP来访问不同的目标服务器;<br><img src="/2018/08/28/JavaWeb/20180903160539.png" alt="Alt 链路负载均衡"><br>优点: DNS解析的优点是用户会直接访问目标服务器,而不需要经过其他的代理服务器,通常访问速度会更快<br>缺点: 由于NDS在用户本地和Local DNS Server都有缓存,一旦某台Web Server挂掉,就很难及时更新用户的域名解析结构,如果用户的域名没有及时更新,那么用户将无法访问这个域名;</p>
+</blockquote>
+<h5 id="集群负载均衡"><a href="#集群负载均衡" class="headerlink" title="集群负载均衡"></a>集群负载均衡</h5><blockquote>
+<p>　一种常见的负载均衡方式,它一般分为硬件负载均衡和软件负载均衡</p>
+</blockquote>
+<h6 id="硬件负载均衡"><a href="#硬件负载均衡" class="headerlink" title="硬件负载均衡"></a>硬件负载均衡</h6><blockquote>
+<p>　硬件负载均衡一般使用一台专门的硬件设备来转发请求,如下图<br><img src="/2018/08/28/JavaWeb/20180903161058.png" alt="Alt 硬件负载均衡"><br>　优点: 性能非常好(怎么好,有待接触时补充)<br>　缺点: 设备价格贵,当访问量陡然增大超出服务极限时,不能进行动态扩容</p>
+</blockquote>
+<h6 id="软件负载均衡"><a href="#软件负载均衡" class="headerlink" title="软件负载均衡"></a>软件负载均衡</h6><blockquote>
+<p>　当用户访问时,通过软件来对各个服务器之间的访问量进行计算,当某个服务器的访问量过大时,将通过URL来将请求转发到特定的机器</p>
+</blockquote>
+<h6 id="操作系统负载均衡"><a href="#操作系统负载均衡" class="headerlink" title="操作系统负载均衡"></a>操作系统负载均衡</h6><blockquote>
+<p>　利用操作系统级别的软中断或者硬件中断来达到负载均衡,如可以设置多队列网卡来实现;</p>
+</blockquote>
+<p>这几种负载均衡不仅在CDN的集群中能使用,而且在Web服务或者分布式数据集群中同样也能使用,但是在这些地方后两种使用的要多一点;</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>　了解B/S架构的好处,了解一个URL的请求发起,之后解析该请求的过程和步骤,DNS的解析过程和负载均衡</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+
+<div>
+
+    <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>其它文章也很精彩哦!-------------</div>
+
+</div>
+
+</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/BOOK/" rel="tag"><i class="fa fa-tag"></i> BOOK</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/24/Thymeleaf/" rel="next" title="每周一篇之Thymeleaf">
+                <i class="fa fa-chevron-left"></i> 每周一篇之Thymeleaf
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/03/framework/" rel="prev" title="Java框架之Spring">
+                Java框架之Spring <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/tx.jpg"
+                alt="浅浅" />
+            
+              <p class="site-author-name" itemprop="name">浅浅</p>
+              <p class="site-description motion-element" itemprop="description">god helps those who help themselves</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+    
+
+          
+<div id="days"></div>
+</script>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/12/2018 13:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章-深入WEB请求过程"><span class="nav-number">2.</span> <span class="nav-text">第一章: 深入WEB请求过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-B-S-Browser-Server-网络架构概述"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 B/S(Browser/Server)网络架构概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一个请求发起的过程"><span class="nav-number">2.1.1.</span> <span class="nav-text">一个请求发起的过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#网络架构固定不变的原则"><span class="nav-number">2.1.2.</span> <span class="nav-text">网络架构固定不变的原则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-HTTP解析"><span class="nav-number">2.2.</span> <span class="nav-text">1.3 HTTP解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-浏览器缓存机制"><span class="nav-number">2.3.</span> <span class="nav-text">1.3.2 浏览器缓存机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-DNS域名解析"><span class="nav-number">2.4.</span> <span class="nav-text">1.4 DNS域名解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步-检查缓存"><span class="nav-number">2.4.1.</span> <span class="nav-text">第一步: 检查缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二步-查找操作系统的缓存"><span class="nav-number">2.4.2.</span> <span class="nav-text">第二步: 查找操作系统的缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步-域名服务器"><span class="nav-number">2.4.3.</span> <span class="nav-text">第三步: 域名服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第四步-Root-Server"><span class="nav-number">2.4.4.</span> <span class="nav-text">第四步: Root Server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第五步-GTLD-Server"><span class="nav-number">2.4.5.</span> <span class="nav-text">第五步: GTLD Server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第六步-Local-DNS-Server"><span class="nav-number">2.4.6.</span> <span class="nav-text">第六步: Local DNS Server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第七步-本地发起请求"><span class="nav-number">2.4.7.</span> <span class="nav-text">第七步: 本地发起请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第八步"><span class="nav-number">2.4.8.</span> <span class="nav-text">第八步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第九步"><span class="nav-number">2.4.9.</span> <span class="nav-text">第九步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第十步"><span class="nav-number">2.4.10.</span> <span class="nav-text">第十步</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2查看域名解析Server"><span class="nav-number">2.5.</span> <span class="nav-text">1.4.2查看域名解析Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-3清除缓存的域名"><span class="nav-number">2.6.</span> <span class="nav-text">1.4.3清除缓存的域名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-4几种域名解析方式"><span class="nav-number">2.7.</span> <span class="nav-text">1.4.4几种域名解析方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-CDN工作机制"><span class="nav-number">2.8.</span> <span class="nav-text">1.5 CDN工作机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CDN的目标"><span class="nav-number">2.8.1.</span> <span class="nav-text">CDN的目标</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#可扩展-Scalability"><span class="nav-number">2.8.1.1.</span> <span class="nav-text">可扩展(Scalability)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#安全性-Security"><span class="nav-number">2.8.1.2.</span> <span class="nav-text">安全性(Security)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#可靠性-响应和执行-Rekuzbility-Responsiveness和Performance"><span class="nav-number">2.8.1.3.</span> <span class="nav-text">可靠性,响应和执行(Rekuzbility,Responsiveness和Performance)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-1-CDN架构"><span class="nav-number">2.9.</span> <span class="nav-text">1.5.1 CDN架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-2-负载均衡-Load-Balance"><span class="nav-number">2.10.</span> <span class="nav-text">1.5.2 负载均衡(Load Balance)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常见的三种负载均衡架构"><span class="nav-number">2.10.1.</span> <span class="nav-text">常见的三种负载均衡架构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#链路负载均衡"><span class="nav-number">2.10.1.1.</span> <span class="nav-text">链路负载均衡</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#集群负载均衡"><span class="nav-number">2.10.1.2.</span> <span class="nav-text">集群负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#硬件负载均衡"><span class="nav-number">2.10.1.2.1.</span> <span class="nav-text">硬件负载均衡</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#软件负载均衡"><span class="nav-number">2.10.1.2.2.</span> <span class="nav-text">软件负载均衡</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#操作系统负载均衡"><span class="nav-number">2.10.1.2.3.</span> <span class="nav-text">操作系统负载均衡</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">浅浅</span>
+
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span>|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mYVQfCaDN28mIPACWSc9xGj9-gzGzoHsz',
+        appKey: 'jmk9lXQnNrJdxc4BDrBXi6lE',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
