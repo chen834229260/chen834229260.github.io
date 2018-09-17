@@ -113,7 +113,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="前言 　学习项目过程中遇到的一个Apache开源的框架,该框架提供了大量的基础类的封装,类似于一个基础类的工具类.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-09-17T02:40:16.491Z">
+<meta property="og:updated_time" content="2018-09-17T06:03:14.441Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="每周一篇之Apache-Commons">
 <meta name="twitter:description" content="前言 　学习项目过程中遇到的一个Apache开源的框架,该框架提供了大量的基础类的封装,类似于一个基础类的工具类.">
@@ -391,8 +391,8 @@
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
 <p>　学习项目过程中遇到的一个Apache开源的框架,该框架提供了大量的基础类的封装,类似于一个基础类的工具类.<br><a id="more"></a></p>
 </blockquote>
-<h2 id="理论-AND-实践"><a href="#理论-AND-实践" class="headerlink" title="理论 AND 实践"></a>理论 AND 实践</h2><blockquote>
-<p>　记录一下简单的API使用和各个包主要能做什么.</p>
+<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><blockquote>
+<p>　记录一下简单的API使用和各个包主要能做什么,由于导包和API过多,不做案例使用,如使用到时,再针对更新.</p>
 </blockquote>
 <h3 id="BCEL"><a href="#BCEL" class="headerlink" title="BCEL"></a>BCEL</h3><blockquote>
 <p>　BCEL是 Java classworking 最广泛使用的一种框架,它可以让您深入 JVM 汇编语言进行类操作的细节。BCEL在实际的JVM 指令层次上进行操作(BCEL拥有丰富的JVM 指令级支持)而Javassist 所强调的源代码级别的工作</p>
@@ -421,9 +421,6 @@
 <h3 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h3><blockquote>
 <p>　是一个Java应用程序的配置管理工具，可以从properties或者xml文件中加载配置信息。<br>依赖包：Commons Lang、Commons Log、Commons BeanUtils、Commons Collections、Commons Codec</p>
 </blockquote>
-<h3 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h3><blockquote>
-<p>　</p>
-</blockquote>
 <h3 id="CSV"><a href="#CSV" class="headerlink" title="CSV"></a>CSV</h3><blockquote>
 <p>　是一个用来读写各种Comma Separated Value(CSV)格式文件的Java类库。</p>
 </blockquote>
@@ -451,14 +448,11 @@
 <h3 id="Functor"><a href="#Functor" class="headerlink" title="Functor"></a>Functor</h3><blockquote>
 <p>　java语言实现函数式编程。</p>
 </blockquote>
-<h3 id="Geometry"><a href="#Geometry" class="headerlink" title="Geometry"></a>Geometry</h3><blockquote>
-<p>　</p>
-</blockquote>
 <h3 id="Imaging-previously-called-Sanselan"><a href="#Imaging-previously-called-Sanselan" class="headerlink" title="Imaging (previously called Sanselan)"></a>Imaging (previously called Sanselan)</h3><blockquote>
 <p>　这是一个用来读写各种图像格式的 Java 类库，包括快速解析图片的基本信息（大小、色彩空间、ICC配置等）和元数据。尽管慢点但非常好的可移植性。比起 ImageIO/JAI/Toolkit 更容易使用，支持更多的格式，提供简单访问元数据的方法。</p>
 </blockquote>
 <h3 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h3><blockquote>
-<p>　是处理IO的工具类包，对java.io进行扩展，提供了更加方便的IO操作。</p>
+<p>　是处理IO的工具类包，对java.io进行扩展，提供了更加方便的IO操作。<br>　工具类包括FileUtils、IOUtils、FilenameUtils和FileSystemUtils，前三者的方法并没有多大的区别，只是操作的对象不同，故名思议：FileUtils主要操作File类，IOUtils主要操作IO流，FilenameUtils则是操作文件名，FileSystemUtils包含了一些JDK没有提供的用于访问文件系统的实用方法。当前，只有一个用于读取硬盘空余空间的方法可用</p>
 </blockquote>
 <h3 id="JCI"><a href="#JCI" class="headerlink" title="JCI"></a>JCI</h3><blockquote>
 <p>　提供通用的Java编译器接口。</p>
@@ -487,9 +481,6 @@
 <h3 id="Net"><a href="#Net" class="headerlink" title="Net"></a>Net</h3><blockquote>
 <p>　封装了各种网络协议的客户端，支持FTP、NNTP、SMTP、POP3、Telnet等协议。</p>
 </blockquote>
-<h3 id="Numbers"><a href="#Numbers" class="headerlink" title="Numbers"></a>Numbers</h3><blockquote>
-<p>　</p>
-</blockquote>
 <h3 id="OGNL"><a href="#OGNL" class="headerlink" title="OGNL"></a>OGNL</h3><blockquote>
 <p>　OGNL表达式语言。</p>
 </blockquote>
@@ -499,29 +490,14 @@
 <h3 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h3><blockquote>
 <p>　封装了 Java 对象代理的一些常用方法。又叫做 动态代理。</p>
 </blockquote>
-<h3 id="RDF"><a href="#RDF" class="headerlink" title="RDF"></a>RDF</h3><blockquote>
-<p>　</p>
-</blockquote>
-<h3 id="RNG"><a href="#RNG" class="headerlink" title="RNG"></a>RNG</h3><blockquote>
-<p>　</p>
-</blockquote>
 <h3 id="SCXML"><a href="#SCXML" class="headerlink" title="SCXML"></a>SCXML</h3><blockquote>
 <p>　处理SCXML</p>
-</blockquote>
-<h3 id="Statistics"><a href="#Statistics" class="headerlink" title="Statistics"></a>Statistics</h3><blockquote>
-<p>　</p>
-</blockquote>
-<h3 id="Text"><a href="#Text" class="headerlink" title="Text"></a>Text</h3><blockquote>
-<p>　</p>
 </blockquote>
 <h3 id="Validator"><a href="#Validator" class="headerlink" title="Validator"></a>Validator</h3><blockquote>
 <p>　提供了一个简单的、可扩展的框架来在一个XML文件中定义校验器(校验方法)和校验规则。支持校验规则的和错误消息的国际化。</p>
 </blockquote>
 <h3 id="VFS"><a href="#VFS" class="headerlink" title="VFS"></a>VFS</h3><blockquote>
 <p>　提供对不同的文件系统的文件提供统一的操作. 例如ftp,http,本地文件系统等等. </p>
-</blockquote>
-<h3 id="Weaver"><a href="#Weaver" class="headerlink" title="Weaver"></a>Weaver</h3><blockquote>
-<p>　</p>
 </blockquote>
 
       
@@ -740,7 +716,7 @@ show_date_time();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理论-AND-实践"><span class="nav-number">2.</span> <span class="nav-text">理论 AND 实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BCEL"><span class="nav-number">2.1.</span> <span class="nav-text">BCEL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BeanUtils"><span class="nav-number">2.2.</span> <span class="nav-text">BeanUtils</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BSF-Bean-Scripting-Framework"><span class="nav-number">2.3.</span> <span class="nav-text">BSF(Bean Scripting Framework)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chain"><span class="nav-number">2.4.</span> <span class="nav-text">Chain</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CLI"><span class="nav-number">2.5.</span> <span class="nav-text">CLI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Codec"><span class="nav-number">2.6.</span> <span class="nav-text">Codec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Collections"><span class="nav-number">2.7.</span> <span class="nav-text">Collections</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compress"><span class="nav-number">2.8.</span> <span class="nav-text">Compress</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuration"><span class="nav-number">2.9.</span> <span class="nav-text">Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Crypto"><span class="nav-number">2.10.</span> <span class="nav-text">Crypto</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSV"><span class="nav-number">2.11.</span> <span class="nav-text">CSV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Daemon"><span class="nav-number">2.12.</span> <span class="nav-text">Daemon</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBCP"><span class="nav-number">2.13.</span> <span class="nav-text">DBCP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DbUtils"><span class="nav-number">2.14.</span> <span class="nav-text">DbUtils</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Digester"><span class="nav-number">2.15.</span> <span class="nav-text">Digester</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Email"><span class="nav-number">2.16.</span> <span class="nav-text">Email</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exec"><span class="nav-number">2.17.</span> <span class="nav-text">Exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FileUpload"><span class="nav-number">2.18.</span> <span class="nav-text">FileUpload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Functor"><span class="nav-number">2.19.</span> <span class="nav-text">Functor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Geometry"><span class="nav-number">2.20.</span> <span class="nav-text">Geometry</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Imaging-previously-called-Sanselan"><span class="nav-number">2.21.</span> <span class="nav-text">Imaging (previously called Sanselan)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IO"><span class="nav-number">2.22.</span> <span class="nav-text">IO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JCI"><span class="nav-number">2.23.</span> <span class="nav-text">JCI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JCS"><span class="nav-number">2.24.</span> <span class="nav-text">JCS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Jelly"><span class="nav-number">2.25.</span> <span class="nav-text">Jelly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Jexl"><span class="nav-number">2.26.</span> <span class="nav-text">Jexl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JXPath"><span class="nav-number">2.27.</span> <span class="nav-text">JXPath</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lang"><span class="nav-number">2.28.</span> <span class="nav-text">Lang</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logging"><span class="nav-number">2.29.</span> <span class="nav-text">Logging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Math"><span class="nav-number">2.30.</span> <span class="nav-text">Math</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Net"><span class="nav-number">2.31.</span> <span class="nav-text">Net</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Numbers"><span class="nav-number">2.32.</span> <span class="nav-text">Numbers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OGNL"><span class="nav-number">2.33.</span> <span class="nav-text">OGNL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pool"><span class="nav-number">2.34.</span> <span class="nav-text">Pool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Proxy"><span class="nav-number">2.35.</span> <span class="nav-text">Proxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDF"><span class="nav-number">2.36.</span> <span class="nav-text">RDF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RNG"><span class="nav-number">2.37.</span> <span class="nav-text">RNG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SCXML"><span class="nav-number">2.38.</span> <span class="nav-text">SCXML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Statistics"><span class="nav-number">2.39.</span> <span class="nav-text">Statistics</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Text"><span class="nav-number">2.40.</span> <span class="nav-text">Text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Validator"><span class="nav-number">2.41.</span> <span class="nav-text">Validator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VFS"><span class="nav-number">2.42.</span> <span class="nav-text">VFS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Weaver"><span class="nav-number">2.43.</span> <span class="nav-text">Weaver</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简述"><span class="nav-number">2.</span> <span class="nav-text">简述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BCEL"><span class="nav-number">2.1.</span> <span class="nav-text">BCEL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BeanUtils"><span class="nav-number">2.2.</span> <span class="nav-text">BeanUtils</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BSF-Bean-Scripting-Framework"><span class="nav-number">2.3.</span> <span class="nav-text">BSF(Bean Scripting Framework)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chain"><span class="nav-number">2.4.</span> <span class="nav-text">Chain</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CLI"><span class="nav-number">2.5.</span> <span class="nav-text">CLI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Codec"><span class="nav-number">2.6.</span> <span class="nav-text">Codec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Collections"><span class="nav-number">2.7.</span> <span class="nav-text">Collections</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compress"><span class="nav-number">2.8.</span> <span class="nav-text">Compress</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuration"><span class="nav-number">2.9.</span> <span class="nav-text">Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSV"><span class="nav-number">2.10.</span> <span class="nav-text">CSV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Daemon"><span class="nav-number">2.11.</span> <span class="nav-text">Daemon</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBCP"><span class="nav-number">2.12.</span> <span class="nav-text">DBCP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DbUtils"><span class="nav-number">2.13.</span> <span class="nav-text">DbUtils</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Digester"><span class="nav-number">2.14.</span> <span class="nav-text">Digester</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Email"><span class="nav-number">2.15.</span> <span class="nav-text">Email</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exec"><span class="nav-number">2.16.</span> <span class="nav-text">Exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FileUpload"><span class="nav-number">2.17.</span> <span class="nav-text">FileUpload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Functor"><span class="nav-number">2.18.</span> <span class="nav-text">Functor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Imaging-previously-called-Sanselan"><span class="nav-number">2.19.</span> <span class="nav-text">Imaging (previously called Sanselan)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IO"><span class="nav-number">2.20.</span> <span class="nav-text">IO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JCI"><span class="nav-number">2.21.</span> <span class="nav-text">JCI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JCS"><span class="nav-number">2.22.</span> <span class="nav-text">JCS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Jelly"><span class="nav-number">2.23.</span> <span class="nav-text">Jelly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Jexl"><span class="nav-number">2.24.</span> <span class="nav-text">Jexl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JXPath"><span class="nav-number">2.25.</span> <span class="nav-text">JXPath</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lang"><span class="nav-number">2.26.</span> <span class="nav-text">Lang</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logging"><span class="nav-number">2.27.</span> <span class="nav-text">Logging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Math"><span class="nav-number">2.28.</span> <span class="nav-text">Math</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Net"><span class="nav-number">2.29.</span> <span class="nav-text">Net</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OGNL"><span class="nav-number">2.30.</span> <span class="nav-text">OGNL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pool"><span class="nav-number">2.31.</span> <span class="nav-text">Pool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Proxy"><span class="nav-number">2.32.</span> <span class="nav-text">Proxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SCXML"><span class="nav-number">2.33.</span> <span class="nav-text">SCXML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Validator"><span class="nav-number">2.34.</span> <span class="nav-text">Validator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VFS"><span class="nav-number">2.35.</span> <span class="nav-text">VFS</span></a></li></ol></li></ol></div>
             
 
           </div>
