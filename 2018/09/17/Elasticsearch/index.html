@@ -113,7 +113,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="前言 　ElasticSearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java开发的，并作为Apache许可条款下的开放源码发布，是当前流行的企业级搜索引擎。设计用于云计算中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。我们建立一个网站或应用程序，并要添加搜索功能，但是想要完成搜索工作的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-09-18T01:03:35.671Z">
+<meta property="og:updated_time" content="2018-09-19T09:13:34.173Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="每周一篇之Elasticsearch">
 <meta name="twitter:description" content="前言 　ElasticSearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java开发的，并作为Apache许可条款下的开放源码发布，是当前流行的企业级搜索引擎。设计用于云计算中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。我们建立一个网站或应用程序，并要添加搜索功能，但是想要完成搜索工作的">
@@ -422,6 +422,9 @@
 <p>2.实时分析的分布式搜索引擎。<br>分布式：索引分拆成多个分片，每个分片可有零个或多个副本。集群中的每个数据节点都可承载一个或多个分片，并且协调和处理各种操作；<br>负载再平衡和路由在大多数情况下自动完成。 </p>
 <p>3.可以扩展到上百台服务器，处理PB级别的结构化或非结构化数据。也可以运行在单台PC上（已测试） </p>
 <p>4.支持插件机制，分词插件、同步插件、Hadoop插件、可视化插件等。</p>
+<h2 id="待续…"><a href="#待续…" class="headerlink" title="待续…."></a>待续….</h2><blockquote>
+<p>　实际使用查询再上传</p>
+</blockquote>
 
       
     </div>
@@ -635,7 +638,7 @@ show_date_time();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#科普"><span class="nav-number">2.</span> <span class="nav-text">科普</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch的定义"><span class="nav-number">2.1.</span> <span class="nav-text">Elasticsearch的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lucene与ES关系？"><span class="nav-number">2.2.</span> <span class="nav-text">Lucene与ES关系？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES的核心概念"><span class="nav-number">2.3.</span> <span class="nav-text">ES的核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cluster：集群"><span class="nav-number">2.3.1.</span> <span class="nav-text">Cluster：集群.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Node：节点"><span class="nav-number">2.3.2.</span> <span class="nav-text">Node：节点.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shard：分片。"><span class="nav-number">2.3.3.</span> <span class="nav-text">Shard：分片。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Replia：副本"><span class="nav-number">2.3.4.</span> <span class="nav-text">Replia：副本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全文检索"><span class="nav-number">2.3.5.</span> <span class="nav-text">全文检索</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES特点和优势"><span class="nav-number">2.4.</span> <span class="nav-text">ES特点和优势</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#科普"><span class="nav-number">2.</span> <span class="nav-text">科普</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch的定义"><span class="nav-number">2.1.</span> <span class="nav-text">Elasticsearch的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lucene与ES关系？"><span class="nav-number">2.2.</span> <span class="nav-text">Lucene与ES关系？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES的核心概念"><span class="nav-number">2.3.</span> <span class="nav-text">ES的核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cluster：集群"><span class="nav-number">2.3.1.</span> <span class="nav-text">Cluster：集群.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Node：节点"><span class="nav-number">2.3.2.</span> <span class="nav-text">Node：节点.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shard：分片。"><span class="nav-number">2.3.3.</span> <span class="nav-text">Shard：分片。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Replia：副本"><span class="nav-number">2.3.4.</span> <span class="nav-text">Replia：副本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全文检索"><span class="nav-number">2.3.5.</span> <span class="nav-text">全文检索</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES特点和优势"><span class="nav-number">2.4.</span> <span class="nav-text">ES特点和优势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待续…"><span class="nav-number">3.</span> <span class="nav-text">待续….</span></a></li></ol></div>
             
 
           </div>
