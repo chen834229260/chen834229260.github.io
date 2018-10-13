@@ -115,7 +115,8 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2018/10/04/JavaWebFour/0181008090731.png">
 <meta property="og:image" content="http://yoursite.com/2018/10/04/JavaWebFour/20181008095943.png">
-<meta property="og:updated_time" content="2018-10-08T02:35:13.563Z">
+<meta property="og:image" content="http://yoursite.com/2018/10/04/JavaWebFour/20181013090818.jpg">
+<meta property="og:updated_time" content="2018-10-13T01:17:58.427Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入分析Java Web技术内幕:第四章">
 <meta name="twitter:description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第四章节:Javac编译原理;">
@@ -398,12 +399,39 @@
 <p>　1, 详细介绍javac是如何将java的源代码转化为class字节码的<br>　2, javac的语法书结构<br>　3, javac的工作流程详细讲解,包括词法分析,符号表的构建,annotation处理,标注和语法检查,数据流分析,类型转换,语法等<br>　4, java中如何实现内部类,以及如何实现对异常的处理<br>　5, javac与其它编译器的比较</p>
 </blockquote>
 <h3 id="Javac是什么"><a href="#Javac是什么" class="headerlink" title="Javac是什么?"></a>Javac是什么?</h3><blockquote>
-<p>　Javac是一种编译器,<code>能将一种语言规范转化成另外一种语言规范,通常编译器都是将便于人理解的语言规范转化成机器容易理解的语言规范,如C,C++或者汇编语言都是将源码直接编译成 目标机器码,这个目标机器码是CPU直接识别这种语言规范</code>,但是人不可能直接去写目标机器码,虽然这种机器码执行起来非常高效,但开发这种代码的成本远远高于省下的机器执行成本,所以才有了编译器的出现.<br>　从某种意义上来说,有了编译器才有了程序语言的繁荣,因为编译器是人类和机器沟通的一个纽带,那么回过头来,javac的编译器也是将Java这种对人非常友好的变成语言编译成对所有机器都非常友好的语言,注意这种语言不是针对某个机器,甚至包括不同种类,不同平台的机器,如何消除不同种类,不同平台机器之间的差别,这个任务就是JVM来完成的,<code>而Javac的任务就是将java源代码语言先转化成JVM能够识别的一种语言,然后有JVM将JVM语言转化成当前这个机器能够识别的机器语言</code>.<br>　所以这样看来,java语言向开发者屏蔽了很多与目标机器相关的细节,使的Java语言的执行和平台无关,这也成就了java语言的繁荣,<code>Javac的任务就是将Java源码编译成java字节码,而实际上是将java的源代码转换成一连串的二进制数字</code>,这些二进制数字是有格式的,只有JVM能够正确识别它们到底表达了什么意思;<br><img src="/2018/10/04/JavaWebFour/0181008090731.png" alt="Javac"></p>
+<p>　Javac是一种编译器,<code>能将一种语言规范转化成另外一种语言规范,通常编译器都是将便于人理解的语言规范转化成机器容易理解的语言规范,如C,C++或者汇编语言都是将源码直接编译成 目标机器码,这个目标机器码是CPU直接识别这种语言规范</code>,但是人不可能直接去写目标机器码,虽然这种机器码执行起来非常高效,但开发这种代码的成本远远高于省下的机器执行成本,所以才有了编译器的出现.</p>
+</blockquote>
+<blockquote>
+<p>　从某种意义上来说,有了编译器才有了程序语言的繁荣,因为编译器是人类和机器沟通的一个纽带,那么回过头来,javac的编译器也是将Java这种对人非常友好的变成语言编译成对所有机器都非常友好的语言,注意这种语言不是针对某个机器,甚至包括不同种类,不同平台的机器,如何消除不同种类,不同平台机器之间的差别,这个任务就是JVM来完成的,<code>而Javac的任务就是将java源代码语言先转化成JVM能够识别的一种语言,然后有JVM将JVM语言转化成当前这个机器能够识别的机器语言</code>.</p>
+</blockquote>
+<blockquote>
+<p>　所以这样看来,java语言向开发者屏蔽了很多与目标机器相关的细节,使的Java语言的执行和平台无关,这也成就了java语言的繁荣,<code>Javac的任务就是将Java源码编译成java字节码,而实际上是将java的源代码转换成一连串的二进制数字</code>,这些二进制数字是有格式的,只有JVM能够正确识别它们到底表达了什么意思;<br><img src="/2018/10/04/JavaWebFour/0181008090731.png" alt="Javac"></p>
 </blockquote>
 <h3 id="Javac编译器的基本结构"><a href="#Javac编译器的基本结构" class="headerlink" title="Javac编译器的基本结构"></a>Javac编译器的基本结构</h3><blockquote>
-<p>　Javac编译器的作用就是将符合Java语言规范的源代码转换成符合Java虚拟机规范的Java字节码,要搞清楚Javac编译器有哪些工作模块或者基本结构,首先必须知道一个编译器要完成一个语言规范到另外一种语言规范的转化需要哪些步骤,如何完成这些步骤,也就是这个编译器的基本结构是什么.<br>　1, 第一步,读取源代码,一个字节为一节的读进来,<code>找出在这些字节中有哪些是我们定义的语法关键词,如Java中的if,else,for,while等关键词,要识别哪些if是合法的关键词,哪些不是,这个步骤就是词法分析过程</code>,词法分析的结果就是从源代码中找出一些规范化的Token流,就像在人类语言中,给你一句话,你要能分辨出其中哪些是词语,哪些是标点符号,哪些是动词,哪些是名词等.<br>　2, 接着就是对这些Token流进行语法分析,这一步就是检查这些关键词组合在一起是不是符合Java语言规范,如在if的后面是不是紧跟这一个布尔判断表达式,就像人类语言中是不是有主谓宾,语法是否正确,<code>语法分析的结果就是形成一个符合Java语言规范的抽象语法树,抽象语法树是一个结构化的语法表达形式,它的作用是把语言的主要词法用一个结构化的语法表达形式</code>,它的作用是吧语言的主要词法用一个结构化的形式组织在一起.<br>　3, 接下来是语义分析,语法分析完成之后,就不存在语法问题了,但是语义是否正确呢?语义分析的主要工作是把一些难懂的,复杂的语法转化成更加简单的语法,将这个步骤对应到我们人类的语言中,就是将难懂的文言文转化成大家都能懂的白话文.<br>　4, 最后,通过字节码生成器生成字节码,根据经过注解的抽象语法树生成字节码,也就是将一个数据结构转化为另外一个数据结构,就像将所有中问词语翻译成英文单词后,按照英文语法组装成英文语句.<br><img src="/2018/10/04/JavaWebFour/20181008095943.png" alt="Javac"></p>
+<p>　Javac编译器的作用就是将符合Java语言规范的源代码转换成符合Java虚拟机规范的Java字节码,要搞清楚Javac编译器有哪些工作模块或者基本结构,首先必须知道一个编译器要完成一个语言规范到另外一种语言规范的转化需要哪些步骤,如何完成这些步骤,也就是这个编译器的基本结构是什么.</p>
+</blockquote>
+<blockquote>
+<p>　1, 第一步,读取源代码,一个字节为一节的读进来,<code>找出在这些字节中有哪些是我们定义的语法关键词,如Java中的if,else,for,while等关键词,要识别哪些if是合法的关键词,哪些不是,这个步骤就是词法分析过程</code>,词法分析的结果就是从源代码中找出一些规范化的Token流,就像在人类语言中,给你一句话,你要能分辨出其中哪些是词语,哪些是标点符号,哪些是动词,哪些是名词等.</p>
+</blockquote>
+<blockquote>
+<p>　2, 接着就是对这些Token流进行语法分析,这一步就是检查这些关键词组合在一起是不是符合Java语言规范,如在if的后面是不是紧跟这一个布尔判断表达式,就像人类语言中是不是有主谓宾,语法是否正确,<code>语法分析的结果就是形成一个符合Java语言规范的抽象语法树,抽象语法树是一个结构化的语法表达形式,它的作用是把语言的主要词法用一个结构化的语法表达形式</code>,它的作用是吧语言的主要词法用一个结构化的形式组织在一起.</p>
+</blockquote>
+<blockquote>
+<p>　3, 接下来是语义分析,语法分析完成之后,就不存在语法问题了,但是语义是否正确呢?语义分析的主要工作是把一些难懂的,复杂的语法转化成更加简单的语法,将这个步骤对应到我们人类的语言中,就是将难懂的文言文转化成大家都能懂的白话文.</p>
+</blockquote>
+<blockquote>
+<p>　4, 最后,通过字节码生成器生成字节码,根据经过注解的抽象语法树生成字节码,也就是将一个数据结构转化为另外一个数据结构,就像将所有中问词语翻译成英文单词后,按照英文语法组装成英文语句.<br><img src="/2018/10/04/JavaWebFour/20181008095943.png" alt="Javac"></p>
 </blockquote>
 <h3 id="Javac工作原理分析"><a href="#Javac工作原理分析" class="headerlink" title="Javac工作原理分析"></a>Javac工作原理分析</h3><h4 id="词法分析器"><a href="#词法分析器" class="headerlink" title="词法分析器"></a>词法分析器</h4><blockquote>
+<p>　Javac的主要词法主要分析器的接口类为com.sum.tools.javac.parser.Lexer,它的默认实现类是com.sun.tools.javac.parser.Scanner,Scanner会逐个读取Java源文件的单个字符,然后解析出符合Java语言规范的token序列,词法分析器类图如下:<br><img src="/2018/10/04/JavaWebFour/20181013090818.jpg" alt="词法分析器类图"></p>
+</blockquote>
+<blockquote>
+<p>　Factory生成了两个接口的实现类Scanner和JavacParser,这两个类负责整个词法分析的过程控制,JavacParser规定了哪些词是符合Java语言规范的,而具体读取和归类不同词法的操作有Scanner完成,Token规定了所有Java语言的合法关键词,Names用来存储和表示解析后的词法</p>
+</blockquote>
+<blockquote>
+<p>　词法分析过程是在JavacParser的parseConmpilationUnit方法中完成的,在该方法中,从源文件的一个字符开始,按照Java语法规范依次找出package,import类定义,以及属性和方法定义等,最后构建一个抽象语法树</p>
+</blockquote>
+<blockquote>
 <p>　</p>
 </blockquote>
 
