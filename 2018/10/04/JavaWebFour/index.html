@@ -117,7 +117,11 @@
 <meta property="og:image" content="http://yoursite.com/2018/10/04/JavaWebFour/20181008095943.png">
 <meta property="og:image" content="http://yoursite.com/2018/10/04/JavaWebFour/20181013090818.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/10/04/JavaWebFour/0181013092212.jpg">
-<meta property="og:updated_time" content="2018-10-13T06:58:51.778Z">
+<meta property="og:image" content="http://yoursite.com/2018/10/04/JavaWebFour/181013153200.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/04/JavaWebFour/181013153453.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/04/JavaWebFour/0181013154911.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/04/JavaWebFour/0181013155152.png">
+<meta property="og:updated_time" content="2018-10-13T09:13:55.885Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入分析Java Web技术内幕:第四章">
 <meta name="twitter:description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第四章节:Javac编译原理;">
@@ -436,7 +440,46 @@
 <p>　词法分析器的分析结果就是将这个类中的所有关键词匹配到Token类的所有项中的任何一项,第一个Token是Token.PACKAGE,接着是一个Token.IDENTIFIER,后面是Token,SENI,再后面是类的修饰符Token.PUBLIC,然后是类关键词Token.CLASS,后面的类名是Token.IDENTIFIER,接着就是Token.LBRACE,再然后就是类的属性定义了,变量类型是Token.INT,变量名是Token.IDENTIFIER,后面跟着Token.SEMI,最后是类结束符Token.RBRACE,图如下:<br><img src="/2018/10/04/JavaWebFour/0181013092212.jpg" alt=""></p>
 </blockquote>
 <h4 id="语法分析器"><a href="#语法分析器" class="headerlink" title="语法分析器"></a>语法分析器</h4><blockquote>
-<p>　<code>词法分析器就是将Java源文件的字符流转变成对应的Token流,而语法分析器是将词法分析的Token流组建成更加结构化的语法树</code>,也就是将一个个单词组装成一句话,一个完整的语句,哪些词语组合在一起是主语,哪些是谓语,哪些是宾语.</p>
+<p>　<code>词法分析器就是将Java源文件的字符流转变成对应的Token流,而语法分析器是将词法分析的Token流组建成更加结构化的语法树</code>,也就是将一个个单词组装成一句话,一个完整的语句,哪些词语组合在一起是主语,哪些是谓语,哪些是宾语.所有语法节点都是在TreeMaker类中完成的,TreeMaker实现了在JCTree.Factory接口中定义的所有节点的构成方法.</p>
+</blockquote>
+<h4 id="语义分析器"><a href="#语义分析器" class="headerlink" title="语义分析器"></a>语义分析器</h4><blockquote>
+<p>　语法分析器将Token流解析成更加结构化,可操作的一棵语法树,但是这棵语法树太粗糙了,离我们的目标Java字节码的产生还有点插件,我们必须要在这棵语法树的基础上再做一些处理,如给类添加默认的构造函数,检查变量在使用前是否已经初始化,将一些常量进行合并并处理,检查操作变量类型是否匹配,检查所有的操作语句是否可达,检查checked exception异常是否已经捕获或抛出,接触Java的语法糖等等,当所有这些操作万抽就可以按照这棵完整的语法树生成Java字节码了.</p>
+</blockquote>
+<blockquote>
+<p>　com.sun.tools.javac.comp.Enter类用来完成符号输入到符号表中,该类主要完成一下两个步骤<br>　 　1.  将在所有类中出现的符号输入到类自身的符号表中,所有类符号,类的参数类型符号(泛型参数类型),超类符号和继承的接口类型合好等都存储到一个未处理的列表中.<br>　 　2. 将这个未处理列表中所有的类都解析到各自的类符号列表中,这个操作是在MenmberEntercomplete()中完成的.</p>
+</blockquote>
+<blockquote>
+<p>　在一个类中除了类本身会定义一些符号变量如类名称,变量名称和方法名称等,还有一些符号是引用其他类的,这些符号会调用其他类的方法或者变量等,还有一些类可能会继承或者实现超类和接口等,这些符号都是在其他类中定义的,那么就需要将这些类的符号也解析到符号表中,第二个步骤自然就是按照递归向下的顺序解析语法树,将所有的符号都输入符号表中</p>
+</blockquote>
+<blockquote>
+<p>　com.sun.tools.javac.comp.Check: 辅助Attr类检查语法树中的变量类型是否正确,如二元操作符两边的操作数的类型是否匹配,方法返回的类型是否与接收的引用值类型匹配等.</p>
+</blockquote>
+<blockquote>
+<p>　com.sun.tools.javac.comp.Resolve: 主要检查变量,方法或者类的访问是否合法,变量是否是静态变量,变量是否已经初始化等</p>
+</blockquote>
+<blockquote>
+<p>　com.sun.tools.javac.comp.ConstFold: 常量折叠,这里主要针对字符串常量,会将一个字符串常量中的多个字符串合并成一个字符串</p>
+</blockquote>
+<blockquote>
+<p>　com.sun.tools.javac.comp.infet: 帮助推导泛型方法的参数类型等</p>
+</blockquote>
+<blockquote>
+<p>　标注完成后有com.sun.tols.javac.comp.Flow类完成数据流分析,数据流分析主要完成如下工作:<br>　　1. 检查变量在使用前是否都已经被正确复制,除了java中的原始类型,都会有默认的初始化值,其他像String类型和对象的引用都必须在使用前先赋值.<br>　　2. 保证final修饰的变量不会被重复复制,经过final修饰的变量只能赋一次值,重复复制会在这一步编译时报错,如果这个变量是静态变量,则在定义时就必须对其赋值.<br>　　3. 要确定方法的返回值类型,这里需要检查方法的返回值类型是否确定,并检查接受这个方法返回值的应用类型是否匹配,如果没有返回值,则不能有任何引用类型指向方法的这个返回值<br>　　4. 所有的CheckedException都要捕获或者向上抛出,例如,我们使用FileInputStream读取一个文件时,必须捕获可能抛出的FileNotFondException异常,或者直接向上层方法抛出这个异常<br>　　5. 所有的语句都要被执行到,这里会检查是否有语句出现在一个return方法的后面,因为在return方法后面的语句永远也不会被执行到</p>
+</blockquote>
+<blockquote>
+<p>　语义分析的最后一个步骤是执行com.sun.tools.javac.comp.Flow,这是在进一步对语法树进行语义分析,如消除一些无用的代码,去除永不真的条件判断,接触一些语法糖,如果将foreach这种语法解析成标准的for循环形式,int和Integer等,去除永不真的条件判断实例如图:<br><img src="/2018/10/04/JavaWebFour/181013153200.png" alt=""><br>　变量的自动转换实例:<br><img src="/2018/10/04/JavaWebFour/181013153453.png" alt=""></p>
+</blockquote>
+<h4 id="代码生成器"><a href="#代码生成器" class="headerlink" title="代码生成器"></a>代码生成器</h4><blockquote>
+<p>　经过语义分析器完成后的语法树已经非常完善了,接下来Javac会调用com.sun.tools.javac.jvm.Gen类遍历语法树,生成最终的Java字节码.</p>
+</blockquote>
+<blockquote>
+<p>　生成Java字节码需要经过两个步骤:<br>　　1. 将Java方法中的代码块转化成符合JVM语法的命令形式,JVM的操作都是基于栈的,所有的操作都必须经过出栈和进栈来完成<br>　　2. 按照JVM的文件组织格式将字节码输出到class为扩展名的文件中<br>　生成字节码出Gen类之外还有两个非常重要的辅助类,如下所述:<br>　　1. Items, 这个类表示任何可寻址的操作项,包括本地变量,类实例变量或者常量池中用户自定义的常量等,这些操作项都可以作为一个单位出现在操作栈上<br>　　2. Code, 存储生成的字节码,并提供一些能够映射操作码的方法<br>　Gen会以后续遍历顺序解析这棵树,将add方法的方法块JCBlick的代码转成JVM语法对应的字节码,时序图如下:<br><img src="/2018/10/04/JavaWebFour/0181013154911.png" alt=""></p>
+</blockquote>
+<h3 id="设计模式解析之访问者模式"><a href="#设计模式解析之访问者模式" class="headerlink" title="设计模式解析之访问者模式"></a>设计模式解析之访问者模式</h3><blockquote>
+<p>　<code>访问者模式的设计初衷是为了将稳定的数据结构和对数据结构的变化多端的操作解耦,可以让设计者针对同一套数据结构自由地设计操作集合</code>,访问者模式的结构图如下:<br><img src="/2018/10/04/JavaWebFour/0181013155152.png" alt=""><br>　访问者模式一般有抽象访问者,具体访问者,抽象节点元素,具体节点元素,结构对象和客户端几种角色,它们的具体作用如下所述:<br>　　抽象访问者(Visitor):声明所有访问者需要的接口.<br>　　具体访问者(ConcreteVisitor):实现抽象访问者声明的接口.<br>　　抽象节点元素(Element):提供一个接口,能够接收访问者作为参数传递给节点元素<br>　　具体节点元素(ConcreteElement):实现抽象节点元素声明的接口<br>　　结构对象(IvhectStructure):提供一个接口,能够访问到所有的节点元素,一般作为一个集合特有的节点元素的引用<br>　　客户端(Client):分别创建访问者和节点元素的对象,调用访问者访问变量节点</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>　　通过本章节,可以了解到,Javac是我们和机器交流中间的翻译者,它将我们的.java文件翻译成.class文件,使机器能够读懂我们输入的命令并且正确的执行我们输入的命令,程序的交流过程应该为我们和javac打交道,javac将我们的代码翻译之后交给JVM,JVM再和机器打交道.</p>
 </blockquote>
 
       
@@ -651,7 +694,7 @@ show_date_time();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#本章会了解到哪些知识点"><span class="nav-number">1.1.</span> <span class="nav-text">本章会了解到哪些知识点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Javac是什么"><span class="nav-number">1.2.</span> <span class="nav-text">Javac是什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Javac编译器的基本结构"><span class="nav-number">1.3.</span> <span class="nav-text">Javac编译器的基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Javac工作原理分析"><span class="nav-number">1.4.</span> <span class="nav-text">Javac工作原理分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#词法分析器"><span class="nav-number">1.4.1.</span> <span class="nav-text">词法分析器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语法分析器"><span class="nav-number">1.4.2.</span> <span class="nav-text">语法分析器</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#本章会了解到哪些知识点"><span class="nav-number">1.1.</span> <span class="nav-text">本章会了解到哪些知识点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Javac是什么"><span class="nav-number">1.2.</span> <span class="nav-text">Javac是什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Javac编译器的基本结构"><span class="nav-number">1.3.</span> <span class="nav-text">Javac编译器的基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Javac工作原理分析"><span class="nav-number">1.4.</span> <span class="nav-text">Javac工作原理分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#词法分析器"><span class="nav-number">1.4.1.</span> <span class="nav-text">词法分析器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语法分析器"><span class="nav-number">1.4.2.</span> <span class="nav-text">语法分析器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语义分析器"><span class="nav-number">1.4.3.</span> <span class="nav-text">语义分析器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码生成器"><span class="nav-number">1.4.4.</span> <span class="nav-text">代码生成器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计模式解析之访问者模式"><span class="nav-number">1.5.</span> <span class="nav-text">设计模式解析之访问者模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
