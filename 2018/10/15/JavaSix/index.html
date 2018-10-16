@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #ADD8E6; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="BOOK," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第六章节:深入分析ClassLoader工作机制">
+<meta name="keywords" content="BOOK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入分析Java Web技术内幕:第六章">
+<meta property="og:url" content="http://yoursite.com/2018/10/15/JavaSix/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第六章节:深入分析ClassLoader工作机制">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2018/10/15/JavaSix/181015164747.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/15/JavaSix/20181016082501.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/15/JavaSix/181015224712.png">
+<meta property="og:updated_time" content="2018-10-16T07:33:45.503Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入分析Java Web技术内幕:第六章">
+<meta name="twitter:description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第六章节:深入分析ClassLoader工作机制">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/15/JavaSix/181015164747.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/15/JavaSix/"/>
+
+
+
+
+
+  <title>深入分析Java Web技术内幕:第六章 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">god helps those who help themselves</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/15/JavaSix/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="浅浅">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入分析Java Web技术内幕:第六章</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-15T14:37:02+08:00">
+                2018-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/15/JavaSix/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/10/15/JavaSix/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第六章节:深入分析ClassLoader工作机制<br><a id="more"></a></p>
+</blockquote>
+<h3 id="ClassLoader"><a href="#ClassLoader" class="headerlink" title="ClassLoader"></a>ClassLoader</h3><blockquote>
+<p>　ClassLoader顾名思义就是类加载器,负责将Class加载到JVM中,ClassLoader除了能将Class加载到JVM中之外,还有一个重要的作用就是审查每个类应该由谁加载,它是一种父优先的等级加载机制,ClassLoader还能将Class字节码重新解析成JVM统一要求的对象格式.</p>
+</blockquote>
+<h4 id="本章学习"><a href="#本章学习" class="headerlink" title="本章学习"></a>本章学习</h4><blockquote>
+<p>　1. ClassLoader的加载机制和加载类的过程<br>　2. Java Web中常用的ClassLoader是如何实现的</p>
+</blockquote>
+<h3 id="ClassLoader类结构分析"><a href="#ClassLoader类结构分析" class="headerlink" title="ClassLoader类结构分析"></a>ClassLoader类结构分析</h3><p><img src="/2018/10/15/JavaSix/181015164747.png" alt="重载或扩展的ClassLoader"></p>
+<blockquote>
+<p>　defineClass:<code>方法用来将byte字节流解析成JVM能够识别的Class对象</code>,有了这个方法意味着我们不仅仅可以通过class文件实例化对象,还可以通过其它方式实例化对象.</p>
+</blockquote>
+<blockquote>
+<p>　defineClass通常是和findClass方法一起使用的,我们通过直接覆盖ClassLoader父类的findClass方法来实现类的加载规则,从而取得要加载类的字节码,然后调用defineClass方法生成类的Class对象,如果你想在类被加载到JVM中时就被连接,那么可以调用另外一个resolveClass方法.</p>
+</blockquote>
+<h3 id="ClassLoader的等级加载机制"><a href="#ClassLoader的等级加载机制" class="headerlink" title="ClassLoader的等级加载机制"></a>ClassLoader的等级加载机制</h3><blockquote>
+<p>　ClassLoader等級加载机制的作用为保证进入JVM的类能够正确的进入到JVM中</p>
+</blockquote>
+<blockquote>
+<p>　整个JVM平台提供三层ClassLoader,这三层ClassLoader可以分为两种类型,可以理解为接待室服务和为会员服务的接待室两种<br>　 1. Bootstrap ClassLoader: 这个ClassLoader就是接待室服务自身,它主要加载JVM自身工作需要的类,这个ClassLoader完全是由JVM自己控制,需要加载哪个类,怎么加载都由JVM自己控制,别人也访问不到这个类,即没有更高一级的父加载器,也没有子加载器<br>　 2. ExtClassLoader: 这个类加载器为JVM自身的一部分,它并不是JVM亲自实现的,它服务的特定目标在System.getProperty(“java.ext.dirs”)目录下<br>　 3. AppClassLoader: 这个类加载器就是专门为接待会员服务的,它的父类是ExtClassLoader,所有在System.getProperty(“java.class.pth”)目录下的类都会被这个类加载器加载</p>
+</blockquote>
+<blockquote>
+<p>　如果我们要实现自己的类加载器,不管你是直接实现抽象类ClassLoader,还是继承URLClassLoader类,或者其它子类,它的父加载器都是AppClassLoader,廷尉不管调用哪个父类构造器,创建的对象都必须最终调用getSystemClassLoader作为父加载器,而getSystemClassLoader方法获取到的正事AppClassLoader,如图:<br><img src="/2018/10/15/JavaSix/20181016082501.png" alt=""></p>
+</blockquote>
+<blockquote>
+<p>　JVM加载class文件到内存有两种方式:<br>　 1. 隐式加载: 所谓的隐式加载就是不通过代码调用ClassLoader来加载需要加载的类,而是通过JVM来自动加载需要的类到内存的方式,例如,当我们在类中继承或者引用某个类时,JVM在解析当前这个类时发现引用的类不在内存中,那么就会自动将这些类加载到内存中<br>　 2. 显示加载: 相反的显示加载就是在代码中通过调用ClassLoader类来加载一个类的方式,例如,调用this.getClass.getClassLoader().loadClass()或者Class.forName(),或者我们自己实现的ClassLoader的findClass()方法等</p>
+</blockquote>
+<blockquote>
+<p>　当我们通过自定的ClassLoader显示加载一个类时,这个类又引用其他类,那么这些类就是隐式加载的</p>
+</blockquote>
+<h3 id="如何加载class文件"><a href="#如何加载class文件" class="headerlink" title="如何加载class文件"></a>如何加载class文件</h3><p>ClassLoder加载一个class文件到JVM时需要经过的步骤<br><img src="/2018/10/15/JavaSix/181015224712.png" alt=""></p>
+<blockquote>
+<p>　 第一个阶段时找到.class文件并吧这个文件包含的字节码加载到内存中<br>　 第二个阶段又可以分为三个步骤，分别时字节码验证，Class类数据结构分析及相应的内存分配和最后的符号表的连接<br>　 第三个阶段是类中静态属性和初始化赋值，以及静态块的执行等</p>
+</blockquote>
+<h4 id="加载字节码到内存"><a href="#加载字节码到内存" class="headerlink" title="加载字节码到内存"></a>加载字节码到内存</h4><blockquote>
+<p>　 在抽象类ClassLoader中并没有定义如何去加载，如何去找到指定类并且把它的字节码加载到内存需要的子类中去实现，也就是要实现findClass（）方法，而在URLClassLoader中通过一个URLClassPath类帮助取得要加载的class文件字节流，而这个URLClassPath定义了到哪里去找这个class文件，如果找到了这个class文件。再读取它的byte字节流，通过调用defineClass（）方法来创建类对象。</p>
+</blockquote>
+<blockquote>
+<p>　 在创建URLClassPath对象时会根据传过来的URL数组中的路径来判断时文件还是jar包，根据路径的不同分别创建FileLoader或者JarLoader，或者使用默认的加载器，当JVM调用findCLass时由这几个加载器来讲class文件的字节码加载到内存中 。</p>
+</blockquote>
+<h4 id="验证和解析"><a href="#验证和解析" class="headerlink" title="验证和解析"></a>验证和解析</h4><blockquote>
+<p>　 字节码验证，类装入其对于类的字节码要做许多检测，以确保格式正确，行为正确</p>
+</blockquote>
+<blockquote>
+<p>　 类准备，在这个阶段准备代表每个类中定义的字段，方法和实现接口所必须的数据结构</p>
+</blockquote>
+<blockquote>
+<p>　 解析，在这个阶段类装入器装入类所引用的其他所有类，可以用许多方式引用类，如超类，接口，字段，方法签名，方法中使用的本地变量。</p>
+</blockquote>
+<h4 id="初始化Class对象"><a href="#初始化Class对象" class="headerlink" title="初始化Class对象"></a>初始化Class对象</h4><blockquote>
+<p>　 在类中包含的静态初始化器都被执行，在这一阶段末尾静态字段被初始化为默认值。</p>
+</blockquote>
+<h3 id="常见加载类错误分析"><a href="#常见加载类错误分析" class="headerlink" title="常见加载类错误分析"></a>常见加载类错误分析</h3><blockquote>
+<p>　 在执行Java程序时经常会碰到ClassNotFoundException和NoClassDefFpimdError两个异常，它们都和类加载有关。</p>
+</blockquote>
+<h4 id="ClassNotFoundException"><a href="#ClassNotFoundException" class="headerlink" title="ClassNotFoundException"></a>ClassNotFoundException</h4><blockquote>
+<p>　 显示的加载一个类通常有如下方式：<br>　  1. 通过Class中的forName（）方法。<br>　  2. 通过ClassLoader中的loadClass（）方法。<br>　  3. 通过ClassLoader中的findSystemClass（）方法。</p>
+</blockquote>
+<blockquote>
+<p>　 这类 错误一般是由于JVM加载指定的字节码到内存中时，并没有找到这个文件对应的字节码，解决的方法就是检查在classpath目录下有没有指定的文件存在，如果不知道当前的classpath路径，可以通过以下命令获取</p>
+</blockquote>
+<blockquote>
+<p>　 this.getClass().getClassLoader().getResource(“”).toString()</p>
+</blockquote>
+<h4 id="NoClassDefFoundError"><a href="#NoClassDefFoundError" class="headerlink" title="NoClassDefFoundError"></a>NoClassDefFoundError</h4><blockquote>
+<p>　 NoClassDefFoundError一般发生在第一次使用命令行执行Java类时碰到。</p>
+</blockquote>
+<blockquote>
+<p>　 在JVM的规范中描述了出现NoClassDefFoundError可能的情况就是使用new关键字，属性引用某个类，继承了某个接口或类，以及方法的某个参数中引用了某个类，这是会触发JVM寅时加载这些类时发现这些类不存在的异常</p>
+</blockquote>
+<h4 id="UnsatisfiedLinkError"><a href="#UnsatisfiedLinkError" class="headerlink" title="UnsatisfiedLinkError"></a>UnsatisfiedLinkError</h4><blockquote>
+<p>　 一般会因为一不小心将在JVM中的某个lib删除了，才会报这个错</p>
+</blockquote>
+<h4 id="ClassCastException"><a href="#ClassCastException" class="headerlink" title="ClassCastException"></a>ClassCastException</h4><blockquote>
+<p>　 一般出现在强制类型转换时，JVM在做类型转换时会按照如下规则进行检查：</p>
+</blockquote>
+<blockquote>
+<p>　  1. 对于普通的对象，对象必须时目标类的实例或咪表类的子类的实例，如果目标类时接口，那么会把它当作实现了该接口的一个子类<br>　  2. 对于数组类型，目标类必须时数组类型或java.lang.Object,java.lang.Cloneable,java.io.Serizlizable.</p>
+</blockquote>
+<blockquote>
+<p>　 如果不满足上面的规则，JVM就会报错，避免错误的两种方式如下：</p>
+</blockquote>
+<blockquote>
+<p>　 1. 在容器类型中显示地指明这个容器所包含的对象类型，如在上面的Map中可以写Map&lt;String,Integer&gt; m=new HashMap&lt;String,Integer&gt;().这样上面的代码在编译阶段就会检查通过<br>　 2. 先通过instanof检查是不是目标类型，然后再进行强制类型转换</p>
+</blockquote>
+<h4 id="ExceptionInInitializerError"><a href="#ExceptionInInitializerError" class="headerlink" title="ExceptionInInitializerError"></a>ExceptionInInitializerError</h4><blockquote>
+<p>　 这个错误再JVM的规范中时这样定义的：</p>
+</blockquote>
+<blockquote>
+<p>　 1. 如果Java虚拟机试图创建类ExceptionInInitializerError的新实例，但是因为出现Out-Of-Memory-Error而无法创建新实例，那么就抛出OutOfMemoryError对象作为代替<br>　 2. 如果初始化器抛出一些Exception，而且Exception类不是Error或者它的某个子类，那么就会创建ExceptionInInitializerError类的一个新实例，并用Exception作为参数，用这个实例代替Exception</p>
+</blockquote>
+<h3 id="常用的ClassLoader分析"><a href="#常用的ClassLoader分析" class="headerlink" title="常用的ClassLoader分析"></a>常用的ClassLoader分析</h3><blockquote>
+<p>　 Tomcat仍然沿用了JUM的类加载规范,也就是委托市加载,保证核心类通过AppClassLoader来加载,但是Tomcat会优先检查WebappClassLoader已经加载的缓存,而不是JVM的findLoadedClass缓存,<code>如果将一个WEB应用直接放到webapp目录下,那么Tomcat就通过StandardClassLoader直接加载,而不是通过WebappClassLoader来加载</code>.</p>
+</blockquote>
+<h3 id="如何实现自己的ClassLoader"><a href="#如何实现自己的ClassLoader" class="headerlink" title="如何实现自己的ClassLoader"></a>如何实现自己的ClassLoader</h3><blockquote>
+<p>　ClassLoader能够完成的事情有以下几种:<br>　 1. 在定义路径下查找自定义的class类文件,也许我们需要的class文件并补总是在已经设置好的classPath下面,那么我们必须想办法来找到这个类,在这种情况下我们需要自己实现一个ClassLoader.<br>　 2. 对我们自己的要加载的类做特殊处理,如保证通过网络传输的类的安全性,可以将类经过加密后再传输,在加载JVM之前需要对类的字节码再解码,这个过程可以在自定义的ClassLoader中实现<br>　 3. 可以定义类的实现机制,如果我们可以检查已经加载的class文件是否被修改,如果修改了,可以重新加载这个类,从而实现类的热部署</p>
+</blockquote>
+<h4 id="加载自定义路径下的class文件"><a href="#加载自定义路径下的class文件" class="headerlink" title="加载自定义路径下的class文件"></a>加载自定义路径下的class文件</h4><blockquote>
+<p>　指定ClassLoader的加载路径来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">public class PathClassLoader extends ClassLoader &#123;</span><br><span class="line">	private String classPath;</span><br><span class="line">	</span><br><span class="line">	public PathClassLoader(String classPath)&#123;</span><br><span class="line">		this.classPath=classPath;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	protected Class&lt;?&gt; findClass(String name) throws ClassNotFoundException&#123;</span><br><span class="line">		if(&quot;xis&quot;.startsWith(name))&#123;</span><br><span class="line">			byte[] classData=getData(name);</span><br><span class="line">			if(classData == null)&#123;</span><br><span class="line">				throw new ClassNotFoundException();</span><br><span class="line">			&#125;else&#123;</span><br><span class="line">				return defineClass(name,classData,0,classData.length);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			return super.loadClass(name);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	private byte[] getData(String className)&#123;</span><br><span class="line">		String path=classPath+File.separatorChar+className.replace(&apos;.&apos;, File.separatorChar)+&quot;.class&quot;;</span><br><span class="line">		try &#123;</span><br><span class="line">			InputStream is=new FileInputStream(path);</span><br><span class="line">			ByteArrayOutputStream stream=new ByteArrayOutputStream();</span><br><span class="line">			byte[] buffer=new byte[2048];</span><br><span class="line">			int num=0;</span><br><span class="line">			while((num=is.read(buffer))!= -1)&#123;</span><br><span class="line">				stream.write(buffer,0,num);</span><br><span class="line">			&#125;</span><br><span class="line">			return stream.toByteArray();</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			// TODO: handle exception</span><br><span class="line">		&#125;</span><br><span class="line">		return null;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　 继承URLClassLoader类来加载URL下的类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class PathClassLoader extends URLClassLoader &#123;</span><br><span class="line">	private String packageName=&quot;com.xis&quot;;</span><br><span class="line">	</span><br><span class="line">	public PathClassLoader(URL[] urls,ClassLoader parent) &#123;</span><br><span class="line">		super(urls,parent);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	protected Class&lt;?&gt; findClass(String name) throws ClassNotFoundException&#123;</span><br><span class="line">		Class&lt;?&gt; aClass=findLoadedClass(name);</span><br><span class="line">		if(aClass !=null)&#123;</span><br><span class="line">			return aClass;</span><br><span class="line">		&#125;</span><br><span class="line">		if(!packageName.startsWith(name))&#123;</span><br><span class="line">			return super.loadClass(name);</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			return findClass(name);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="实现类的热部署"><a href="#实现类的热部署" class="headerlink" title="实现类的热部署"></a>实现类的热部署</h3><blockquote>
+<p>　 JVM在加载类之前会检查请求的类是否已经被加载过来,也就是调用findLoadedClass()<br>方法查看是否能够返回类实例,如果类已经加载过来,再调用loadCLass()将会导致类冲突</p>
+</blockquote>
+<blockquote>
+<p>　 但是JVM表示一个类是否是同一个类会有两个条件,一是看这个类的完整类名是否一样,这个类名包括类所在的包名,二是看加载这个类的ClassLoader是否是同一个,这里所说的同一个是指ClassLoader的实例是否是同一个实例,即使是同一个ClassLoader类的两个实例,加载同一个类也会不一样</p>
+</blockquote>
+<blockquote>
+<p>　 所以要实现类的热部署可以创建不同的ClassLoader的实例对象,然后通过这个不同的实例对象来加载同名的类</p>
+</blockquote>
+<blockquote>
+<p>　 <code>如果重复加载了同一个类,抛出java.lang.LinkageError异常</code>;</p>
+</blockquote>
+<blockquote>
+<p>　 使用不同的ClassLoader实例加载同一个类时,<code>Classloader对象也会像其它对象一样,当没有对象引用它时,也会被JVM回收,但被这个Classloader加载的类的字节码会保存在JVM的ermGen区,这个数据一般只是在执行FullGC时才会被回收,所以如果在应用中存在大量的动态类加载,而Full GC又不是太频繁,也会出现内存溢出</code>;</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>　 ClassLoader将一个类加载到JVM中的过程,在该过程中的解析,验证,以及常用ClassLoader的实现,如重复加载同一个类时,会抛出java.lang.LinkageError异常,以及如何将网络上下载下来的字节码文件,通过自己实现一个ClassLoader类来对该字节码文件进行解码和加载到JVM中.</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+
+<div>
+
+    <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>其它文章也很精彩哦!-------------</div>
+
+</div>
+
+</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/BOOK/" rel="tag"><i class="fa fa-tag"></i> BOOK</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/04/JavaWebFour/" rel="next" title="深入分析Java Web技术内幕:第四章">
+                <i class="fa fa-chevron-left"></i> 深入分析Java Web技术内幕:第四章
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/tx.jpg"
+                alt="浅浅" />
+            
+              <p class="site-author-name" itemprop="name">浅浅</p>
+              <p class="site-description motion-element" itemprop="description">god helps those who help themselves</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+    
+
+          
+<div id="days"></div>
+</script>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/12/2018 13:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ClassLoader"><span class="nav-number">1.1.</span> <span class="nav-text">ClassLoader</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#本章学习"><span class="nav-number">1.1.1.</span> <span class="nav-text">本章学习</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ClassLoader类结构分析"><span class="nav-number">1.2.</span> <span class="nav-text">ClassLoader类结构分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ClassLoader的等级加载机制"><span class="nav-number">1.3.</span> <span class="nav-text">ClassLoader的等级加载机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何加载class文件"><span class="nav-number">1.4.</span> <span class="nav-text">如何加载class文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加载字节码到内存"><span class="nav-number">1.4.1.</span> <span class="nav-text">加载字节码到内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证和解析"><span class="nav-number">1.4.2.</span> <span class="nav-text">验证和解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化Class对象"><span class="nav-number">1.4.3.</span> <span class="nav-text">初始化Class对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见加载类错误分析"><span class="nav-number">1.5.</span> <span class="nav-text">常见加载类错误分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ClassNotFoundException"><span class="nav-number">1.5.1.</span> <span class="nav-text">ClassNotFoundException</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NoClassDefFoundError"><span class="nav-number">1.5.2.</span> <span class="nav-text">NoClassDefFoundError</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UnsatisfiedLinkError"><span class="nav-number">1.5.3.</span> <span class="nav-text">UnsatisfiedLinkError</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ClassCastException"><span class="nav-number">1.5.4.</span> <span class="nav-text">ClassCastException</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ExceptionInInitializerError"><span class="nav-number">1.5.5.</span> <span class="nav-text">ExceptionInInitializerError</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用的ClassLoader分析"><span class="nav-number">1.6.</span> <span class="nav-text">常用的ClassLoader分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何实现自己的ClassLoader"><span class="nav-number">1.7.</span> <span class="nav-text">如何实现自己的ClassLoader</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加载自定义路径下的class文件"><span class="nav-number">1.7.1.</span> <span class="nav-text">加载自定义路径下的class文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现类的热部署"><span class="nav-number">1.8.</span> <span class="nav-text">实现类的热部署</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">浅浅</span>
+
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span>|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mYVQfCaDN28mIPACWSc9xGj9-gzGzoHsz',
+        appKey: 'jmk9lXQnNrJdxc4BDrBXi6lE',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

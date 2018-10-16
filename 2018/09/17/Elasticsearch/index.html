@@ -113,7 +113,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="前言 　ElasticSearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java开发的，并作为Apache许可条款下的开放源码发布，是当前流行的企业级搜索引擎。设计用于云计算中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。我们建立一个网站或应用程序，并要添加搜索功能，但是想要完成搜索工作的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-09-19T09:13:34.173Z">
+<meta property="og:updated_time" content="2018-10-15T08:34:25.815Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="每周一篇之Elasticsearch">
 <meta name="twitter:description" content="前言 　ElasticSearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java开发的，并作为Apache许可条款下的开放源码发布，是当前流行的企业级搜索引擎。设计用于云计算中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。我们建立一个网站或应用程序，并要添加搜索功能，但是想要完成搜索工作的">
@@ -422,6 +422,36 @@
 <p>2.实时分析的分布式搜索引擎。<br>分布式：索引分拆成多个分片，每个分片可有零个或多个副本。集群中的每个数据节点都可承载一个或多个分片，并且协调和处理各种操作；<br>负载再平衡和路由在大多数情况下自动完成。 </p>
 <p>3.可以扩展到上百台服务器，处理PB级别的结构化或非结构化数据。也可以运行在单台PC上（已测试） </p>
 <p>4.支持插件机制，分词插件、同步插件、Hadoop插件、可视化插件等。</p>
+<h4 id="kibane的使用"><a href="#kibane的使用" class="headerlink" title="kibane的使用"></a>kibane的使用</h4><blockquote>
+<p>　//创建一个文档<br>PUT /lib/<br>{</p>
+</blockquote>
+<p>  “settings”: {<br>    “index”:{<br>      “number_of_shards”: 3,<br>      “number_of_replicas”: 0<br>    }<br>  }<br>}<br>//创建默认文档<br>PUT /lib2</p>
+<p>//查询lib文档<br>GET /lib/_settings<br>//查询所有文档<br>GET _all/_settings</p>
+<p>//指定1为id 在lib下新建一个索引<br>PUT /lib/user/1<br>{ “first_name” : “jane”,<br>“last_name” : “smith”,<br>“age” : 32,<br>“about” : “I like to collect rockalbums”,<br>“interests” : [“music”]</p>
+<p>}<br>//不指定id新建一个会默认生成一个<br>POST /lib/user/<br>{ “first_name” : “Douglas”,<br>“last_name” : “Fir”,<br>“age” : 23,<br>“about” : “I like to build Cabinets”,<br>“interests” : [“forestry”]</p>
+<p>}</p>
+<p>GET /lib/user/1<br>//获取id为1的_source中的age和about内容<br>GET /lib/user/1?_source=age,about</p>
+<p>//覆盖式修改age<br>PUT lib/user/1<br>{ “first_name” : “jane”,<br>“last_name” : “smith”,<br>“age” : 36,<br>“about” : “I like to collect rockalbums”,<br>“interests”:[“music”]</p>
+<p>}<br> //正常修改<br>POST /lib/user/1/_update<br>{<br>  “doc”:{<br>    “age”:30<br>  }<br>}<br>//删除指定文档<br>DELETE /lib/user/1<br>//删除整个文档<br>DELETE lib2</p>
+<p>//获取多个文档<br>GET /_mget<br>{<br>  “docs”:[<br>    {<br>      “_index” : “lib”,<br>      “_type” : “user”,<br>      “_id” : 1<br>    },<br>    {<br>      “_index” : “lib”,<br>      “_type” : “user”,<br>      “_id” : 2<br>    },<br>    {<br>      “_index” : “lib”,<br>      “_type” : “user”,<br>      “_id” : 3<br>    }<br>    ]<br>}<br>//获取_source中的值<br>GET /_mget<br>{<br>  “docs”:[<br>     {<br>      “_index” : “lib”,<br>      “_type” : “user”,<br>      “_id” : 1,<br>      “_source” : “interests”<br>    },<br>    {<br>      “_index” : “lib”,<br>      “_type” : “user”,<br>      “_id” : 2,<br>      “_source” :[“about”,”interests”]<br>    }<br>    ]<br>}</p>
+<p>//如果index和type相同，开头指定<br>GET /lib/user/_mget<br>{<br>  “docs”:[<br>     {<br>      “_id” : 1<br>    },<br>    {<br>      “_id” : 2,<br>      “_source” :[“about”,”interests”]<br>    }<br>    ]<br>}</p>
+<p>//指定id获取文档<br>GET /lib/user/_mget<br>{<br>  “ids” : [“1”,”2”]<br>}</p>
+<p>//Bulk api文档的使用</p>
+<p>//批量增加<br>POST /lib2/books/_bulk<br>{“index”:{“_id”:1}}<br>{“title”:”Java”,”proce”:55}<br>{“index”:{“_id”:2}}<br>{“title”:”HTML5”,”proce”:45}<br>{“index”:{“_id”:3}}<br>{“title”:”PHP”,”proce”:35}<br>{“index”:{“_id”:4}}<br>{“title”:”Python”,”proce”:50}</p>
+<p>GET /lib2/books/_mget<br>{<br>  “ids” : [“1”,”2”,”3”,”4”]<br>}</p>
+<p>//实现增删改查<br>POST /lib2/books/_bulk<br>{“delete”:{“_index”:”lib2”,”_type”:”books”,”_id”:4}}<br>{“create”:{“_index”:”tt”,”_type”:”ttt”,”_id”:”100”}}<br>{“name”:”lisi”}<br>{“index”:{“_index”:”tt”,”_type”:”ttt”}}<br>{“name”:”zhaosi”}<br>{“update”:{“_index”:”lib2”,”_type”:”books”,”_id”:”3”}}<br>{“doc”:{“price”:50}}</p>
+<p>GET /tt/ttt/_mget<br>{<br>  “ids” : [“100”]<br>}</p>
+<p>并发情况下使用乐观锁来保证数据的一致性 //称之为内部版本控制</p>
+<p>关系型数据库的数据导入es时，为外部版本控制<br>PUT lib/user//4？version</p>
+<p>创建文档的同时会创建索引 同时也会创建一个mapping<br>mapping：用于确定文档中字段的类型   动态映射 ,也可以进行规定（分词，类型等），没分词的需要进行精确查询<br>mapping的属性设置百度 mapping的复杂数据类型</p>
+<p>PUT /myindex/article/1<br>{<br>  “post_dete”:”2018-05-10”,<br>  “title”:”Jave”,<br>  “content”: “java is the best languag”,<br>  “author_id”:119<br>}<br>PUT /myindex/article/2<br>{<br>  “post_dete”:”2018-05-12”,<br>  “title”:”Html”,<br>  “content”: “i like Html”,<br>  “author_id”:123<br>}<br>PUT /myindex/article/3<br>{<br>  “post_dete”:”2018-05-10”,<br>  “title”:”es”,<br>  “content”: “Es is distributed document styroy”,<br>  “author_id”:110<br>}</p>
+<p>GET /myindex/article/_mget<br>{<br>  “ids” : [“1”,”2”,”3”]<br>}</p>
+<p>GET /myindex/article/_mapping</p>
+<p>GET /myindex/article/_search</p>
+<p>#日期类型需要完整才能查出来，而字符串不需要 这也是mapping指定的，日期类型没进行分词，而字符串类型进行了分词</p>
+<p>#查不出来<br>GET /myindex/article/_search?q=post_dete:2018</p>
+<p>#查的出来<br>GET /myindex/article/_search?q=post_dete:2018-05-10</p>
+<p>GET /myindex/article/_search?q=content:html</p>
 <h2 id="待续…"><a href="#待续…" class="headerlink" title="待续…."></a>待续….</h2><blockquote>
 <p>　实际使用查询再上传</p>
 </blockquote>
@@ -561,7 +591,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -642,7 +672,7 @@ show_date_time();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#科普"><span class="nav-number">2.</span> <span class="nav-text">科普</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch的定义"><span class="nav-number">2.1.</span> <span class="nav-text">Elasticsearch的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lucene与ES关系？"><span class="nav-number">2.2.</span> <span class="nav-text">Lucene与ES关系？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES的核心概念"><span class="nav-number">2.3.</span> <span class="nav-text">ES的核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cluster：集群"><span class="nav-number">2.3.1.</span> <span class="nav-text">Cluster：集群.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Node：节点"><span class="nav-number">2.3.2.</span> <span class="nav-text">Node：节点.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shard：分片。"><span class="nav-number">2.3.3.</span> <span class="nav-text">Shard：分片。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Replia：副本"><span class="nav-number">2.3.4.</span> <span class="nav-text">Replia：副本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全文检索"><span class="nav-number">2.3.5.</span> <span class="nav-text">全文检索</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES特点和优势"><span class="nav-number">2.4.</span> <span class="nav-text">ES特点和优势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待续…"><span class="nav-number">3.</span> <span class="nav-text">待续….</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#科普"><span class="nav-number">2.</span> <span class="nav-text">科普</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch的定义"><span class="nav-number">2.1.</span> <span class="nav-text">Elasticsearch的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lucene与ES关系？"><span class="nav-number">2.2.</span> <span class="nav-text">Lucene与ES关系？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES的核心概念"><span class="nav-number">2.3.</span> <span class="nav-text">ES的核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cluster：集群"><span class="nav-number">2.3.1.</span> <span class="nav-text">Cluster：集群.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Node：节点"><span class="nav-number">2.3.2.</span> <span class="nav-text">Node：节点.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shard：分片。"><span class="nav-number">2.3.3.</span> <span class="nav-text">Shard：分片。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Replia：副本"><span class="nav-number">2.3.4.</span> <span class="nav-text">Replia：副本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全文检索"><span class="nav-number">2.3.5.</span> <span class="nav-text">全文检索</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES特点和优势"><span class="nav-number">2.4.</span> <span class="nav-text">ES特点和优势</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#kibane的使用"><span class="nav-number">2.4.1.</span> <span class="nav-text">kibane的使用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待续…"><span class="nav-number">3.</span> <span class="nav-text">待续….</span></a></li></ol></div>
             
 
           </div>
