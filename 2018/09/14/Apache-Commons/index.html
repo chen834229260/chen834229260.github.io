@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #ADD8E6; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="每周一篇,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 　学习项目过程中遇到的一个Apache开源的框架,该框架提供了大量的基础类的封装,类似于一个基础类的工具类.">
+<meta name="keywords" content="每周一篇">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每周一篇之Apache-Commons">
+<meta property="og:url" content="http://yoursite.com/2018/09/14/Apache-Commons/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言 　学习项目过程中遇到的一个Apache开源的框架,该框架提供了大量的基础类的封装,类似于一个基础类的工具类.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-26T05:58:48.684Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="每周一篇之Apache-Commons">
+<meta name="twitter:description" content="前言 　学习项目过程中遇到的一个Apache开源的框架,该框架提供了大量的基础类的封装,类似于一个基础类的工具类.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/14/Apache-Commons/">
+
+
+
+
+
+  <title>每周一篇之Apache-Commons | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">god helps those who help themselves</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/14/Apache-Commons/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="浅浅">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">每周一篇之Apache-Commons</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-14T00:00:00+08:00">
+                2018-09-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/每周一篇/" itemprop="url" rel="index">
+                    <span itemprop="name">每周一篇</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/14/Apache-Commons/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/09/14/Apache-Commons/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>　学习项目过程中遇到的一个Apache开源的框架,该框架提供了大量的基础类的封装,类似于一个基础类的工具类.<br><a id="more"></a></p>
+</blockquote>
+<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><blockquote>
+<p>　记录一下简单的API使用和各个包主要能做什么,由于导包和API过多,不做案例使用,如使用到时,再针对更新.</p>
+</blockquote>
+<h3 id="BCEL"><a href="#BCEL" class="headerlink" title="BCEL"></a>BCEL</h3><blockquote>
+<p>　BCEL是 Java classworking 最广泛使用的一种框架,它可以让您深入 JVM 汇编语言进行类操作的细节。BCEL在实际的JVM 指令层次上进行操作(BCEL拥有丰富的JVM 指令级支持)而Javassist 所强调的源代码级别的工作</p>
+</blockquote>
+<h3 id="BeanUtils"><a href="#BeanUtils" class="headerlink" title="BeanUtils"></a>BeanUtils</h3><blockquote>
+<p>　提供对Java反射和自省API的包装。<br>依赖包：Commons Codec、Commons Logging</p>
+</blockquote>
+<h3 id="BSF-Bean-Scripting-Framework"><a href="#BSF-Bean-Scripting-Framework" class="headerlink" title="BSF(Bean Scripting Framework)"></a>BSF(Bean Scripting Framework)</h3><blockquote>
+<p>　Bean Scripting Framework（BSF）是一个支持在Java应用程序内调用脚本语言 (Script)，并且支持脚本语言直接访问Java对象和方法的一个开源项目。有了它 , 你就能在java application中使用javascript, Python, XSLT, Perl, tcl, ……等一大堆scripting language. 反过来也可以，就是在这些scripting language中调用任何已经注册过了的JavaBean,java object。它提供了完整的API实现通过Java访问脚本语言的引擎。</p>
+</blockquote>
+<h3 id="Chain"><a href="#Chain" class="headerlink" title="Chain"></a>Chain</h3><blockquote>
+<p>　Commons Chain实现了Chain of Responsebility和Command模式，其中的Catalog + 配置文件的方式使得调用方和Command的实现方的耦合度大大的降低，提高了灵活性。</p>
+</blockquote>
+<h3 id="CLI"><a href="#CLI" class="headerlink" title="CLI"></a>CLI</h3><blockquote>
+<p>　用java开发命令行工具</p>
+</blockquote>
+<h3 id="Codec"><a href="#Codec" class="headerlink" title="Codec"></a>Codec</h3><blockquote>
+<p>　是编码和解码组件，提供常用的编码和解码方法，如DES、SHA1、MD5、Base64、URL和Soundx等。</p>
+</blockquote>
+<h3 id="Collections"><a href="#Collections" class="headerlink" title="Collections"></a>Collections</h3><blockquote>
+<p>　是一个集合组件，扩展了Java标准Collections API，对常用的集合操作进行了很好的封装、抽象和补充，在保证性能的同时大大简化代码。</p>
+</blockquote>
+<h3 id="Compress"><a href="#Compress" class="headerlink" title="Compress"></a>Compress</h3><blockquote>
+<p>　是一个压缩、解压缩文件的组件，可以操作ar、cpio、Unix dump、tar、zip、gzip、XZ、Pack200和bzip2格式的压缩文件。</p>
+</blockquote>
+<h3 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h3><blockquote>
+<p>　是一个Java应用程序的配置管理工具，可以从properties或者xml文件中加载配置信息。<br>依赖包：Commons Lang、Commons Log、Commons BeanUtils、Commons Collections、Commons Codec</p>
+</blockquote>
+<h3 id="CSV"><a href="#CSV" class="headerlink" title="CSV"></a>CSV</h3><blockquote>
+<p>　是一个用来读写各种Comma Separated Value(CSV)格式文件的Java类库。</p>
+</blockquote>
+<h3 id="Daemon"><a href="#Daemon" class="headerlink" title="Daemon"></a>Daemon</h3><blockquote>
+<p>　Commons Daemon 可以帮你实现将一个普通的 Java 应用变成系统的一个后台服务。例如 Tomcat 就是利用这个项目来实现作为 Linux 和 Windows 的服务启动和停止的。</p>
+</blockquote>
+<h3 id="DBCP"><a href="#DBCP" class="headerlink" title="DBCP"></a>DBCP</h3><blockquote>
+<p>　数据库连接池。<br>依赖包：Commons Logging、Commons Pool</p>
+</blockquote>
+<h3 id="DbUtils"><a href="#DbUtils" class="headerlink" title="DbUtils"></a>DbUtils</h3><blockquote>
+<p>　是JDBC工具组件，对传统操作数据库的类进行二次封装，可以把结果集转化成List。</p>
+</blockquote>
+<h3 id="Digester"><a href="#Digester" class="headerlink" title="Digester"></a>Digester</h3><blockquote>
+<p>　是XML到Java对象的映射工具集。</p>
+</blockquote>
+<h3 id="Email"><a href="#Email" class="headerlink" title="Email"></a>Email</h3><blockquote>
+<p>　是邮件操作组件，对Java Mail API进行了封装，提供了常用的邮件发送和接收类，简化邮件操作。该组件依赖Java Mail API。<br>依赖包：Java Mail <a href="https://java.net/projects/javamail/pages/Home" target="_blank" rel="noopener">https://java.net/projects/javamail/pages/Home</a></p>
+</blockquote>
+<h3 id="Exec"><a href="#Exec" class="headerlink" title="Exec"></a>Exec</h3><blockquote>
+<p>　提供一些常用的方法用来执行外部进程，如执行exe文件或命令行。</p>
+</blockquote>
+<h3 id="FileUpload"><a href="#FileUpload" class="headerlink" title="FileUpload"></a>FileUpload</h3><blockquote>
+<p>　为Web应用程序或Servlet提供文件上传功能，Struts2和SpringMVC的文件上传组件。<br>依赖包：Commons IO</p>
+</blockquote>
+<h3 id="Functor"><a href="#Functor" class="headerlink" title="Functor"></a>Functor</h3><blockquote>
+<p>　java语言实现函数式编程。</p>
+</blockquote>
+<h3 id="Imaging-previously-called-Sanselan"><a href="#Imaging-previously-called-Sanselan" class="headerlink" title="Imaging (previously called Sanselan)"></a>Imaging (previously called Sanselan)</h3><blockquote>
+<p>　这是一个用来读写各种图像格式的 Java 类库，包括快速解析图片的基本信息（大小、色彩空间、ICC配置等）和元数据。尽管慢点但非常好的可移植性。比起 ImageIO/JAI/Toolkit 更容易使用，支持更多的格式，提供简单访问元数据的方法。</p>
+</blockquote>
+<h3 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h3><blockquote>
+<p>　是处理IO的工具类包，对java.io进行扩展，提供了更加方便的IO操作。<br>　工具类包括FileUtils、IOUtils、FilenameUtils和FileSystemUtils，前三者的方法并没有多大的区别，只是操作的对象不同，故名思议：FileUtils主要操作File类，IOUtils主要操作IO流，FilenameUtils则是操作文件名，FileSystemUtils包含了一些JDK没有提供的用于访问文件系统的实用方法。当前，只有一个用于读取硬盘空余空间的方法可用</p>
+</blockquote>
+<h3 id="JCI"><a href="#JCI" class="headerlink" title="JCI"></a>JCI</h3><blockquote>
+<p>　提供通用的Java编译器接口。</p>
+</blockquote>
+<h3 id="JCS"><a href="#JCS" class="headerlink" title="JCS"></a>JCS</h3><blockquote>
+<p>　它是一个复合式的缓冲工具。可以将对象缓冲到内存、硬盘。具有缓冲对象时间过期设定。还可以通过JCS构建具有缓冲的分布式构架，以实现高性能的应用。对于一些需要频繁访问而每访问一次都非常消耗资源的对象，可以临时存放在缓冲区中，这样可以提高服务的性能。而JCS正是一个很好的缓冲工具。缓冲工具对于读操作远远多于写操作的应用性能提高非常显著。</p>
+</blockquote>
+<h3 id="Jelly"><a href="#Jelly" class="headerlink" title="Jelly"></a>Jelly</h3><blockquote>
+<p>　Jexl是对JSP表达式语言的一种扩充，并且不依赖于Servlet API。这就意味着它可以被集成到任何需要表达式语言的应用程序中</p>
+</blockquote>
+<h3 id="Jexl"><a href="#Jexl" class="headerlink" title="Jexl"></a>Jexl</h3><blockquote>
+<p>　Jexl是对JSP表达式语言的一种扩充，并且不依赖于Servlet API。这就意味着它可以被集成到任何需要表达式语言的应用程序中。</p>
+</blockquote>
+<h3 id="JXPath"><a href="#JXPath" class="headerlink" title="JXPath"></a>JXPath</h3><blockquote>
+<p>　提供了使用Xpath语法操纵符合Java类命名规范的 JavaBeans的工具。也支持 maps, DOM 和其他对象模型.</p>
+</blockquote>
+<h3 id="Lang"><a href="#Lang" class="headerlink" title="Lang"></a>Lang</h3><blockquote>
+<p>　是处理Java基本对象方法的工具类包，该类包提供对字符、数组等基本对象的操作，弥补了java.lang api基本处理方法上的不足。</p>
+</blockquote>
+<h3 id="Logging"><a href="#Logging" class="headerlink" title="Logging"></a>Logging</h3><blockquote>
+<p>　提供统一的日志接口，同时兼顾轻量级和不依赖于具体的实现。类包给中间件/日志工具开发者一个简单的日志操作抽象，允许程序开发人员使用不同的具体日志实现工具。</p>
+</blockquote>
+<h3 id="Math"><a href="#Math" class="headerlink" title="Math"></a>Math</h3><blockquote>
+<p>　轻量级自容器的数学和统计计算方法类包，包含大多数常用的数值算法。</p>
+</blockquote>
+<h3 id="Net"><a href="#Net" class="headerlink" title="Net"></a>Net</h3><blockquote>
+<p>　封装了各种网络协议的客户端，支持FTP、NNTP、SMTP、POP3、Telnet等协议。</p>
+</blockquote>
+<h3 id="OGNL"><a href="#OGNL" class="headerlink" title="OGNL"></a>OGNL</h3><blockquote>
+<p>　OGNL表达式语言。</p>
+</blockquote>
+<h3 id="Pool"><a href="#Pool" class="headerlink" title="Pool"></a>Pool</h3><blockquote>
+<p>　提供了一整套用于实现对象池化的框架，以及若干各具特色的对象池实现，可以有效地减少处理对象池化时的工作量。类包用于提高像文件句柄、数据库连接、socket通信这类大对象的调用效率，简单的说就是一种对象一次创建多次使用的技术。</p>
+</blockquote>
+<h3 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h3><blockquote>
+<p>　封装了 Java 对象代理的一些常用方法。又叫做 动态代理。</p>
+</blockquote>
+<h3 id="SCXML"><a href="#SCXML" class="headerlink" title="SCXML"></a>SCXML</h3><blockquote>
+<p>　处理SCXML</p>
+</blockquote>
+<h3 id="Validator"><a href="#Validator" class="headerlink" title="Validator"></a>Validator</h3><blockquote>
+<p>　提供了一个简单的、可扩展的框架来在一个XML文件中定义校验器(校验方法)和校验规则。支持校验规则的和错误消息的国际化。</p>
+</blockquote>
+<h3 id="VFS"><a href="#VFS" class="headerlink" title="VFS"></a>VFS</h3><blockquote>
+<p>　提供对不同的文件系统的文件提供统一的操作. 例如ftp,http,本地文件系统等等. </p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+
+<div>
+
+    <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>其它文章也很精彩哦!-------------</div>
+
+</div>
+
+</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/每周一篇/" rel="tag"><i class="fa fa-tag"></i> 每周一篇</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/12/shiro/" rel="next" title="每周一篇之Shiro">
+                <i class="fa fa-chevron-left"></i> 每周一篇之Shiro
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/09/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/tx.jpg" alt="浅浅">
+            
+              <p class="site-author-name" itemprop="name">浅浅</p>
+              <p class="site-description motion-element" itemprop="description">god helps those who help themselves</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+    
+
+          
+<div id="days"></div>
+
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/12/2018 13:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简述"><span class="nav-number">2.</span> <span class="nav-text">简述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BCEL"><span class="nav-number">2.1.</span> <span class="nav-text">BCEL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BeanUtils"><span class="nav-number">2.2.</span> <span class="nav-text">BeanUtils</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BSF-Bean-Scripting-Framework"><span class="nav-number">2.3.</span> <span class="nav-text">BSF(Bean Scripting Framework)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chain"><span class="nav-number">2.4.</span> <span class="nav-text">Chain</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CLI"><span class="nav-number">2.5.</span> <span class="nav-text">CLI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Codec"><span class="nav-number">2.6.</span> <span class="nav-text">Codec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Collections"><span class="nav-number">2.7.</span> <span class="nav-text">Collections</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compress"><span class="nav-number">2.8.</span> <span class="nav-text">Compress</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuration"><span class="nav-number">2.9.</span> <span class="nav-text">Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSV"><span class="nav-number">2.10.</span> <span class="nav-text">CSV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Daemon"><span class="nav-number">2.11.</span> <span class="nav-text">Daemon</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBCP"><span class="nav-number">2.12.</span> <span class="nav-text">DBCP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DbUtils"><span class="nav-number">2.13.</span> <span class="nav-text">DbUtils</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Digester"><span class="nav-number">2.14.</span> <span class="nav-text">Digester</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Email"><span class="nav-number">2.15.</span> <span class="nav-text">Email</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exec"><span class="nav-number">2.16.</span> <span class="nav-text">Exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FileUpload"><span class="nav-number">2.17.</span> <span class="nav-text">FileUpload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Functor"><span class="nav-number">2.18.</span> <span class="nav-text">Functor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Imaging-previously-called-Sanselan"><span class="nav-number">2.19.</span> <span class="nav-text">Imaging (previously called Sanselan)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IO"><span class="nav-number">2.20.</span> <span class="nav-text">IO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JCI"><span class="nav-number">2.21.</span> <span class="nav-text">JCI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JCS"><span class="nav-number">2.22.</span> <span class="nav-text">JCS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Jelly"><span class="nav-number">2.23.</span> <span class="nav-text">Jelly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Jexl"><span class="nav-number">2.24.</span> <span class="nav-text">Jexl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JXPath"><span class="nav-number">2.25.</span> <span class="nav-text">JXPath</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lang"><span class="nav-number">2.26.</span> <span class="nav-text">Lang</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logging"><span class="nav-number">2.27.</span> <span class="nav-text">Logging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Math"><span class="nav-number">2.28.</span> <span class="nav-text">Math</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Net"><span class="nav-number">2.29.</span> <span class="nav-text">Net</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OGNL"><span class="nav-number">2.30.</span> <span class="nav-text">OGNL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pool"><span class="nav-number">2.31.</span> <span class="nav-text">Pool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Proxy"><span class="nav-number">2.32.</span> <span class="nav-text">Proxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SCXML"><span class="nav-number">2.33.</span> <span class="nav-text">SCXML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Validator"><span class="nav-number">2.34.</span> <span class="nav-text">Validator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VFS"><span class="nav-number">2.35.</span> <span class="nav-text">VFS</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">浅浅</span>
+
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span>|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mYVQfCaDN28mIPACWSc9xGj9-gzGzoHsz',
+        appKey: 'jmk9lXQnNrJdxc4BDrBXi6lE',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":140,"height":260},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

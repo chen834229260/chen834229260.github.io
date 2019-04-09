@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #ADD8E6; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JAVA,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 　接触JAVA一年有余,对于JAVA基础从未认真的进行过总结,导致一些基础问题云里雾里,故开篇对JAVA基础做一次总结,本篇为第二篇,JAVA的三大特性之继承;">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java提高之继承">
+<meta property="og:url" content="http://yoursite.com/2019/04/09/JavaIncreaseExtends/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言 　接触JAVA一年有余,对于JAVA基础从未认真的进行过总结,导致一些基础问题云里雾里,故开篇对JAVA基础做一次总结,本篇为第二篇,JAVA的三大特性之继承;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/JavaIncreaseExtends/81126163325.png">
+<meta property="og:updated_time" content="2018-11-28T09:05:29.168Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java提高之继承">
+<meta name="twitter:description" content="前言 　接触JAVA一年有余,对于JAVA基础从未认真的进行过总结,导致一些基础问题云里雾里,故开篇对JAVA基础做一次总结,本篇为第二篇,JAVA的三大特性之继承;">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/09/JavaIncreaseExtends/81126163325.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/09/JavaIncreaseExtends/">
+
+
+
+
+
+  <title>Java提高之继承 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">god helps those who help themselves</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/JavaIncreaseExtends/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="浅浅">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java提高之继承</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-09T20:08:41+08:00">
+                2019-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/09/JavaIncreaseExtends/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/09/JavaIncreaseExtends/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>　接触JAVA一年有余,对于JAVA基础从未认真的进行过总结,导致一些基础问题云里雾里,故开篇对JAVA基础做一次总结,本篇为第二篇,JAVA的三大特性之继承;<br><a id="more"></a></p>
+</blockquote>
+<h2 id="正篇"><a href="#正篇" class="headerlink" title="正篇"></a>正篇</h2><h3 id="继承的概念"><a href="#继承的概念" class="headerlink" title="继承的概念"></a>继承的概念</h3><blockquote>
+<p>　继承就是子类继承父类的特征和行为,使的子类对象具有父类的实例域和方法,或子类从父类继承方法,使的子类具有父类相同的行为;</p>
+</blockquote>
+<blockquote>
+<p>　举例:兔子和羊属于食草动物类,狮子和豹属于食肉动物类。</p>
+</blockquote>
+<blockquote>
+<p>　食草动物和食肉动物又是属于动物类。</p>
+</blockquote>
+<blockquote>
+<p>　所以继承需要符合的关系是：is-a,父类更通用,子类更具体。</p>
+</blockquote>
+<blockquote>
+<p>　虽然食草动物和食肉动物都是属于动物,但是两者的属性和行为上有差别,所以子类会具有父类的一般特性也会具有自身的特性。</p>
+</blockquote>
+<h3 id="继承有哪些限制"><a href="#继承有哪些限制" class="headerlink" title="继承有哪些限制?"></a>继承有哪些限制?</h3><blockquote>
+<p>　通过下图可以很直观的了解,继承支持哪些和不支持哪些:<br><img src="81126163325.png" alt="Alt text"></p>
+</blockquote>
+<h3 id="继承有哪些特性"><a href="#继承有哪些特性" class="headerlink" title="继承有哪些特性?"></a>继承有哪些特性?</h3><blockquote>
+<p>　　1. 子类拥有父类非private的属性和方法,<br>　　2. 子类可以拥有自己的属性和方法,即子类可以对父类进行扩展<br>　　3. 子类可以用自己的方式实现父类的方法<br>　　4. java不支持多继承,但支持多重继承,如上图<br>　　5. 提高了类之间的耦合性<br>　继承可以使用 extends 和 implements 这两个关键字来实现继承,而且所有的类都是继承于 java.lang.Object,当一个类没有继承的两个关键字,则默认继承object（这个类在 java.lang 包中,所以不需要 import）祖先类;</p>
+</blockquote>
+<h3 id="为什么要使用继承呢"><a href="#为什么要使用继承呢" class="headerlink" title="为什么要使用继承呢?"></a>为什么要使用继承呢?</h3><blockquote>
+<p>　通过一下俩个实例来说明:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">//企鹅</span><br><span class="line">public class Penguin &#123;</span><br><span class="line">	private String name;</span><br><span class="line">	private int id;</span><br><span class="line">	public Penguin(String name, int id) &#123;</span><br><span class="line">		super();</span><br><span class="line">		this.name = name;</span><br><span class="line">		this.id = id;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void eat()&#123;</span><br><span class="line">		System.out.println(name + &quot;正在吃&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	public void sleep()&#123;</span><br><span class="line">		System.out.println(name+&quot;正在睡&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void introduction()&#123;</span><br><span class="line">		System.out.println(&quot;我是: &quot;+id+&quot;号,&quot;+name);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">//老鼠</span><br><span class="line">public class Mouse &#123;</span><br><span class="line">	private String name;</span><br><span class="line">	private int id;</span><br><span class="line"></span><br><span class="line">	public Mouse(String name, int id) &#123;</span><br><span class="line">		super();</span><br><span class="line">		this.name = name;</span><br><span class="line">		this.id = id;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void eat() &#123;</span><br><span class="line">		System.out.println(name + &quot;正在吃&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void sleep() &#123;</span><br><span class="line">		System.out.println(name + &quot;正在睡&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void introduction() &#123;</span><br><span class="line">		System.out.println(&quot;我是:&quot; + id + &quot;号&quot; + name + &quot;.&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　从这两段代码可以看出来,代码存在重复了,导致后果就是代码量大且臃肿,而且维护性不高(维护性主要是后期需要修改的时候,就需要修改很多的代码,容易出错),所以要从根本上解决这两段代码的问题,就需要继承,将两段代码中相同的部分提取出来组成 一个父类:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class Animal &#123; </span><br><span class="line">    private String name;  </span><br><span class="line">    private int id; </span><br><span class="line">    public Animal(String myName, int myid) &#123; </span><br><span class="line">        name = myName; </span><br><span class="line">        id = myid;</span><br><span class="line">    &#125; </span><br><span class="line">    public void eat()&#123; </span><br><span class="line">        System.out.println(name+&quot;正在吃&quot;); </span><br><span class="line">    &#125;</span><br><span class="line">    public void sleep()&#123;</span><br><span class="line">        System.out.println(name+&quot;正在睡&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public void introduction() &#123; </span><br><span class="line">        System.out.println(&quot;我是:&quot; + id + &quot;号&quot; + name + &quot;.&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　这个Animal类就可以作为一个父类,然后企鹅类和老鼠类继承这个类之后,就具有父类当中的属性和方法,子类就不会存在重复的代码,维护性也提高,代码也更加简洁,提高代码的复用性（复用性主要是可以多次使用,不用再多次写同样的代码） 继承之后的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//企鹅</span><br><span class="line">public class Penguin extends Animal&#123;</span><br><span class="line"></span><br><span class="line">	public Penguin(String myName, int myid) &#123;</span><br><span class="line">		super(myName, myid);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">//老鼠</span><br><span class="line">public class Mouse extends Animal &#123;</span><br><span class="line"></span><br><span class="line">	public Mouse(String myName, int myid) &#123;</span><br><span class="line">		super(myName, myid);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="super与this关键字"><a href="#super与this关键字" class="headerlink" title="super与this关键字"></a>super与this关键字</h3><blockquote>
+<p>　super关键字：我们可以通过super关键字来实现对父类成员的访问，用来引用当前对象的父类。<br>　this关键字：指向自己的引用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">class Animal &#123;</span><br><span class="line">  void eat() &#123;</span><br><span class="line">    System.out.println(&quot;animal : eat&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">class Dog extends Animal &#123;</span><br><span class="line">  void eat() &#123;</span><br><span class="line">    System.out.println(&quot;dog : eat&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  void eatTest() &#123;</span><br><span class="line">    this.eat();   // this 调用自己的方法</span><br><span class="line">    super.eat();  // super 调用父类方法</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">public class Test &#123;</span><br><span class="line">  public static void main(String[] args) &#123;</span><br><span class="line">    Animal a = new Animal();</span><br><span class="line">    a.eat();</span><br><span class="line">    Dog d = new Dog();</span><br><span class="line">    d.eatTest();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h3><blockquote>
+<p>　final 关键字声明类可以把类定义为不能继承的，即最终类；或者用于修饰方法，该方法不能被子类重写;<br>　注:实例变量也可以被定义为 final，被定义为 final 的变量不能被修改。被声明为 final 类的方法自动地声明为 final，但是实例变量并不是 final</p>
+</blockquote>
+<h3 id="构造器"><a href="#构造器" class="headerlink" title="构造器"></a>构造器</h3><blockquote>
+<p>　除了private外,还有一样是子类继承不了的,那就是构造器,对于构造器而言,它只能被调用,而不能被继承,调用父类的构造方法我们使用super()即可,对于子类而言,其构造器的正确初始化是非常重要的,而且当只有一个方法可以保证这点:<code>在构造器中调用父类构造器来完成初始化</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class Person &#123;</span><br><span class="line">    protected String name;</span><br><span class="line">    protected int age;</span><br><span class="line">    protected String sex;</span><br><span class="line">    </span><br><span class="line">    Person()&#123;</span><br><span class="line">        System.out.println(&quot;Person Constrctor...&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Husband extends Person&#123;</span><br><span class="line">    private Wife wife;</span><br><span class="line"></span><br><span class="line">    Husband()&#123;</span><br><span class="line">        System.out.println(&quot;Husband Constructor...&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Husband husband  = new Husband();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">Person Constrctor...</span><br><span class="line">Husband Constructor...</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　  通过这个示例可以看出，构建过程是从父类“向外”扩散的，也就是从父类开始向子类一级一级地完成构建。而且我们并没有显示的引用父类的构造器，这就是java的聪明之处：编译器会默认给子类调用父类的构造器;<br>　  但是，这个默认调用父类的构造器是有前提的：父类有默认构造器。如果父类没有默认构造器，我们就要必须显示的使用super()来调用父类构造器，否则编译器会报错：无法找到符合父类形式的构造器。</p>
+</blockquote>
+<blockquote>
+<p>　  所以综上所述：<code>对于继承而已，子类会默认调用父类的构造器，但是如果没有默认的父类构造器，子类必须要显示的指定父类的构造器，而且必须是在子类构造器中做的第一件事(第一行代码)。</code></p>
+</blockquote>
+<h3 id="谨慎继承"><a href="#谨慎继承" class="headerlink" title="谨慎继承"></a>谨慎继承</h3><blockquote>
+<p>　  在使用继承时,必须明白继承存在的缺陷:<br>　　1. 父类变,子类就必须变<br>　　2. 继承破坏了封装,对于父类而言,它的实现细节对于子类来说都是透明的<br>　　3. 继承是一种强耦合关系</p>
+</blockquote>
+<blockquote>
+<p>　所以说当我们使用继承的时候，我们需要确信使用继承确实是有效可行的办法。那么到底要不要使用继承呢？《Think in java》中提供了解决办法：问一问自己是否需要从子类向父类进行向上转型。如果必须向上转型，则继承是必要的，但是如果不需要，则应当好好考虑自己是否需要继承。</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>　从该篇文章可以看出,继承在代码中是存在强耦合的,而对于开发的准则(低偶合)来说,继承能不用,最好不用,毕竟当一个程序的代码耦合度过高时,后期维护程度不亚于重写这个程序;</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+
+<div>
+
+    <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>其它文章也很精彩哦!-------------</div>
+
+</div>
+
+</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA/" rel="tag"><i class="fa fa-tag"></i> JAVA</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/09/JavaIncreaseEnumSet/" rel="next" title="Java提高集合之EnumSet">
+                <i class="fa fa-chevron-left"></i> Java提高集合之EnumSet
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/09/JavaIncreaseHashMap/" rel="prev" title="Java提高集合之HashMap">
+                Java提高集合之HashMap <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/tx.jpg" alt="浅浅">
+            
+              <p class="site-author-name" itemprop="name">浅浅</p>
+              <p class="site-description motion-element" itemprop="description">god helps those who help themselves</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+    
+
+          
+<div id="days"></div>
+
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/12/2018 13:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正篇"><span class="nav-number">2.</span> <span class="nav-text">正篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#继承的概念"><span class="nav-number">2.1.</span> <span class="nav-text">继承的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承有哪些限制"><span class="nav-number">2.2.</span> <span class="nav-text">继承有哪些限制?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承有哪些特性"><span class="nav-number">2.3.</span> <span class="nav-text">继承有哪些特性?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要使用继承呢"><span class="nav-number">2.4.</span> <span class="nav-text">为什么要使用继承呢?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#super与this关键字"><span class="nav-number">2.5.</span> <span class="nav-text">super与this关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final关键字"><span class="nav-number">2.6.</span> <span class="nav-text">final关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造器"><span class="nav-number">2.7.</span> <span class="nav-text">构造器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#谨慎继承"><span class="nav-number">2.8.</span> <span class="nav-text">谨慎继承</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">浅浅</span>
+
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span>|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mYVQfCaDN28mIPACWSc9xGj9-gzGzoHsz',
+        appKey: 'jmk9lXQnNrJdxc4BDrBXi6lE',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":140,"height":260},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

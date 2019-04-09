@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #ADD8E6; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="BOOK,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第七章节:JVM体系结构与工作方式;">
+<meta name="keywords" content="BOOK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入分析Java Web技术内幕:第七章">
+<meta property="og:url" content="http://yoursite.com/2019/04/09/JavaWebSeven/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第七章节:JVM体系结构与工作方式;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/JavaWebSeven/022104358.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/JavaWebSeven/024164240.png">
+<meta property="og:updated_time" content="2018-10-25T09:20:40.243Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入分析Java Web技术内幕:第七章">
+<meta name="twitter:description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第七章节:JVM体系结构与工作方式;">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/09/JavaWebSeven/022104358.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/09/JavaWebSeven/">
+
+
+
+
+
+  <title>深入分析Java Web技术内幕:第七章 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">god helps those who help themselves</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/JavaWebSeven/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="浅浅">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入分析Java Web技术内幕:第七章</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-09T20:08:41+08:00">
+                2019-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/09/JavaWebSeven/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/09/JavaWebSeven/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第七章节:JVM体系结构与工作方式;<br><a id="more"></a></p>
+</blockquote>
+<h3 id="JVM体系结构"><a href="#JVM体系结构" class="headerlink" title="JVM体系结构"></a>JVM体系结构</h3><blockquote>
+<p>　JVM的体系结构是如何设计的?</p>
+</blockquote>
+<h4 id="何谓JVM"><a href="#何谓JVM" class="headerlink" title="何谓JVM"></a>何谓JVM</h4><blockquote>
+<p>　JVM的全称是Java Virtual Machin(Java虚拟机),它通过模拟一个计算机来达到一个计算机锁具有的计算功能</p>
+</blockquote>
+<blockquote>
+<p>　以计算机为中心来看计算机的体系结构可以分为如下几个部分<br>　 1. 指令集: 这个计算机所能识别的机器语言的命令集合<br>　 2. 计算单元: 即能够识别并且控制指令执行的功能模块<br>　 3. 寻址方式: 地址的位数,最小地址和最大地址范围,以及地址的运行规则<br>　 4. 寄存器定义: 包括操作数寄存器,变址寄存器,控制寄存器等的定义,数量和使用方式<br>　 5. 存储单元: 能够存储操作数和保存操作结构的单元,如内核级,内存和磁盘等</p>
+</blockquote>
+<h5 id="什么是指令集-指令集的作用"><a href="#什么是指令集-指令集的作用" class="headerlink" title="什么是指令集?指令集的作用?"></a>什么是指令集?指令集的作用?</h5><blockquote>
+<p>　所谓指令集就是在CPU用来计算和控制计算机系统的一套指令的集合,<code>每一种新型的CPU在设计时都规定了一系列与其他硬件电路配合的指令系统,而指令集的先进与否也关系到CPU的性能发挥,它是体现CPU性能的一个重要标志</code>.</p>
+</blockquote>
+<h5 id="在当前计算机中有哪些指令集"><a href="#在当前计算机中有哪些指令集" class="headerlink" title="在当前计算机中有哪些指令集?"></a>在当前计算机中有哪些指令集?</h5><blockquote>
+<p>　 从主流的体系结构上分为精简指令集(Reduced Instruction Set Computing,RISC)和复杂指令集(Complex Instruction Set Computing,CISC),<code>当前我们普遍使用的桌面操作系统中基本都是CISC,如x86架构的CPU都使用复杂指令集</code>,除了这两种指令集之外Inter和AMD公司还在它们的基础上开发出了很多扩展指令集,如MMX(Multi Medie eXtension,多媒体扩展指令)使的在<code>处理多媒体数据时性能更强</code>,还有AMD公司为<code>提供3D处理性能开发的3DNow指令集</code>等.</p>
+</blockquote>
+<h5 id="指令集与汇编语言有什么关系"><a href="#指令集与汇编语言有什么关系" class="headerlink" title="指令集与汇编语言有什么关系?"></a>指令集与汇编语言有什么关系?</h5><blockquote>
+<p>　<code>指令集是可以直接被机器识别的机器码,也就是它必须以二进制格式存在于计算机中,而汇编语言是能够被人识别的指令,汇编语言在顺序和逻辑上是与机器指令一一对应的,换句话说,汇编语言是为了让人能够更容易的记住机器指令而使用的助记符</code>,每一条汇编指令都可以直接翻译成一个机器指令</p>
+</blockquote>
+<h5 id="指令集与CPU架构有何联系-如Inter与AMD的CPU的指令集是否兼容-也就是CPU的架构是否会影响指令集"><a href="#指令集与CPU架构有何联系-如Inter与AMD的CPU的指令集是否兼容-也就是CPU的架构是否会影响指令集" class="headerlink" title="指令集与CPU架构有何联系?如Inter与AMD的CPU的指令集是否兼容?也就是CPU的架构是否会影响指令集?"></a>指令集与CPU架构有何联系?如Inter与AMD的CPU的指令集是否兼容?也就是CPU的架构是否会影响指令集?</h5><blockquote>
+<p>　答案都是肯定的,汇编语言中都是对寄存器和段的直接操作的命令,寄存器和段都是架构的一部分,<code>所以不同的芯片架构设计一定对应不同的机器指令结合,但是不同的芯片厂商往往都会采用兼容的方式来兼容其他不同架构的指令集</code>,</p>
+</blockquote>
+<h5 id="JVM和实体机到底有何不同呢"><a href="#JVM和实体机到底有何不同呢" class="headerlink" title="JVM和实体机到底有何不同呢?"></a>JVM和实体机到底有何不同呢?</h5><blockquote>
+<p>　1. 一个抽象规范,这个规范就约束了JVM到底是什么,它有哪些组成部分,这些抽象的规范都在The Java Virtual Machine Specification中详细描述了<br>　2. 一个具体的实现,所谓具体的实现就是不同的厂商按照这个抽象的规范用软件或者硬件结合的方式在相同或者不同的平台上的具体的实现<br>　3. 一个运行中的实例,当用其运行一个Java程序时,它就是一个运行中的实例,每个运行中的Java程序都是一个JVM实例</p>
+</blockquote>
+<blockquote>
+<p>　JVM和实体机一样也必须有一套合适的指令集,这个指令集能够被JVM解析执行,这个指令集我们称为JVM字节码指令集,符合class文件规范的字节码都可以被JVM执行.</p>
+</blockquote>
+<h4 id="JVM体系结构详解"><a href="#JVM体系结构详解" class="headerlink" title="JVM体系结构详解"></a>JVM体系结构详解</h4><blockquote>
+<p>　JVM的结构基本由4部分组成:<br>　1. 类加载器:在JVM启动或者在类运行时将需要的class加载到JVM中<br>　2. 执行引擎:执行引擎的任务是负责执行class文件中包含的字节码指令,相当于实际机器上的CPU<br>　3. 内存区:将内存划分成若干个区以模拟实际机器上的存储,记忆和调度功能模块,如实际机器上的各种功能的寄存器或者PC指针的记录器等<br>　4. 本地方法调用: 调用C或C++实现的本地方法的代码返回结构</p>
+</blockquote>
+<p><img src="022104358.png" alt="Alt text"></p>
+<h5 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h5><blockquote>
+<p>　每个被JVM装载的类型都有一个对应的java.lang.Class类的实例来表示该类型,该实例可以唯一表示被JVM装载的class类,要求这个实例和其他类的实例一样都存放在Java的堆中</p>
+</blockquote>
+<h5 id="执行引擎"><a href="#执行引擎" class="headerlink" title="执行引擎"></a>执行引擎</h5><blockquote>
+<p>　执行引擎是JVM的核心部分,执行引擎的作用就是解析JVM字节码指令,得到执行结果,在(Java虚拟机规范)中详细的定义了执行引擎遇到每条字节码指令时应该处理什么,并且应该得到什么结果,但是并没有规定执行引擎应该如何或采取什么方式处理而得到的这个结果.</p>
+</blockquote>
+<blockquote>
+<p>　执行引擎也就是执行一条条代码的一个流程,而代码都是包含在方法体内的,所以执行引擎本质上就是执行一个个方法所串起来的流程,对应到操作系统中一个执行流程是一个Java进程还是一个Java线程呢?很显然是后者,因为一个Java进程可以有多个同时执行的执行流程,这样说来每个Java线程就是一个执行引擎的实例,那么在一个JVM实例中就会同时有多个执行引擎在工作,这些执行引擎有的在执行用户的程序,有的在执行JVM内部的程序(如Java垃圾收集器)</p>
+</blockquote>
+<h5 id="Java内存管理"><a href="#Java内存管理" class="headerlink" title="Java内存管理"></a>Java内存管理</h5><blockquote>
+<p>　执行引擎在执行一段程序时,需要存储一些东西, 如操作码需要的操作数,操作码的执行结果需要保存,class类的字节码还有类的对象等信息都需要在执行引擎执行之前就准备好,<code>如上图中可以看出一个JVM实例会有一个方法区,Java堆,Java栈,PC寄存器和本地方法区,其中方法区和Java堆是所有线程共享,也就是可以被所有的执行引擎实例访问,每个新的执行引擎实例被创建时会为这个执行引擎创建一个Java栈和一个PC寄存器</code>,如果当前正在执行一个Java方法,那么在当前的这个Java栈中保存的是该线程中方法调用的状态,包括方法的参数,方法的局部变量,方法的返回值以及运算的中间结果等,而PC寄存器会执行即将执行的下一条指令</p>
+</blockquote>
+<h3 id="JVM工作机制"><a href="#JVM工作机制" class="headerlink" title="JVM工作机制"></a>JVM工作机制</h3><h4 id="机器如何执行代码"><a href="#机器如何执行代码" class="headerlink" title="机器如何执行代码"></a>机器如何执行代码</h4><blockquote>
+<p>　前面已经分析了计算机只接受机器指令,<code>其它高级语言首先必须经过编译器编译成机器指令才能被计算机正确执行</code>,所以从高级语言到机器语言之间必须要有个翻译的过程,<code>而机器语言一般都是和硬件平台密切相关的,在当前这种环境下我们所说的不同的硬件平台已经被更上一层的软件平台所代替了,这个软件平台就是操作系统,与其说不同的硬件平台的差异还不如说操作系统之间的差异</code>,因为现在的操作系统几乎完全向用户屏蔽了硬件,所以我们说编译器和操作系统的关系非常密切会更加容易让人理解.</p>
+</blockquote>
+<blockquote>
+<p>　一个程序从编写到执行:<br>　源代码(source)–&gt;预处理器(preprocessor)–&gt;编译器(compiler)–&gt;汇编程序(assembler)–&gt;目标代码(Object code)–&gt; 转换器(Linker)–&gt;可执行程序(executables)</p>
+</blockquote>
+<blockquote>
+<p>　除了源代码和最后的可执行程序,中间所有环节都是由现代意义上的编译器统一完成</p>
+</blockquote>
+<h4 id="JVM为何选择基于栈的架构"><a href="#JVM为何选择基于栈的架构" class="headerlink" title="JVM为何选择基于栈的架构"></a>JVM为何选择基于栈的架构</h4><blockquote>
+<p>　JVM执行字节码指令是基于栈的架构,所有的操作数必须先入栈,然后根据指令中的操作码选择从栈顶弹出若干个元素进行计算后再将结果压入栈中.JVM中每个方法调用时,就会给这个方法分配一个本地变量集</p>
+</blockquote>
+<h5 id="JVM为何要基于栈来设计的理由"><a href="#JVM为何要基于栈来设计的理由" class="headerlink" title="JVM为何要基于栈来设计的理由"></a>JVM为何要基于栈来设计的理由</h5><blockquote>
+<p>　1. JVM要设计成与平台无关的,而平台无关性就是要保证在没有或者有很少的寄存器的机器上也要同样能正确的执行Java代码.<br>　2. 为了指令的紧凑性,因为Java的字节码可能在网络上传输,所以class文件的大小也是设计JVM字节码指令的一个重要因素,操作码可以只占一个字节大小,这都是为了尽量让编译后的class文件更加紧凑,提高字节码在网络上的传输效率,Sun设计了一个Jar包的压缩工具Pack200,它可以将多个class文件中的重复的常量池的信息进行合并,如一般在每个Class文件中都含有”L/java/lang/String”,那么多个class文件中的常量就可以共用,从而起到减少数据量的作用.</p>
+</blockquote>
+<h4 id="执行引擎的架构设计"><a href="#执行引擎的架构设计" class="headerlink" title="执行引擎的架构设计"></a>执行引擎的架构设计</h4><blockquote>
+<p>　<code>每当创建一个新的线程时,JVM会为这个线程创建一个Java栈</code>,同时会为这个线程分配一个PC寄存器,并且这个PC寄存器会指向这个线程的第一行可执行代码,每当调用一个新方法时会在这个栈上创建一个新的栈帧数据结构,这个栈帧会保留在这个方法的一些元信息,如在这个方法中定义的局部变量,一些用来支持常量池的解析,正常方法返回及异常处理机制等.<br><img src="024164240.png" alt="Alt text"><br>　JVM在调用某些指令时,可能需要使用到常量池中的一些常量,或者是获取常量代表的数据或者这个数据指向的实例化对象,而这些信息都存储在所有线程共享的方法区和Java堆中.</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>　该章主要讲解了JVM的执行引擎执行JVM指令的过程,实际上JVM的设计非常复杂,<code>包括JVM在执行字节码时如何自动优化这些字节码,并将它们再编译成本地代码,也就是JIT技术</code>,这个技术在我们执行测试时可能会有影响,如果你的程序没有经过充分的”预热”,那么得出的结果可能会不准确,例如,JVM在执行程序时会记录某个方法的执行次数,如果执行的次数到一个阈值(客户端一般是1500次,服务器一般是10000次)时JIT就会编译这个方法为本地代码.</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+
+<div>
+
+    <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>其它文章也很精彩哦!-------------</div>
+
+</div>
+
+</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/BOOK/" rel="tag"><i class="fa fa-tag"></i> BOOK</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/09/JavaWebNine/" rel="next" title="深入分析Java Web技术内幕:第九章">
+                <i class="fa fa-chevron-left"></i> 深入分析Java Web技术内幕:第九章
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/09/JavaWebThree/" rel="prev" title="深入分析Java Web技术内幕:第三章">
+                深入分析Java Web技术内幕:第三章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/tx.jpg" alt="浅浅">
+            
+              <p class="site-author-name" itemprop="name">浅浅</p>
+              <p class="site-description motion-element" itemprop="description">god helps those who help themselves</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+    
+
+          
+<div id="days"></div>
+
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/12/2018 13:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM体系结构"><span class="nav-number">1.1.</span> <span class="nav-text">JVM体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#何谓JVM"><span class="nav-number">1.1.1.</span> <span class="nav-text">何谓JVM</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是指令集-指令集的作用"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">什么是指令集?指令集的作用?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在当前计算机中有哪些指令集"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">在当前计算机中有哪些指令集?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#指令集与汇编语言有什么关系"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">指令集与汇编语言有什么关系?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#指令集与CPU架构有何联系-如Inter与AMD的CPU的指令集是否兼容-也就是CPU的架构是否会影响指令集"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">指令集与CPU架构有何联系?如Inter与AMD的CPU的指令集是否兼容?也就是CPU的架构是否会影响指令集?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JVM和实体机到底有何不同呢"><span class="nav-number">1.1.1.5.</span> <span class="nav-text">JVM和实体机到底有何不同呢?</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JVM体系结构详解"><span class="nav-number">1.1.2.</span> <span class="nav-text">JVM体系结构详解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#类加载器"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">类加载器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#执行引擎"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">执行引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Java内存管理"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">Java内存管理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM工作机制"><span class="nav-number">1.2.</span> <span class="nav-text">JVM工作机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#机器如何执行代码"><span class="nav-number">1.2.1.</span> <span class="nav-text">机器如何执行代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JVM为何选择基于栈的架构"><span class="nav-number">1.2.2.</span> <span class="nav-text">JVM为何选择基于栈的架构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JVM为何要基于栈来设计的理由"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">JVM为何要基于栈来设计的理由</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行引擎的架构设计"><span class="nav-number">1.2.3.</span> <span class="nav-text">执行引擎的架构设计</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">浅浅</span>
+
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span>|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mYVQfCaDN28mIPACWSc9xGj9-gzGzoHsz',
+        appKey: 'jmk9lXQnNrJdxc4BDrBXi6lE',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":140,"height":260},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

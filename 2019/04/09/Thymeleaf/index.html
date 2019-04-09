@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #ADD8E6; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="前端,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 　Spring boot推荐的模版">
+<meta name="keywords" content="前端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每周一篇之Thymeleaf">
+<meta property="og:url" content="http://yoursite.com/2019/04/09/Thymeleaf/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言 　Spring boot推荐的模版">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/Thymeleaf/20180825150240.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/Thymeleaf/20180825153015.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/Thymeleaf/20180825153613.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/Thymeleaf/20180827165628.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/Thymeleaf/20180831155117.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/Thymeleaf/20180911090023.png">
+<meta property="og:updated_time" content="2018-09-11T01:23:34.605Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="每周一篇之Thymeleaf">
+<meta name="twitter:description" content="前言 　Spring boot推荐的模版">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/09/Thymeleaf/20180825150240.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/09/Thymeleaf/">
+
+
+
+
+
+  <title>每周一篇之Thymeleaf | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">god helps those who help themselves</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/Thymeleaf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="浅浅">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">每周一篇之Thymeleaf</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-09T20:08:41+08:00">
+                2019-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/每周一篇/" itemprop="url" rel="index">
+                    <span itemprop="name">每周一篇</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/09/Thymeleaf/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/09/Thymeleaf/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>　Spring boot推荐的模版<br><a id="more"></a></p>
+</blockquote>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><h3 id="Thymeleaf简介"><a href="#Thymeleaf简介" class="headerlink" title="Thymeleaf简介"></a>Thymeleaf简介</h3><blockquote>
+<p>　Thymeleaf是面向Web和独立环境的现代服务器端Java模板引擎，能够处理HTML，XML，JavaScript，CSS甚至纯文本,Thymeleaf 是一个跟 Velocity、FreeMarker 类似的模板引擎，它可以完全替代 JSP ;</p>
+</blockquote>
+<h3 id="Thymeleaf的特点"><a href="#Thymeleaf的特点" class="headerlink" title="Thymeleaf的特点"></a>Thymeleaf的特点</h3><blockquote>
+<p>　1.Thymeleaf 在有网络和无网络的环境下皆可运行，即它可以让美工在浏览器查看页面的静态效果，也可以让程序员在服务器查看带数据的动态页面效果。这是由于它支持 html 原型，然后在 html 标签里增加额外的属性来达到模板+数据的展示方式。浏览器解释 html 时会忽略未定义的标签属性，所以 thymeleaf 的模板可以静态地运行；当有数据返回到页面时，Thymeleaf 标签会动态地替换掉静态内容，使页面动态显示。<br>　2.Thymeleaf 开箱即用的特性。它提供标准和spring标准两种方言，可以直接套用模板实现JSTL、 OGNL表达式效果，避免每天套模板、该jstl、改标签的困扰。同时开发人员也可以扩展和创建自定义的方言。<br>　3. Thymeleaf 提供spring标准方言和一个与 SpringMVC 完美集成的可选模块，可以快速的实现表单绑定、属性编辑器、国际化等功能</p>
+</blockquote>
+<p><a href="https://www.cnblogs.com/jiangbei/p/8462294.html" target="_blank" rel="noopener">简介和特点来源</a></p>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><blockquote>
+<p>　spring boot + Thymeleaf</p>
+</blockquote>
+<h3 id="实践前的准备"><a href="#实践前的准备" class="headerlink" title="实践前的准备"></a>实践前的准备</h3><h4 id="构建项目"><a href="#构建项目" class="headerlink" title="构建项目"></a>构建项目</h4><blockquote>
+<p>　使用spring官方网站生成一个spring boot项目,并导入依赖(减少自己搭建的时间)<br>　<a href="https://start.spring.io/" target="_blank" rel="noopener">spring生成项目网站</a>,点击Generate Project之后会生成一个解压包;<br><img src="20180825150240.png" alt="Alt text"><br>　或者在spring boot项目加入依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h4 id="application-properties"><a href="#application-properties" class="headerlink" title="application.properties"></a>application.properties</h4><blockquote>
+<p>　配置Thymeleaf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">　##############################</span><br><span class="line">　###  thymeleaf</span><br><span class="line">　##############################</span><br><span class="line">　#thymeleaf start</span><br><span class="line">　spring.thymeleaf.mode=HTML5</span><br><span class="line">　spring.thymeleaf.encoding=UTF-8</span><br><span class="line">　#spring boot 官方建议关闭缓存 开发时关闭缓存,不然没法看到实时页面</span><br><span class="line">　spring.thymeleaf.cache=false</span><br><span class="line">　# 定位模板的目录</span><br><span class="line">　spring.mvc.view.prefix=classpath:/templates/</span><br><span class="line">　#定位静态位置 如果不定义静态路径在static文件夹下再创建一个static文件夹 待验证</span><br><span class="line">　spring.resources.static-locations:classpath:/</span><br><span class="line">　# 给返回的页面添加后缀名</span><br><span class="line">　spring.mvc.view.suffix=.html</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="开始实践"><a href="#开始实践" class="headerlink" title="开始实践"></a>开始实践</h3><h4 id="spring-boot-Thymeleaf-实现helloword"><a href="#spring-boot-Thymeleaf-实现helloword" class="headerlink" title="spring boot + Thymeleaf 实现helloword"></a>spring boot + Thymeleaf 实现helloword</h4><blockquote>
+<p>　首先在在com.example.demo.controller包下新建一个HelloController<br>　注:DemoApplication一定要在最外层,否则会读取不到controller类<br>　在resources的templates下新建一个index.html 目录如下<br><img src="20180825153015.png" alt="Alt text"></p>
+</blockquote>
+<h5 id="HelloController"><a href="#HelloController" class="headerlink" title="HelloController"></a>HelloController</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo.controller;</span><br><span class="line"></span><br><span class="line">import org.springframework.stereotype.Controller;</span><br><span class="line">import org.springframework.ui.Model;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"></span><br><span class="line">@Controller</span><br><span class="line">public class HelloController &#123; </span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     *  /hello 为访问地址:localhost:8080/hello</span><br><span class="line">     *  index为静态页面名称</span><br><span class="line">     * @param model</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @RequestMapping(&quot;/hello&quot;)</span><br><span class="line">    public String hello(Model model)&#123;</span><br><span class="line">        model.addAttribute(&quot;name&quot;,&quot;Daer&quot;);</span><br><span class="line">        return &quot;index&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h5><blockquote>
+<p>　引入<html xmlns:th="http://www.thymeleaf.org">标签库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">	&lt;head&gt;</span><br><span class="line">		&lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">		&lt;title&gt;Thymeleaf&lt;/title&gt;</span><br><span class="line">	&lt;/head&gt;</span><br><span class="line">	&lt;body&gt;</span><br><span class="line">		&lt;p th:text=&quot;&apos;Hello！, &apos; + $&#123;name&#125; + &apos;!&apos;&quot;&gt;3333&lt;/p&gt;</span><br><span class="line">	&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></html></p>
+</blockquote>
+<blockquote>
+<p>　之后启动DemoApplication类的main方法,访问localhost:8080/hello<br><img src="20180825153613.png" alt="Alt text"></p>
+</blockquote>
+<h4 id="spring-boot-Thymeleaf-实现循环显示"><a href="#spring-boot-Thymeleaf-实现循环显示" class="headerlink" title="spring boot + Thymeleaf 实现循环显示"></a>spring boot + Thymeleaf 实现循环显示</h4><blockquote>
+<p>　在HelloController类中新增一个接口getAll,Pote为实体类,代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@GetMapping(&quot;/getAll&quot;)</span><br><span class="line">public ModelAndView getAll(ModelAndView modelAndView)&#123;</span><br><span class="line">	List&lt;Pote&gt; list=new ArrayList&lt;Pote&gt;();</span><br><span class="line">	list.add(new Pote(1,&quot;Dawe&quot;,23));</span><br><span class="line">	list.add(new Pote(2,&quot;Wes&quot;,24));</span><br><span class="line">	list.add(new Pote(3,&quot;De&quot;,25));</span><br><span class="line">	modelAndView.addObject(&quot;list&quot;,list);</span><br><span class="line">	//获取页面的Name,类似与上面直接返回一个hello一样</span><br><span class="line">	modelAndView.setViewName(&quot;PageIndex&quot;);</span><br><span class="line">	return modelAndView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　在resources的templates下新建一个PageIndex.html 代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset=&quot;UTF-8&quot;/&gt;</span><br><span class="line">&lt;title&gt;Insert title here&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;table&gt;</span><br><span class="line">		&lt;thead&gt;</span><br><span class="line">			&lt;tr&gt;</span><br><span class="line">				&lt;th&gt;序号&lt;/th&gt;</span><br><span class="line">				&lt;th&gt;用户名&lt;/th&gt;</span><br><span class="line">				&lt;th&gt;年齡&lt;/th&gt;</span><br><span class="line">			&lt;/tr&gt;</span><br><span class="line">			&lt;tr th:each=&quot;user:$&#123;list&#125;&quot;&gt;</span><br><span class="line">				&lt;td th:text=&quot;$&#123;user.id&#125;&quot;&gt;&lt;/td&gt;</span><br><span class="line">				&lt;td th:text=&quot;$&#123;user.name&#125;&quot;&gt;&lt;/td&gt;</span><br><span class="line">				&lt;td th:text=&quot;$&#123;user.age&#125;&quot;&gt;&lt;/td&gt;</span><br><span class="line">			&lt;/tr&gt;</span><br><span class="line">		&lt;/thead&gt;</span><br><span class="line">	&lt;/table&gt;</span><br><span class="line">	</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　完成后启动DemoApplication类的main方法,访问localhost:8080/getAll,结果如下图:<br><img src="20180827165628.png" alt="Alt text"></p>
+</blockquote>
+<h4 id="HTML中引入静态文件"><a href="#HTML中引入静态文件" class="headerlink" title="HTML中引入静态文件"></a>HTML中引入静态文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot; th:src=&quot;@&#123;~/static/js/index.js&#125;&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="20180831155117.png" alt="Alt text"></p>
+<h4 id="spring-boot-Thymeleaf-实现一个增删改查"><a href="#spring-boot-Thymeleaf-实现一个增删改查" class="headerlink" title="spring boot + Thymeleaf 实现一个增删改查"></a>spring boot + Thymeleaf 实现一个增删改查</h4><blockquote>
+<p>　使用SpringBoot+Thymeleaf来实现一个最简单的增删改查</p>
+</blockquote>
+<h5 id="首先来张目录结构图"><a href="#首先来张目录结构图" class="headerlink" title="首先来张目录结构图"></a>首先来张目录结构图</h5><p><img src="20180911090023.png" alt="Alt text"></p>
+<h5 id="开始编码"><a href="#开始编码" class="headerlink" title="开始编码"></a>开始编码</h5><h6 id="后台编码"><a href="#后台编码" class="headerlink" title="后台编码"></a>后台编码</h6><blockquote>
+<p>　先来一个User类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line"></span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;</span><br><span class="line">    private String email;</span><br><span class="line">	//省略gettser,setter,toString</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　UserRepository.java,提供增删改成的接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package com.example.repository;</span><br><span class="line"></span><br><span class="line">import com.example.domain.User;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public interface UserRepository &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 创建或者修改</span><br><span class="line">      * @param user</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    User saveOrUpdateUser(User user);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 删除用户</span><br><span class="line">     * @param id</span><br><span class="line">     */</span><br><span class="line">    void deleteUser(Long id);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 根据id查询用户</span><br><span class="line">     * @param id</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    User getUserById(Long id);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取用户列表</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    List&lt;User&gt; listUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　UserRepositoryImpl.java实现UserRepository中的接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">package com.example.repository;</span><br><span class="line"></span><br><span class="line">import com.example.domain.User;</span><br><span class="line">import org.springframework.stereotype.Repository;</span><br><span class="line"></span><br><span class="line">import java.util.*;</span><br><span class="line">import java.util.concurrent.ConcurrentHashMap;</span><br><span class="line">import java.util.concurrent.ConcurrentMap;</span><br><span class="line">import java.util.concurrent.atomic.AtomicLong;</span><br><span class="line"></span><br><span class="line">@Repository</span><br><span class="line">public class UserRepositoryImpl implements UserRepository &#123;</span><br><span class="line">    private static AtomicLong counter = new AtomicLong();</span><br><span class="line">    private final ConcurrentMap&lt;Long, User&gt; usersMap = new ConcurrentHashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public User saveOrUpdateUser(User user) &#123;</span><br><span class="line">        Long id=user.getId();</span><br><span class="line">        if(id==null)&#123;</span><br><span class="line">            id=counter.incrementAndGet();</span><br><span class="line">            user.setId(id);</span><br><span class="line">        &#125;</span><br><span class="line">        this.usersMap.put(id,user);</span><br><span class="line">        return user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void deleteUser(Long id) &#123;</span><br><span class="line">        this.usersMap.remove(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public User getUserById(Long id) &#123;</span><br><span class="line"></span><br><span class="line">        return  this.usersMap.get(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public List&lt;User&gt; listUser() &#123;</span><br><span class="line">        return new ArrayList&lt;User&gt;(this.usersMap.values());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　控制层<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">package com.example.controller;</span><br><span class="line"></span><br><span class="line">import com.example.domain.User;</span><br><span class="line">import com.example.repository.UserRepository;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.ui.Model;</span><br><span class="line">import org.springframework.web.bind.annotation.*;</span><br><span class="line">import org.springframework.web.servlet.ModelAndView;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/users&quot;)</span><br><span class="line">public class UserController &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private UserRepository userRepository;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 查询所有的用户</span><br><span class="line">     * @param model</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @GetMapping</span><br><span class="line">    public ModelAndView list(Model model)&#123;</span><br><span class="line">        model.addAttribute(&quot;userList&quot;,userRepository.listUser());</span><br><span class="line">        model.addAttribute(&quot;title&quot;,&quot;用户管理&quot;);</span><br><span class="line">        return new ModelAndView(&quot;users/list&quot;,&quot;userModel&quot;,model);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 根据id查询用户</span><br><span class="line">     * @param id</span><br><span class="line">     * @param model</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @GetMapping(&quot;&#123;id&#125;&quot;)</span><br><span class="line">    public ModelAndView view(@PathVariable(&quot;id&quot;)Long id, Model model)&#123;</span><br><span class="line">        User user =userRepository.getUserById(id);</span><br><span class="line">        model.addAttribute(&quot;user&quot;,user);</span><br><span class="line">        model.addAttribute(&quot;title&quot;,&quot;查询用户&quot;);</span><br><span class="line">        return new ModelAndView(&quot;users/view&quot;,&quot;userModel&quot;,model);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取创建表单页面</span><br><span class="line">     * @param model</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @GetMapping(&quot;/form&quot;)</span><br><span class="line">    public ModelAndView createForm(Model model)&#123;</span><br><span class="line">        model.addAttribute(&quot;user&quot;,new User());</span><br><span class="line">        model.addAttribute(&quot;title&quot;,&quot;创建用户&quot;);</span><br><span class="line">        return new ModelAndView(&quot;users/form&quot;,&quot;userModel&quot;,model);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /***</span><br><span class="line">     * 保存或者修改用户</span><br><span class="line">     * @param user</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @PostMapping</span><br><span class="line">    public ModelAndView saveOrUpdateUser(User user)&#123;</span><br><span class="line"></span><br><span class="line">        userRepository.saveOrUpdateUser(user);</span><br><span class="line">        return new ModelAndView(&quot;redirect:/users&quot;);//重定向到list页面</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 根据id删除</span><br><span class="line">     * @param id</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @GetMapping(&quot;/delete/&#123;id&#125;&quot;)</span><br><span class="line">    public ModelAndView delete(@PathVariable(&quot;id&quot;) Long id)&#123;</span><br><span class="line">        userRepository.deleteUser(id);</span><br><span class="line">        return new ModelAndView(&quot;redirect:/users&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取修改用户的界面</span><br><span class="line">     * @param id</span><br><span class="line">     * @param model</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @GetMapping(&quot;/modify/&#123;id&#125;&quot;)</span><br><span class="line">    public ModelAndView modify(@PathVariable(&quot;id&quot;)Long id,Model model)&#123;</span><br><span class="line">        User user=userRepository.getUserById(id);</span><br><span class="line">        model.addAttribute(&quot;user&quot;,user);</span><br><span class="line">        model.addAttribute(&quot;title&quot;,&quot;修改用户&quot;);</span><br><span class="line">        return new ModelAndView(&quot;users/form&quot;,&quot;userModel&quot;,model);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h6 id="前台编码"><a href="#前台编码" class="headerlink" title="前台编码"></a>前台编码</h6><blockquote>
+<p>　页面头部<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;</span><br><span class="line">      xmlns:layout=&quot;http://www.ultraq.net.nz/thymeleaf/layout&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;header&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div th:fragment=&quot;header&quot;&gt;</span><br><span class="line">    &lt;h1&gt;Thymeleaf in action&lt;/h1&gt;</span><br><span class="line">    &lt;a href=&quot;/users&quot; th:href=&quot;@&#123;~/users&#125;&quot;&gt;首页&lt;/a&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　页面底部<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;</span><br><span class="line">      xmlns:layout=&quot;http://www.ultraq.net.nz/thymeleaf/layout&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">        &lt;div th:fragment=&quot;footer&quot;&gt;</span><br><span class="line">            &lt;a href=&quot;https://waylau.com&quot;&gt;welcome to waylau.com&lt;/a&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　显示页<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;</span><br><span class="line">      xmlns:layout=&quot;http://www.ultraq.net.nz/thymeleaf/layout&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div th:replace=&quot;~&#123;fragments/header :: header&#125;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;h3 th:text=&quot;$&#123;userModel.title&#125;&quot;&gt;waylau&lt;/h3&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;a href=&quot;/users/form.html&quot; th:href=&quot;@&#123;~/users/form&#125;&quot;&gt;创建用户&lt;/a&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;table border=&quot;1&quot;&gt;</span><br><span class="line">    &lt;thead&gt;</span><br><span class="line">        &lt;tr&gt;</span><br><span class="line">            &lt;td&gt;ID&lt;/td&gt;</span><br><span class="line">            &lt;td&gt;Email&lt;/td&gt;</span><br><span class="line">            &lt;td&gt;Name&lt;/td&gt;</span><br><span class="line">        &lt;/tr&gt;</span><br><span class="line">    &lt;/thead&gt;</span><br><span class="line">    &lt;tbody&gt;</span><br><span class="line">    &lt;tr th:if=&quot;$&#123;userModel.userList.size()&#125; eq 0 &quot;&gt;</span><br><span class="line">        &lt;td colspan=&quot;3&quot;&gt;没有用户信息&lt;/td&gt;</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">        &lt;tr th:each=&quot;user: $&#123;userModel.userList&#125;&quot;&gt;</span><br><span class="line">            &lt;td th:text=&quot;$&#123;user.id&#125;&quot;&gt;&lt;/td&gt;</span><br><span class="line">            &lt;td th:text=&quot;$&#123;user.email&#125;&quot;&gt;&lt;/td&gt;</span><br><span class="line">            &lt;td&gt;&lt;a th:href=&quot;@&#123;&apos;/users/&apos;+$&#123;user.id&#125;&#125;&quot; th:text=&quot;$&#123;user.name&#125;&quot;&gt;&lt;/a&gt;&lt;/td&gt;</span><br><span class="line">        &lt;/tr&gt;</span><br><span class="line">    &lt;/tbody&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line">&lt;div th:replace=&quot;~&#123;fragments/footer :: footer&#125;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　增加页<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;</span><br><span class="line">      xmlns:layout=&quot;http://www.ultraq.net.nz/thymeleaf/layout&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div th:replace=&quot;~&#123;fragments/header :: header&#125;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;h3 th:text=&quot;$&#123;userModel.title&#125;&quot;&gt;waylau&lt;/h3&gt;</span><br><span class="line">&lt;form action=&quot;/users&quot; th:action=&quot;@&#123;/users&#125;&quot; method=&quot;post&quot; th:object=&quot;$&#123;userModel.user&#125;&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;hidden&quot; name=&quot;id&quot; th:value=&quot;*&#123;id&#125;&quot;&gt;</span><br><span class="line">    名称:&lt;br&gt;</span><br><span class="line">    &lt;input type=&quot;text&quot; name=&quot;name&quot; th:value=&quot;*&#123;name&#125;&quot;&gt;</span><br><span class="line">    &lt;br&gt;</span><br><span class="line">    邮箱:&lt;br&gt;</span><br><span class="line">    &lt;input type=&quot;text&quot; name=&quot;email&quot; th:value=&quot;*&#123;email&#125;&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;div th:replace=&quot;~&#123;fragments/footer :: footer&#125;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　修改或者删除页<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;</span><br><span class="line">      xmlns:layout=&quot;http://www.ultraq.net.nz/thymeleaf/layout&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div th:replace=&quot;~&#123;fragments/header :: header&#125;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;h3 th:text=&quot;$&#123;userModel.title&#125;&quot;&gt;waylau&lt;/h3&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;p&gt;&lt;strong&gt;ID:&lt;/strong&gt;&lt;span th:text=&quot;$&#123;userModel.user.id&#125;&quot;&gt;&lt;/span&gt;&lt;/p&gt;</span><br><span class="line">    &lt;p&gt;&lt;strong&gt;Name:&lt;/strong&gt;&lt;span th:text=&quot;$&#123;userModel.user.name&#125;&quot;&gt;&lt;/span&gt;&lt;/p&gt;</span><br><span class="line">    &lt;p&gt;&lt;strong&gt;Email:&lt;/strong&gt;&lt;span th:text=&quot;$&#123;userModel.user.email&#125;&quot;&gt;&lt;/span&gt;&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;a th:href=&quot;@&#123;&apos;/users/delete/&apos;+$&#123;userModel.user.id&#125;&#125;&quot;&gt;删除&lt;/a&gt;</span><br><span class="line">    &lt;a th:href=&quot;@&#123;&apos;/users/modify/&apos;+$&#123;userModel.user.id&#125;&#125;&quot;&gt;修改&lt;/a&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div th:replace=&quot;~&#123;fragments/footer :: footer&#125;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　一个很简单的增删改查</p>
+</blockquote>
+<h2 id="待续…"><a href="#待续…" class="headerlink" title="待续…."></a>待续….</h2><blockquote>
+<p>　后期使用时,在继续添加,不经过使用简单记录效果不理想….</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+
+<div>
+
+    <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>其它文章也很精彩哦!-------------</div>
+
+</div>
+
+</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag"><i class="fa fa-tag"></i> 前端</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/09/Stream/" rel="next" title="JAVA 8的新特性之Stream">
+                <i class="fa fa-chevron-left"></i> JAVA 8的新特性之Stream
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/09/年前清单/" rel="prev" title="2018年总结">
+                2018年总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/tx.jpg" alt="浅浅">
+            
+              <p class="site-author-name" itemprop="name">浅浅</p>
+              <p class="site-description motion-element" itemprop="description">god helps those who help themselves</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+    
+
+          
+<div id="days"></div>
+
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/12/2018 13:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Thymeleaf简介"><span class="nav-number">2.1.</span> <span class="nav-text">Thymeleaf简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thymeleaf的特点"><span class="nav-number">2.2.</span> <span class="nav-text">Thymeleaf的特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践"><span class="nav-number">3.</span> <span class="nav-text">实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实践前的准备"><span class="nav-number">3.1.</span> <span class="nav-text">实践前的准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#构建项目"><span class="nav-number">3.1.1.</span> <span class="nav-text">构建项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#application-properties"><span class="nav-number">3.1.2.</span> <span class="nav-text">application.properties</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开始实践"><span class="nav-number">3.2.</span> <span class="nav-text">开始实践</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#spring-boot-Thymeleaf-实现helloword"><span class="nav-number">3.2.1.</span> <span class="nav-text">spring boot + Thymeleaf 实现helloword</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#HelloController"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">HelloController</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#index-html"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">index.html</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#spring-boot-Thymeleaf-实现循环显示"><span class="nav-number">3.2.2.</span> <span class="nav-text">spring boot + Thymeleaf 实现循环显示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTML中引入静态文件"><span class="nav-number">3.2.3.</span> <span class="nav-text">HTML中引入静态文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#spring-boot-Thymeleaf-实现一个增删改查"><span class="nav-number">3.2.4.</span> <span class="nav-text">spring boot + Thymeleaf 实现一个增删改查</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#首先来张目录结构图"><span class="nav-number">3.2.4.1.</span> <span class="nav-text">首先来张目录结构图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#开始编码"><span class="nav-number">3.2.4.2.</span> <span class="nav-text">开始编码</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#后台编码"><span class="nav-number">3.2.4.2.1.</span> <span class="nav-text">后台编码</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#前台编码"><span class="nav-number">3.2.4.2.2.</span> <span class="nav-text">前台编码</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待续…"><span class="nav-number">4.</span> <span class="nav-text">待续….</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">浅浅</span>
+
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span>|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mYVQfCaDN28mIPACWSc9xGj9-gzGzoHsz',
+        appKey: 'jmk9lXQnNrJdxc4BDrBXi6lE',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":140,"height":260},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

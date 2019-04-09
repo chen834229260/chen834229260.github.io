@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #ADD8E6; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="BOOK,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第八章节:JVM内存管理;">
+<meta name="keywords" content="BOOK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入分析Java Web技术内幕:第八章">
+<meta property="og:url" content="http://yoursite.com/2019/04/09/JavaWebEnght/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第八章节:JVM内存管理;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-26T08:53:16.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入分析Java Web技术内幕:第八章">
+<meta name="twitter:description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第八章节:JVM内存管理;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/09/JavaWebEnght/">
+
+
+
+
+
+  <title>深入分析Java Web技术内幕:第八章 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">god helps those who help themselves</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/JavaWebEnght/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="浅浅">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入分析Java Web技术内幕:第八章</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-09T20:08:41+08:00">
+                2019-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/09/JavaWebEnght/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/09/JavaWebEnght/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第八章节:JVM内存管理;<br><a id="more"></a><br>　在Java中,分配内存和回收内存都由JVM自动完成的,但Java是如何管理内存的?为什么Java也有内存泄漏,要快速的知道到底什么地方导致了OutOfMenmoryError,并能根据错误日志快速定位出错原因,本章从操作系统层面介绍物理内存的分配和Java运行的内存分配之间的关系,也就是先搞明白在Java中使用的内存和物理内存有何区别,其次介绍Java如何使用从物理内存申请下来的内存,以及如何来划分它们,后面还会介绍Java的核心技术,如何分配和回收内存,最后通过一些例子介绍如何解决OutOfMemoryError;</p>
+</blockquote>
+<h3 id="物理内存和虚拟内存"><a href="#物理内存和虚拟内存" class="headerlink" title="物理内存和虚拟内存"></a>物理内存和虚拟内存</h3><blockquote>
+<p>　所谓的物理内存就是RAM(随机存储器),在计算机中,还有一个单元叫寄存器,它用于存储计算单元执行指令(如浮点,整数等运算时)的中间结果,寄存器的大小决定了一次计算可使用的最大数值</p>
+</blockquote>
+<blockquote>
+<p>　<code>连接处理器和RAM或者处理器和寄存器的是地址总线,这个地址总线的宽度影响了物理地址的索引范围,因为总线的宽度决定了处理器一次可以从寄存器或者内存中获取多少个bit</code>,同时也决定了处理器最大可以寻址的地址空间,如32位地址总线的宽度可以有4GB的内存控件.</p>
+</blockquote>
+<blockquote>
+<p>　<code>不管是在Windows系统还是Linux系统下,我们要运行程序,都要向操作系统先申请内存地址,通常操作系统管理系统管理内存的申请控件是按照进程来管理的,每个进程拥有一段独立的地址空间</code>,每个进程之间不会相互重合,操作系统也会保证每个进程只能访问自己的内存空间,这主要是从程序的安全下来考虑的,也便于操作系统来管理物理内存.</p>
+</blockquote>
+<blockquote>
+<p>　当程序越来越庞大和设计的多任务性,物理内存无法满足程序的需求,在这种情况下就有了虚拟内存的出现,虚拟内存的出现使的多个进程在同时运行时可以共享物理内存,提高内存利用率,而且能够扩展内存的地址控件;</p>
+</blockquote>
+<h3 id="内核空间与用户空间"><a href="#内核空间与用户空间" class="headerlink" title="内核空间与用户空间"></a>内核空间与用户空间</h3><blockquote>
+<p>　<code>内核控件主要是值操作系统运行时所使用的用于程序调度,虚拟内存的使用或者连接硬件资源等的程序逻辑</code>.</p>
+</blockquote>
+<h4 id="为何需要内存空间和用户空间划分呢"><a href="#为何需要内存空间和用户空间划分呢" class="headerlink" title="为何需要内存空间和用户空间划分呢?"></a>为何需要内存空间和用户空间划分呢?</h4><blockquote>
+<p>　<code>为了保证操作系统的稳定性,运行在操作系统中的用户程序不能访问操作系统所使用的内存空间,这也是从安全性考虑</code>,如访问硬件资源只能由操作系统来发起,用户程序不允许直接访问硬件资源,如果用户程序需要访问硬件资源,如网络连接等,可以调用操作系统提供的接口来实现,这个调用的过程也就是系统调用,每一次系统调用都会存在两个内存空间的切换,通常的网络传输也是一次系统调用,通过网络传输的数据先是从内核空间接收到远程主机的数据,然后再从内核空间复制到用户空间,供用户程序使用.</p>
+</blockquote>
+<h3 id="在Java中哪些组件需要使用内存"><a href="#在Java中哪些组件需要使用内存" class="headerlink" title="在Java中哪些组件需要使用内存"></a>在Java中哪些组件需要使用内存</h3><blockquote>
+<p>　Java启动后也作为一个进程运行在操作系统中,那么这个进程有哪些部分需要分配内存空间呢?</p>
+</blockquote>
+<h4 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h4><blockquote>
+<p>　Java堆是用于存储Java对象的内存区域,<code>堆的大小在JVM启动时就一次向操作系统申请完成,通过-Xmx和-Xms两个选项来控制大小,一旦分配完成,堆的大小就固定了,不能在内存不够时再向操作系统重新申请,同时当内存空闲时也不能将多余的空间交还给操作系统,在Java堆中内存的管理由JVM来控制</code>,对象创建由Java应用程序控制,但是对象所占的空间释放由管理堆内存的垃圾收集器来完成,根据GC算法的不同,内存回收的方式和时机也会不同.</p>
+</blockquote>
+<h4 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h4><blockquote>
+<p>　JVM运行实际程序的实体是线程,当然线程需要内存空间来存储一些必要的数据,每个线程创建时JVM都会为它创建一个堆栈,通常在256KB~756KB之间.</p>
+</blockquote>
+<h4 id="类和类加载器"><a href="#类和类加载器" class="headerlink" title="类和类加载器"></a>类和类加载器</h4><blockquote>
+<p>　在Java中的类和夹在类的类加载器本身同样需要存储控件,在Sun JDK中它们被存储在堆中,这个区域叫做永久代(PermGen区)</p>
+</blockquote>
+<blockquote>
+<p>　<code>JVM不会将整个Jar包里的类都加载到内存中,JVM只会加载那些在你的应用程序中明确使用的类到内存中</code></p>
+</blockquote>
+<h4 id="JNI"><a href="#JNI" class="headerlink" title="JNI"></a>JNI</h4><blockquote>
+<p>　JNI技术使的本机代码可以调用Java代码,也就是通常所说的native memory,实际上Java运行时本身也依赖于JNI代码来实现类库功能,如文件操作,网络I/O操作或者其他系统调用,所以JNI也会增加Java运行时的本机内存占用</p>
+</blockquote>
+<h3 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h3><blockquote>
+<p>　在Java虚拟机规范中将Java运行时数据划分为以下6种</p>
+</blockquote>
+<blockquote>
+<p>　1. PC寄存器数据;<br>　2. Java栈<br>　3. 堆<br>　4. 方法区<br>　5. 本地方法区<br>　6. 运行时常量池</p>
+</blockquote>
+<h4 id="PC寄存器"><a href="#PC寄存器" class="headerlink" title="PC寄存器"></a>PC寄存器</h4><blockquote>
+<p>　PC寄存器严格来说是一个数据结构,它用于保存当前正常执行的程序的内存地址,同时Java程序是多线程执行的,所以不可能一直在按照线性执行下去,当有多个线程交叉执行时,被中断线程的程序当前执行到哪条的内存地址必然要保存下来.以便于它被恢复执行时再按照被中断时的指令地址继续执行下去.</p>
+</blockquote>
+<h2 id="待续…"><a href="#待续…" class="headerlink" title="待续….."></a>待续…..</h2>
+      
+    </div>
+    
+    
+    
+
+	<div>
+
+<div>
+
+    <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>其它文章也很精彩哦!-------------</div>
+
+</div>
+
+</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/BOOK/" rel="tag"><i class="fa fa-tag"></i> BOOK</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/09/JavaWeb/" rel="next" title="深入分析Java Web技术内幕:第一章">
+                <i class="fa fa-chevron-left"></i> 深入分析Java Web技术内幕:第一章
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/09/JavaWebFifteen/" rel="prev" title="深入分析Java Web技术内幕:第十五章">
+                深入分析Java Web技术内幕:第十五章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/tx.jpg" alt="浅浅">
+            
+              <p class="site-author-name" itemprop="name">浅浅</p>
+              <p class="site-description motion-element" itemprop="description">god helps those who help themselves</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+    
+
+          
+<div id="days"></div>
+
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/12/2018 13:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#物理内存和虚拟内存"><span class="nav-number">1.1.</span> <span class="nav-text">物理内存和虚拟内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内核空间与用户空间"><span class="nav-number">1.2.</span> <span class="nav-text">内核空间与用户空间</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为何需要内存空间和用户空间划分呢"><span class="nav-number">1.2.1.</span> <span class="nav-text">为何需要内存空间和用户空间划分呢?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Java中哪些组件需要使用内存"><span class="nav-number">1.3.</span> <span class="nav-text">在Java中哪些组件需要使用内存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java堆"><span class="nav-number">1.3.1.</span> <span class="nav-text">Java堆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程"><span class="nav-number">1.3.2.</span> <span class="nav-text">线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类和类加载器"><span class="nav-number">1.3.3.</span> <span class="nav-text">类和类加载器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JNI"><span class="nav-number">1.3.4.</span> <span class="nav-text">JNI</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM内存结构"><span class="nav-number">1.4.</span> <span class="nav-text">JVM内存结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PC寄存器"><span class="nav-number">1.4.1.</span> <span class="nav-text">PC寄存器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待续…"><span class="nav-number">2.</span> <span class="nav-text">待续…..</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">浅浅</span>
+
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span>|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mYVQfCaDN28mIPACWSc9xGj9-gzGzoHsz',
+        appKey: 'jmk9lXQnNrJdxc4BDrBXi6lE',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":140,"height":260},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #ADD8E6; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JAVA,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 　接触JAVA一年有余,对于JAVA基础从未认真的进行过总结,导致一些基础问题云里雾里,故开篇对JAVA基础做一次总结,本篇为第十篇,JAVA集合中的TreeSet;">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java提高集合之TreeSet">
+<meta property="og:url" content="http://yoursite.com/2019/04/09/JavaIncreaseTreeSet/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言 　接触JAVA一年有余,对于JAVA基础从未认真的进行过总结,导致一些基础问题云里雾里,故开篇对JAVA基础做一次总结,本篇为第十篇,JAVA集合中的TreeSet;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-19T01:48:27.283Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java提高集合之TreeSet">
+<meta name="twitter:description" content="前言 　接触JAVA一年有余,对于JAVA基础从未认真的进行过总结,导致一些基础问题云里雾里,故开篇对JAVA基础做一次总结,本篇为第十篇,JAVA集合中的TreeSet;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/09/JavaIncreaseTreeSet/">
+
+
+
+
+
+  <title>Java提高集合之TreeSet | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">god helps those who help themselves</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/JavaIncreaseTreeSet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="浅浅">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java提高集合之TreeSet</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-09T20:08:41+08:00">
+                2019-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/09/JavaIncreaseTreeSet/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/09/JavaIncreaseTreeSet/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>　接触JAVA一年有余,对于JAVA基础从未认真的进行过总结,导致一些基础问题云里雾里,故开篇对JAVA基础做一次总结,本篇为第十篇,JAVA集合中的TreeSet;<br><a id="more"></a></p>
+</blockquote>
+<h2 id="正篇"><a href="#正篇" class="headerlink" title="正篇"></a>正篇</h2><h3 id="TreeSet的概念"><a href="#TreeSet的概念" class="headerlink" title="TreeSet的概念"></a>TreeSet的概念</h3><blockquote>
+<p>　Java中的TreeSet是Set的一个子类,TreeSet集合是用来对象元素进行排序的,同样他也可以保证元素的唯一.</p>
+</blockquote>
+<h3 id="TreeSet的特点"><a href="#TreeSet的特点" class="headerlink" title="TreeSet的特点"></a>TreeSet的特点</h3><blockquote>
+<p>　TreeSet可以指定一个顺序,对象存入之后会按照指定的顺序排列,也就是说TreeSet是可以用来排序的;</p>
+</blockquote>
+<h4 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h4><blockquote>
+<p>　1. 自然排序(Comparable)<br>　　TreeSet类的add()方法中会把存入的对象提升为Comparable类型<br>　　调用对象的compareTo()方法和集合中的对象比较<br>　　根据compareTo()方法返回的结果进行存储<br>　2. 比较器排序(Comparator)<br>　　创建TreeSet的时候可以制定一个Comparator<br>　　如果传入Comparator的子类对象,那么TreeSet就会按照比较器中的顺序排序<br>　　add()方法内部会自动调用Comparator接口中compare()方法排序<br>　　调用的对象是compare方法的第一个参数,集合中的对象是compare方法的第二个参数<br>　3. 两种方式的区别<br>　　TreeSet构造函数什么都不传, 默认按照类中Comparable的顺序(没有就报错ClassCastException)<br>　　TreeSet如果传入Comparator, 就优先按照Comparator</p>
+</blockquote>
+<h3 id="TreeSet是如何进行排序的"><a href="#TreeSet是如何进行排序的" class="headerlink" title="TreeSet是如何进行排序的?"></a>TreeSet是如何进行排序的?</h3><blockquote>
+<p>　尝试向TreeSet中插入数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	TreeSet&lt;Person&gt; ts = new TreeSet&lt;&gt;();</span><br><span class="line">                ts.add(new Person(&quot;张三&quot;, 23));</span><br><span class="line">                ts.add(new Person(&quot;李四&quot;, 13));</span><br><span class="line">                ts.add(new Person(&quot;周七&quot;, 13));</span><br><span class="line">                ts.add(new Person(&quot;王五&quot;, 43));</span><br><span class="line">                ts.add(new Person(&quot;赵六&quot;, 33));</span><br><span class="line">       </span><br><span class="line">       System.out.println(ts);</span><br><span class="line">	//运行结果 Exception in thread &quot;main&quot; java.lang.ClassCastException: com.concurrency.Person cannot be cast to java.lang.Comparable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　运行结果出错,显然是出现了类型转换异常.原因在于我们需要告诉TreeSet如何来进行比较元素,如果不指定,就会抛出这个异常</p>
+</blockquote>
+<h4 id="如何告诉TreeSet按照什么方式来比较元素"><a href="#如何告诉TreeSet按照什么方式来比较元素" class="headerlink" title="如何告诉TreeSet按照什么方式来比较元素?"></a>如何告诉TreeSet按照什么方式来比较元素?</h4><blockquote>
+<p>　需要在添加元素的类中实现Comparable接口,并重写接口中的compareTo()方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Person implements Comparable&lt;Person&gt; &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    private int age;</span><br><span class="line">    ...</span><br><span class="line">    public int compareTo(Person o) &#123;</span><br><span class="line">        return 0;                //当compareTo方法返回0的时候集合中只有一个元素</span><br><span class="line">        return 1;                //当compareTo方法返回正数的时候集合会怎么存就怎么取</span><br><span class="line">        return -1;                //当compareTo方法返回负数的时候集合会倒序存储</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h4 id="为什么返回0-只会存一个元素-返回-1会倒序存储-返回1会怎么存就怎么取呢"><a href="#为什么返回0-只会存一个元素-返回-1会倒序存储-返回1会怎么存就怎么取呢" class="headerlink" title="为什么返回0,只会存一个元素,返回-1会倒序存储,返回1会怎么存就怎么取呢?"></a>为什么返回0,只会存一个元素,返回-1会倒序存储,返回1会怎么存就怎么取呢?</h4><blockquote>
+<p>　原因在于TreeSet底层其实是一个二叉树结构,且每插入一个新元素(第一个除外)都会调用compareTo()方法去和上一个插入的元素作比较,并按二叉树的结构进行排列.</p>
+</blockquote>
+<blockquote>
+<p>　1.  如果将compareTo()返回值写死为0,元素值每次比较,都认为是相同的元素,这时就不再向TreeSet中插入除第一个外的新元素.所以TreeSet中就只存在插入的第一个元素.<br>　2. 如果将compareTo()返回值写死为1,元素值每次比较,都认为新插入的元素比上一个元素大,于是二叉树存储时,会存在根的右侧,读取时就是正序排列的.<br>　3.  如果将compareTo()返回值写死为-1,元素值每次比较,都认为新插入的元素比上一个元素小,于是二叉树存储时,会存在根的左侧,读取时就是倒序序排列的.</p>
+</blockquote>
+<h4 id="利用上述规则-可以使用以下方式排序"><a href="#利用上述规则-可以使用以下方式排序" class="headerlink" title="利用上述规则,可以使用以下方式排序"></a>利用上述规则,可以使用以下方式排序</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//按照年龄</span><br><span class="line">int num = this.age - o.age;                //年龄是比较的主要条件</span><br><span class="line">              return num == 0 ? this.name.compareTo(o.name) : num;//姓名是比较的次要条件</span><br><span class="line"></span><br><span class="line">//按照姓名排序(依旧Unicode编码大小)</span><br><span class="line">int num = this.name.compareTo(o.name);        //姓名是主要条件</span><br><span class="line">              return num == 0 ? this.age - o.age : num;    //年龄是次要条件</span><br><span class="line"></span><br><span class="line">//按照姓名长度排序</span><br><span class="line">int length = this.name.length() - o.name.length();                //比较长度为主要条件</span><br><span class="line">              int num = length == 0 ? this.name.compareTo(o.name) : length;    //比较内容为次要条件</span><br><span class="line">              return num == 0 ? this.age - o.age : num;                        //比较年龄为次要条件</span><br></pre></td></tr></table></figure>
+<h2 id="以上来源于该博客博客链接"><a href="#以上来源于该博客博客链接" class="headerlink" title="以上来源于该博客博客链接"></a>以上来源于该博客<a href="https://www.cnblogs.com/yzssoft/p/7127894.html" target="_blank" rel="noopener">博客链接</a></h2><h2 id="TreeSet的源码"><a href="#TreeSet的源码" class="headerlink" title="TreeSet的源码"></a>TreeSet的源码</h2><h3 id="继承与实现"><a href="#继承与实现" class="headerlink" title="继承与实现"></a>继承与实现</h3><blockquote>
+<p>　TreeSet继承自AbstractSet,实现了NavigableSet<e>, Cloneable, java.io.Serializable接口,<br>Cloneable支持克隆,Serializable支持序列化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public class TreeSet&lt;E&gt; extends AbstractSet&lt;E&gt;</span><br><span class="line">    implements NavigableSet&lt;E&gt;, Cloneable, java.io.Serializable</span><br></pre></td></tr></table></figure></e></p>
+</blockquote>
+<h3 id="TreeSet中定义的变量"><a href="#TreeSet中定义的变量" class="headerlink" title="TreeSet中定义的变量"></a>TreeSet中定义的变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * The backing map.</span><br><span class="line">  */</span><br><span class="line"> private transient NavigableMap&lt;E,Object&gt; m;</span><br><span class="line">    </span><br><span class="line"> // Dummy value to associate with an Object in the backing Map</span><br><span class="line"> private static final Object PRESENT = new Object();</span><br></pre></td></tr></table></figure>
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Constructs a set backed by the specified navigable map.</span><br><span class="line"> */</span><br><span class="line">TreeSet(NavigableMap&lt;E,Object&gt; m) &#123;</span><br><span class="line">    this.m = m;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* 构造一个新的空树集，根据其元素的自然顺序进行排序。</span><br><span class="line">* 插入集合的所有元素都必须实现Comparable接口。</span><br><span class="line">* 此外，所有这些元素必须是相互可比的，</span><br><span class="line">* 不能对任何元素和集合抛出</span><br><span class="line">* 如果用户试图向集合添加违反此约束的元素</span><br><span class="line">* （例如，用户试图向其元素为整数的集合添加字符串元素）</span><br><span class="line">* 则调用将抛出  &#123;@code ClassCastException&#125;.</span><br><span class="line">*/</span><br><span class="line"> public TreeSet() &#123;</span><br><span class="line">        this(new TreeMap&lt;E,Object&gt;());</span><br><span class="line"> &#125;</span><br><span class="line">    </span><br><span class="line">  /**</span><br><span class="line">   * 构造一个新的空树集，根据指定的排序</span><br><span class="line">   * 比较器。插入集合中的所有元素必须是相互的</span><br><span class="line">   * 可由指定的比较器进行比较</span><br><span class="line">   * 集合中如果用户试图添加</span><br><span class="line">   * 违反此约束的集合的元素，</span><br><span class="line">   * &#123;@code add&#125;调用将抛出&#123;@code ClassCastException&#125;。</span><br><span class="line">   * @param比较器，用于订购该集合的比较器。</span><br><span class="line">   * 如果&#123;@code null&#125;，则&#123;@linkplain Comparable.</span><br><span class="line">   * 将使用元素的ordering&#125;。</span><br><span class="line">  */</span><br><span class="line"> public TreeSet(Comparator&lt;? super E&gt; comparator) &#123;</span><br><span class="line">            this(new TreeMap&lt;&gt;(comparator));</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> //构造一个新的空树集，根据指定的排序比较器</span><br><span class="line"> public TreeSet(Collection&lt;? extends E&gt; c) &#123;</span><br><span class="line">         this();</span><br><span class="line">         addAll(c);</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> //构造一个与指定有序 set 具有相同映射关系和相同排序的新 TreeSet。</span><br><span class="line"> public TreeSet(SortedSet&lt;E&gt; s) &#123;</span><br><span class="line">         this(s.comparator());</span><br><span class="line">         addAll(s);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="TreeSet中方法的使用"><a href="#TreeSet中方法的使用" class="headerlink" title="TreeSet中方法的使用"></a>TreeSet中方法的使用</h3><blockquote>
+<p>　向TreeSet中添加普通的字符串或者整数时,TreeSet会默认进行排序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">TreeSet ts=new TreeSet();</span><br><span class="line">// 添加元素</span><br><span class="line">ts.add(&quot;a&quot;);</span><br><span class="line">ts.add(&quot;e&quot;);</span><br><span class="line">ts.add(&quot;c&quot;);</span><br><span class="line">ts.add(&quot;b&quot;);</span><br><span class="line">//打印结果</span><br><span class="line">Iterator iterator = ts.iterator();</span><br><span class="line">while(iterator.hasNext()) &#123;</span><br><span class="line">    System.out.print(iterator.next() + &quot; &quot;);</span><br><span class="line">    //a b c e       结果可以看出,添加的元素自动进行了排序</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="完"><a href="#完" class="headerlink" title="完"></a>完</h2>
+      
+    </div>
+    
+    
+    
+
+	<div>
+
+<div>
+
+    <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>其它文章也很精彩哦!-------------</div>
+
+</div>
+
+</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA/" rel="tag"><i class="fa fa-tag"></i> JAVA</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/09/JavaIncreaseTreeMap/" rel="next" title="Java提高集合之TreeMap">
+                <i class="fa fa-chevron-left"></i> Java提高集合之TreeMap
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/09/JavaIncreaseVector/" rel="prev" title="Java提高集合之Vector">
+                Java提高集合之Vector <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/tx.jpg" alt="浅浅">
+            
+              <p class="site-author-name" itemprop="name">浅浅</p>
+              <p class="site-description motion-element" itemprop="description">god helps those who help themselves</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+    
+
+          
+<div id="days"></div>
+
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/12/2018 13:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正篇"><span class="nav-number">2.</span> <span class="nav-text">正篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeSet的概念"><span class="nav-number">2.1.</span> <span class="nav-text">TreeSet的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeSet的特点"><span class="nav-number">2.2.</span> <span class="nav-text">TreeSet的特点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用方式"><span class="nav-number">2.2.1.</span> <span class="nav-text">使用方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeSet是如何进行排序的"><span class="nav-number">2.3.</span> <span class="nav-text">TreeSet是如何进行排序的?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如何告诉TreeSet按照什么方式来比较元素"><span class="nav-number">2.3.1.</span> <span class="nav-text">如何告诉TreeSet按照什么方式来比较元素?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么返回0-只会存一个元素-返回-1会倒序存储-返回1会怎么存就怎么取呢"><span class="nav-number">2.3.2.</span> <span class="nav-text">为什么返回0,只会存一个元素,返回-1会倒序存储,返回1会怎么存就怎么取呢?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#利用上述规则-可以使用以下方式排序"><span class="nav-number">2.3.3.</span> <span class="nav-text">利用上述规则,可以使用以下方式排序</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以上来源于该博客博客链接"><span class="nav-number">3.</span> <span class="nav-text">以上来源于该博客博客链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TreeSet的源码"><span class="nav-number">4.</span> <span class="nav-text">TreeSet的源码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#继承与实现"><span class="nav-number">4.1.</span> <span class="nav-text">继承与实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeSet中定义的变量"><span class="nav-number">4.2.</span> <span class="nav-text">TreeSet中定义的变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造方法"><span class="nav-number">4.3.</span> <span class="nav-text">构造方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeSet中方法的使用"><span class="nav-number">4.4.</span> <span class="nav-text">TreeSet中方法的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完"><span class="nav-number">5.</span> <span class="nav-text">完</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">浅浅</span>
+
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span>|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mYVQfCaDN28mIPACWSc9xGj9-gzGzoHsz',
+        appKey: 'jmk9lXQnNrJdxc4BDrBXi6lE',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":140,"height":260},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

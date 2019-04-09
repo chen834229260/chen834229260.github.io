@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #ADD8E6; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JAVA,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 　接触JAVA一年有余,对于JAVA基础从未认真的进行过总结,导致一些基础问题云里雾里,故开篇对JAVA基础做一次总结,本篇为第五篇,JAVA集合中的ArrayList;">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java提高集合之ArrayList">
+<meta property="og:url" content="http://yoursite.com/2019/04/09/JavaIncreaseList/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言 　接触JAVA一年有余,对于JAVA基础从未认真的进行过总结,导致一些基础问题云里雾里,故开篇对JAVA基础做一次总结,本篇为第五篇,JAVA集合中的ArrayList;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/JavaIncreaseList/0181204111323.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/JavaIncreaseList/181204160638.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/JavaIncreaseList/0181204160704.png">
+<meta property="og:updated_time" content="2018-12-04T08:37:51.166Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java提高集合之ArrayList">
+<meta name="twitter:description" content="前言 　接触JAVA一年有余,对于JAVA基础从未认真的进行过总结,导致一些基础问题云里雾里,故开篇对JAVA基础做一次总结,本篇为第五篇,JAVA集合中的ArrayList;">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/09/JavaIncreaseList/0181204111323.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/09/JavaIncreaseList/">
+
+
+
+
+
+  <title>Java提高集合之ArrayList | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">god helps those who help themselves</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/JavaIncreaseList/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="浅浅">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java提高集合之ArrayList</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-09T20:08:41+08:00">
+                2019-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/09/JavaIncreaseList/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/09/JavaIncreaseList/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>　接触JAVA一年有余,对于JAVA基础从未认真的进行过总结,导致一些基础问题云里雾里,故开篇对JAVA基础做一次总结,本篇为第五篇,JAVA集合中的ArrayList;<br><a id="more"></a></p>
+</blockquote>
+<h2 id="正篇"><a href="#正篇" class="headerlink" title="正篇"></a>正篇</h2><h3 id="ArrayList的概述"><a href="#ArrayList的概述" class="headerlink" title="ArrayList的概述"></a>ArrayList的概述</h3><blockquote>
+<p>　ArrayList是基于数组实现的,是一个动态数组,其容量能自动增长.ArrayList不是线程安全的,只能用在单线程环境下.实现了Serializable接口,因此它支持序列化,能够通过序列化传输;实现了RandomAccess接口,支持快速随机访问,实际上就是通过下标序号进行快速访问;实现了Cloneable接口,能被克隆.</p>
+</blockquote>
+<h3 id="ArrayList的初始化"><a href="#ArrayList的初始化" class="headerlink" title="ArrayList的初始化"></a>ArrayList的初始化</h3><blockquote>
+<p>　transient: 当对象被序列化时（写入字节序列到目标文件）时，transient阻止实例中那些用此关键字声明的变量持久化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* The array buffer into which the elements of the ArrayList are stored.</span><br><span class="line">* The capacity of the ArrayList is the length of this array buffer. Any</span><br><span class="line">* empty ArrayList with elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA</span><br><span class="line">* will be expanded to DEFAULT_CAPACITY when the first element is added.</span><br><span class="line">*/</span><br><span class="line">transient Object[] elementData; // non-private to simplify nested class access</span><br><span class="line">	</span><br><span class="line">/**</span><br><span class="line">* 初始化大小</span><br><span class="line">*/</span><br><span class="line">private static final int DEFAULT_CAPACITY = 10;</span><br><span class="line">/*</span><br><span class="line">*下面这个是共享空常量数组</span><br><span class="line">*/</span><br><span class="line">private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = &#123;&#125;;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　当我们new ArrayList&lt;&gt;()时:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* Constructs an empty list with an initial capacity of ten.</span><br><span class="line">*/</span><br><span class="line">public ArrayList() &#123;</span><br><span class="line">     // DEFAULTCAPACITY_EMPTY_ELEMENTDATA是空数组</span><br><span class="line">     this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p><img src="0181204111323.png" alt="Alt text"></p>
+<blockquote>
+<p>　当我们初始化ArrayList并传入初始化容量时,new ArrayList&lt;&gt;(6):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    * 构造一个具有指定初始容量的空列表</span><br><span class="line">    *</span><br><span class="line">    * @param  初始容量列表的初始值</span><br><span class="line">    * @throws 如果为负数,则抛出IllegalArgumentException异常</span><br><span class="line">    *         </span><br><span class="line">    */</span><br><span class="line">   public ArrayList(int initialCapacity) &#123;</span><br><span class="line">       if (initialCapacity &gt; 0) &#123;</span><br><span class="line">           this.elementData = new Object[initialCapacity];</span><br><span class="line">       &#125; else if (initialCapacity == 0) &#123;</span><br><span class="line">           this.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+</span><br><span class="line">                                              initialCapacity);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="如何动态增长"><a href="#如何动态增长" class="headerlink" title="如何动态增长"></a>如何动态增长</h3><blockquote>
+<p>　在ArrayList类中的grow()方法中,当容量超出限制时,会增加50%的容量,每次扩容都采用System.arrayCopy()复制到新的数组,因此,在我们确定数组的大小时,可以在初始化时给定固定大小,避免自动扩容浪费资源,ArrayList默认初始数组的大小为10;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">   /*</span><br><span class="line">    *增加容量，以确保它至少能容纳</span><br><span class="line">    *由最小容量参数指定的元素数。</span><br><span class="line">    * @param mincapacity所需的最小容量</span><br><span class="line">    */</span><br><span class="line">   private void grow(int minCapacity) &#123;</span><br><span class="line">   // overflow-conscious code</span><br><span class="line">   int oldCapacity = elementData.length;</span><br><span class="line">   //&gt;&gt;位运算，右移动一位。 整体相当于newCapacity =oldCapacity + 0.5 * oldCapacity </span><br><span class="line">   // jdk1.7采用位运算比以前的计算方式更快</span><br><span class="line">   int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</span><br><span class="line">   if (newCapacity - minCapacity &lt; 0)</span><br><span class="line">   newCapacity = minCapacity;</span><br><span class="line">   //jdk1.7这里增加了对元素个数的最大个数判断,jdk1.7以前是没有最大值判断的，MAX_ARRAY_SIZE 为int最大值减去8（不清楚为什么用这个值做比较）</span><br><span class="line">   if (newCapacity - MAX_ARRAY_SIZE &gt; 0)</span><br><span class="line">   newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">   // 最重要的复制元素方法</span><br><span class="line">   elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　ps:当第第10个被赋值时list是不会增长长度的,因为此时不需要开辟新的内存当第11个时将执行会新开辟内存 （if (minCapacity &gt; oldCapacity) 为真 ）因为包含第11个,所以新增后数组长度则为 10 + 10/2 + 1 ,但是实际上未赋值的为5,也就是说每次开辟新内存时,都需要多开辟1为当前赋值用;</p>
+</blockquote>
+<blockquote>
+<p>　ps:在这里有一个疑问，为什么每次扩容处理会是1.5倍，而不是2.5、3、4倍呢？通过google查找，发现1.5倍的扩容是最好的倍数。因为一次性扩容太大(例如2.5倍)可能会浪费更多的内存(1.5倍最多浪费33%，而2.5被最多会浪费60%，3.5倍则会浪费71%……)。但是一次性扩容太小，需要多次对数组重新分配内存，对性能消耗比较严重。所以1.5倍刚刚好，既能满足性能需求，也不会造成很大的内存消耗。本段内容来源于<a href="http://cmsblogs.com/?p=108" target="_blank" rel="noopener">博客链接</a></p>
+</blockquote>
+<h3 id="List和ArrayList是什么关系"><a href="#List和ArrayList是什么关系" class="headerlink" title="List和ArrayList是什么关系"></a>List和ArrayList是什么关系</h3><blockquote>
+<p>　List是一个接口,而ArrayList是List接口的一个实现类,ArrayList类继承并实现了List接口,因此,List接口不能被构造.</p>
+</blockquote>
+<h3 id="ArrayList和LinkedList的区别"><a href="#ArrayList和LinkedList的区别" class="headerlink" title="ArrayList和LinkedList的区别"></a>ArrayList和LinkedList的区别</h3><blockquote>
+<p>　1. ArrayList是实现了基于动态数组的数据结构,LinkedList基于链表的数据结构.<br>　2. 对于随机访问get和set,ArrayList绝对优于LinkedList,因为LinkedList要移动指针.<br>　3. 对于新增和删除操作add和remove,LinkedList比较占优势,因为ArrayList要移动数据.</p>
+</blockquote>
+<h3 id="ArrayList和Vector的区别"><a href="#ArrayList和Vector的区别" class="headerlink" title="ArrayList和Vector的区别"></a>ArrayList和Vector的区别</h3><blockquote>
+<p>　1. Vector和ArrayList几乎是完全相同的,唯一的区别在于Vector是同步类(synchronized),属于强同步类.因此开销就比ArrayList要大,访问要慢.正常情况下,大多数的Java程序员使用ArrayList而不是Vector,因为同步完全可以由程序员自己来控制.<br>　2. Vector每次扩容请求其大小的2倍空间,而ArrayList是1.5倍.<br>　3. Vector还有一个子类Stack.</p>
+</blockquote>
+<h3 id="ArrayList中的TrimToSize"><a href="#ArrayList中的TrimToSize" class="headerlink" title="ArrayList中的TrimToSize()"></a>ArrayList中的TrimToSize()</h3><blockquote>
+<p>　源码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> /**</span><br><span class="line"> * Trims the capacity of this &lt;tt&gt;ArrayList&lt;/tt&gt; instance to be the</span><br><span class="line"> * list&apos;s current size.  An application can use this operation to minimize</span><br><span class="line"> * the storage of an &lt;tt&gt;ArrayList&lt;/tt&gt; instance.</span><br><span class="line"> */</span><br><span class="line">public void trimToSize() &#123;</span><br><span class="line">    modCount++;</span><br><span class="line">    if (size &lt; elementData.length) &#123;</span><br><span class="line">        elementData = (size == 0)</span><br><span class="line">          ? EMPTY_ELEMENTDATA</span><br><span class="line">          : Arrays.copyOf(elementData, size);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>　考虑这样一种情形,当某个应用需要,一个ArrayList扩容到比如size=10000,之后经过一系列remove操作size=15,在后面的很长一段时间内这个ArrayList的size一直保持在&lt;100以内,那么就造成了很大的空间浪费,这时候建议显式调用一下trimToSize()这个方法,以优化一下内存空间.<br>或者在一个ArrayList中的容量已经固定,但是由于之前每次扩容都扩充50%,所以有一定的空间浪费,可以调用trimToSize()消除这些空间上的浪费.</p>
+</blockquote>
+<h2 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h2><h3 id="ArrayList的大小是如何自动增加的"><a href="#ArrayList的大小是如何自动增加的" class="headerlink" title="ArrayList的大小是如何自动增加的?"></a>ArrayList的大小是如何自动增加的?</h3><blockquote>
+<p>　在每次试图向ArrayList中增加一个对象的时候,Java会去检查ArrayList,以确保已存在的数组中有足够的容量来存储这个新的对象,如果没有足够容量的话,那么就会新建一个长度更长的数组,旧的数组就会使用Arrays.copyOf()方法被复制到新的数组中,<code>现有的数组引用指向新的数组</code>.</p>
+</blockquote>
+<h3 id="什么情况下你会使用ArrayList？什么时候你会选择LinkedList？"><a href="#什么情况下你会使用ArrayList？什么时候你会选择LinkedList？" class="headerlink" title="什么情况下你会使用ArrayList？什么时候你会选择LinkedList？"></a>什么情况下你会使用ArrayList？什么时候你会选择LinkedList？</h3><blockquote>
+<p>　熟记ArrayList和LinkedList的区别,当需要进行频繁的查询时,选择ArrayList,而当需要进行删除或者增加时,应当选择LinkedList;</p>
+</blockquote>
+<blockquote>
+<p>　ArrayList是一个可变长数组，插入数据时，则需要先将原始数组中的数据复制到一个新的数组，随后再将数据赋值到新数组的指定位置；删除数据时，也是将原始数组中要保留的数据复制到一个新的数组;</p>
+</blockquote>
+<blockquote>
+<p>　LinkedList是一个由相互引用的节点组成的双向链表，那么当把数据插入至该链表某个位置时，该数据就会被组装成一个新的节点，随后只需改变链表中对应的两个节点之间的引用关系，使它们指向新节点，即可完成插入；同样的道理，删除数据时，只需删除对应节点的引用即可<br><img src="181204160638.png" alt="Alt text"><br><img src="0181204160704.png" alt="Alt text"></p>
+</blockquote>
+<blockquote>
+<p>　<a href="https://blog.csdn.net/qq_35120695/article/details/56573865" target="_blank" rel="noopener">图片以及答案来源</a></p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>　当点开ArrayList的源码时,看到ArrayList的三种构造函数(虽然本篇只说明了两种,第三种不太理解,故后期更新),通过源码,可以清晰的看到ArrayList是如何初始化的,它的初始化大小是多少,当我们试图向容量已满的ArrayList中插入内容时,它是如何进行动态扩容的,以及在源码中的trimToSize在对数组内容变小对数组的容量进行缩小的优化等.</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+
+<div>
+
+    <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>其它文章也很精彩哦!-------------</div>
+
+</div>
+
+</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA/" rel="tag"><i class="fa fa-tag"></i> JAVA</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/09/JavaIncreaseLinkedList/" rel="next" title="Java提高集合之LinkedList">
+                <i class="fa fa-chevron-left"></i> Java提高集合之LinkedList
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/09/JavaIncreasePolymorphic/" rel="prev" title="Java提高之多态">
+                Java提高之多态 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/tx.jpg" alt="浅浅">
+            
+              <p class="site-author-name" itemprop="name">浅浅</p>
+              <p class="site-description motion-element" itemprop="description">god helps those who help themselves</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+    
+
+          
+<div id="days"></div>
+
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/12/2018 13:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正篇"><span class="nav-number">2.</span> <span class="nav-text">正篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList的概述"><span class="nav-number">2.1.</span> <span class="nav-text">ArrayList的概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList的初始化"><span class="nav-number">2.2.</span> <span class="nav-text">ArrayList的初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何动态增长"><span class="nav-number">2.3.</span> <span class="nav-text">如何动态增长</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List和ArrayList是什么关系"><span class="nav-number">2.4.</span> <span class="nav-text">List和ArrayList是什么关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList和LinkedList的区别"><span class="nav-number">2.5.</span> <span class="nav-text">ArrayList和LinkedList的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList和Vector的区别"><span class="nav-number">2.6.</span> <span class="nav-text">ArrayList和Vector的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList中的TrimToSize"><span class="nav-number">2.7.</span> <span class="nav-text">ArrayList中的TrimToSize()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面试题"><span class="nav-number">3.</span> <span class="nav-text">面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList的大小是如何自动增加的"><span class="nav-number">3.1.</span> <span class="nav-text">ArrayList的大小是如何自动增加的?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么情况下你会使用ArrayList？什么时候你会选择LinkedList？"><span class="nav-number">3.2.</span> <span class="nav-text">什么情况下你会使用ArrayList？什么时候你会选择LinkedList？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">浅浅</span>
+
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span>|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mYVQfCaDN28mIPACWSc9xGj9-gzGzoHsz',
+        appKey: 'jmk9lXQnNrJdxc4BDrBXi6lE',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":140,"height":260},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

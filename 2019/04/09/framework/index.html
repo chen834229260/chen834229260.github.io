@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #ADD8E6; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="framework,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 　JAVA接触的第一个框架大都是Spring,所以对Spring框架做一个概念理解,明白spring它是什么,能做什么,使用它的好处;">
+<meta name="keywords" content="framework">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java框架之Spring">
+<meta property="og:url" content="http://yoursite.com/2019/04/09/framework/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言 　JAVA接触的第一个框架大都是Spring,所以对Spring框架做一个概念理解,明白spring它是什么,能做什么,使用它的好处;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/framework/20180910083832.png">
+<meta property="og:updated_time" content="2018-09-10T01:06:44.015Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java框架之Spring">
+<meta name="twitter:description" content="前言 　JAVA接触的第一个框架大都是Spring,所以对Spring框架做一个概念理解,明白spring它是什么,能做什么,使用它的好处;">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/09/framework/20180910083832.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/09/framework/">
+
+
+
+
+
+  <title>Java框架之Spring | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">god helps those who help themselves</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/framework/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="浅浅">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java框架之Spring</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-09T20:08:41+08:00">
+                2019-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/每周一篇/" itemprop="url" rel="index">
+                    <span itemprop="name">每周一篇</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/09/framework/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/09/framework/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>　JAVA接触的第一个框架大都是Spring,所以对Spring框架做一个概念理解,明白spring它是什么,能做什么,使用它的好处;<br><a id="more"></a></p>
+</blockquote>
+<h3 id="Spring是什么"><a href="#Spring是什么" class="headerlink" title="Spring是什么?"></a>Spring是什么?</h3><blockquote>
+<p>　一个JAVA框架,其目的是简化企业的应用程序开发，降低侵入性，Spring提供的IOC和AOP功能,帮开发人员管理类之间的关系,可以将组件之间的耦合度降到最低，便于后期的维护和升级，实现了软件的高内聚低耦合思想。</p>
+</blockquote>
+<h3 id="Spring能做什么"><a href="#Spring能做什么" class="headerlink" title="Spring能做什么?"></a>Spring能做什么?</h3><blockquote>
+<p>　轻量： Spring 是轻量的，基本的版本大约2MB。<br>　控制反转： Spring通过控制反转实现了松散耦合，对象们给出它们的依赖，而不是创建或查找依赖的对象们。<br>　面向切面的编程(AOP)： Spring支持面向切面的编程，并且把应用业务逻辑和系统服务分开。<br>　容器： Spring 包含并管理应用中对象的生命周期和配置。<br>　MVC框架： Spring的WEB框架是个精心设计的框架，是Web框架的一个很好的替代品。<br>　事务管理： Spring 提供一个持续的事务管理接口，可以扩展到上至本地事务下至全局事务（JTA）。<br>　异常处理： Spring 提供方便的API把具体技术相关的异常（比如由JDBC，Hibernate or JDO抛出的）转化为一致的unchecked 异常</p>
+</blockquote>
+<h3 id="Spring做了什么"><a href="#Spring做了什么" class="headerlink" title="Spring做了什么?"></a>Spring做了什么?</h3><blockquote>
+<p>　1、Spring能帮我们根据配置文件创建及组装对象之间的依赖关系。<br>　2、Spring 面向切面编程能帮助我们无耦合的实现日志记录，性能统计，安全控制。<br>　3、在传统应用程序当中，我们如何来完成数据库事务管理？需要一系列“获取连接，执行SQL，提交或回滚事务，关闭连接”，而且还要保证在最后一定要关闭连接，多么可怕的事情，而且也很无聊；如果采用Spring，我们只需获取连接，执行SQL，其他的都交给Spring来管理了，简单吧。所以，Spring能非常简单的帮我们管理数据库事务。<br>　4、Spring还提供了与第三方数据访问框架（如Hibernate、JPA）无缝集成，而且自己也提供了一套JDBC访问模板，来方便数据库访问。<br>　5、Spring还提供与第三方Web（如Struts、JSF）框架无缝集成，而且自己也提供了一套Spring MVC框架，来方便web层搭建。<br>　6、Spring能方便的与Java EE（如Java Mail、任务调度）整合，与更多技术整合（比如缓存框架）.</p>
+</blockquote>
+<h3 id="IOC故事理解"><a href="#IOC故事理解" class="headerlink" title="IOC故事理解"></a>IOC故事理解</h3><blockquote>
+<p>　<a href="https://www.zhihu.com/question/48427693/answer/252438845" target="_blank" rel="noopener">故事来源</a> 我有次面试被问到spring IOC的时候不想再官方话，打了个比方，IOC它就类似于一个菜筐，以前你需要自己去菜市场买菜，现在你只要在家门口放一个菜框applicationcontext.xml或者也叫???.xml，然后就有人给你发菜，你想要什么样的菜也就是bean，在菜筐留个纸条预定下，想要青菜会发青菜，想要蘑菇会发蘑菇，青菜你想要菠菜或者生菜再预定下property，蘑菇想要土菇或者金针菇也可以预定下property，然后就会发菜了，你就可以不出门坐家里等着发菜做饭了<br>⊙﹏⊙。。。。。。。。。。。</p>
+</blockquote>
+<h3 id="IOC提供的三种注入方式"><a href="#IOC提供的三种注入方式" class="headerlink" title="IOC提供的三种注入方式"></a>IOC提供的三种注入方式</h3><blockquote>
+<p>　1、构造方法注入(constructor injection):Ioc会检查被注入对象的构造方法,取得它所需要的依赖对象列表,进而为其注入相应的对象,同一个对象是不可能被构造俩次的,因此,被注入对象的构造乃至其整个生命周期,都由IOC来管理;<br>例子:好比你刚进酒吧的们,服务生已经将你喜欢的啤酒摆上了桌面,做下就可享受;<br>　2、setter方法注入(setter injection):对于javabean对象来说,会提供getter和setter方法,而在set方法中会将对象注入,用get方法进行调用<br>例子:就好比你可以到酒吧坐下来后再决定要点什么酒,可以慢慢选择;<br>　3、接口注入(interface injection):</p>
+</blockquote>
+<h3 id="Spring注解的作用"><a href="#Spring注解的作用" class="headerlink" title="Spring注解的作用"></a>Spring注解的作用</h3><blockquote>
+<p>　传统的Spring做法是使用.xml文件来对bean进行注入或者是配置aop、事物，这么做有两个缺点：</p>
+</blockquote>
+<p>1、如果所有的内容都配置在.xml文件中，那么.xml文件将会十分庞大；如果按需求分开.xml文件，那么.xml文件又会非常多。总之这将导致配置文件的可读性与可维护性变得很低。</p>
+<p>2、在开发中在.java文件和.xml文件之间不断切换，是一件麻烦的事，同时这种思维上的不连贯也会降低开发的效率。<br>为了解决这两个问题，Spring引入了注解，通过”@XXX”的方式，让注解与Java Bean紧密结合，既大大减少了配置文件的体积，又增加了Java Bean的可读性与内聚性。</p>
+<h3 id="Spring中Bean的作用域"><a href="#Spring中Bean的作用域" class="headerlink" title="Spring中Bean的作用域"></a>Spring中Bean的作用域</h3><blockquote>
+<p>　1、单例(Singleton):在整个应用中,只创建bean的一个实例.<br>　2、原型(Prototype): 每次注入或者通过spring应用上下文获取的时候,都会创建一个新的bean实例.<br>　3、会话(session): 在Web应用中,为每个会话创建一个bean实例.<br>　4、请求(request): 在web应用中,为每个请求创建一个bean实例.</p>
+</blockquote>
+<p>而单例是bean的默认作用域,对于易变的注入类型,它并不合适,所以可以使用@Scope注解.它可以和@Component或@Bean一起使用</p>
+<h3 id="Spring有哪些模块以及模块的用处"><a href="#Spring有哪些模块以及模块的用处" class="headerlink" title="Spring有哪些模块以及模块的用处?"></a>Spring有哪些模块以及模块的用处?</h3><blockquote>
+<p>　模块分布图<br><img src="20180910083832.png" alt="Alt text"></p>
+</blockquote>
+<h4 id="Core模块"><a href="#Core模块" class="headerlink" title="Core模块"></a>Core模块</h4><blockquote>
+<p>　core模块主要包含spring框架基本的核心工具类,spring的其他组件要都要使用到这个包里的类,core模块是其他组件的基本核心,当然你也可以在自己的应用系统中使用这些工具类;</p>
+</blockquote>
+<h4 id="Beans模块"><a href="#Beans模块" class="headerlink" title="Beans模块"></a>Beans模块</h4><blockquote>
+<p>　Beans模块是所有应用都要用到的,它包含访问配置文件,创建和管理bean以及进行Inversion of Control/Dependency Injection(Ioc/DI)操作相关的所有类;</p>
+</blockquote>
+<h4 id="Context模块"><a href="#Context模块" class="headerlink" title="Context模块"></a>Context模块</h4><blockquote>
+<p>　Context模块构建于Core和Bean模块基础之上,提供了一种类似于JNDI注册器的框架式的对象访问方法,Context模块继承了Beans的特性,为Spring核心提供了大量扩展,添加了对国际化(例如资源保定),事件传播,资源加载和对Context的透明创建的支持,Context模块同时支持J2EE的一些特性,例如EJB,JMX和基础的远程处理,ApplicationContext接口是Context模块的关键</p>
+</blockquote>
+<h4 id="Experssion-Language模块"><a href="#Experssion-Language模块" class="headerlink" title="Experssion Language模块"></a>Experssion Language模块</h4><blockquote>
+<p>　Experssion Language模块提供了一个强大的表达式语言用于在运行时查询和操纵对象,它是JSP2.1规范中定义的unifed expression language的一个扩展,该语言支持设置/获取属性的值,属性的分配,方法的调用,访问数组上下文,容器和索引器,逻辑和算数运算符,命名变量以及从spingioc容器中更具名称检索对象,它也支持list投影,选择和一般的list聚合.</p>
+</blockquote>
+<h4 id="JDBC模块"><a href="#JDBC模块" class="headerlink" title="JDBC模块"></a>JDBC模块</h4><blockquote>
+<p>　JDBC模块提供了一个JDBC抽象层,它可以消除冗长的JDBC编码和解析数据库厂商特有的错误代码,这个模块包含了sping对JDBC数据访问进行封装的所有类</p>
+</blockquote>
+<h4 id="ORM模块"><a href="#ORM模块" class="headerlink" title="ORM模块"></a>ORM模块</h4><blockquote>
+<p>　ORM模块为流行的对象-关系映射API,如JPA,JDO,Hibernate,Ibatis等,提供了一个交互层,利用ORM封装包,可以混合使用所有Spring一共的特性进行O/R映射,如前边提到的简单声明性事务管理<br>    Spring框架插入了若干个ORM框架,从而提供了ORM的对象关系工具,其中包括JDO,Hibernate和iBatisSQL Map,所有这些都遵从Spring的通用事务和DAO异常层次结构</p>
+</blockquote>
+<h4 id="OXM-JMS-Transaction"><a href="#OXM-JMS-Transaction" class="headerlink" title="OXM/JMS/Transaction"></a>OXM/JMS/Transaction</h4><blockquote>
+<p>　    OXM提共了一个对Object/XML映射实现的抽象层,Object/XML映射包括JAXB,Castor,XMLBeans,JiBX和XStream</p>
+</blockquote>
+<p>JMS(Java Messaging Service)模块主要包含了一些制造和消费消息的特性</p>
+<p>Transaction模块支持编程和声明性的事务管理,这些事务类必须实现特定的接口,并且对所有的pojo都使用;</p>
+<h4 id="Web-Web-Servlet-Web-Struts-Web-Porlet"><a href="#Web-Web-Servlet-Web-Struts-Web-Porlet" class="headerlink" title="Web/Web-Servlet/Web-Struts/Web-Porlet"></a>Web/Web-Servlet/Web-Struts/Web-Porlet</h4><blockquote>
+<p>　Web模块:提供了基础的面向Web的继承特性,例如,多文件上传,使用servlet listeners初始化IoC容器以及一个面向We的应用上下文,它还包含Spring远程支持中Web的相关部分</p>
+</blockquote>
+<p>Web-Servlet模版web.servlet.jar:该模版包含Spring的model-view-controller(MVC)实现,Spring的MVC框架使的模型范围内的代码和web forms之间能够清楚的分离开来,并与Spring框架的其他特性集成在一起</p>
+<p>Web-Struts模块:该模块提供了对Struts的支持,使的类在Spring应用中能够与一个典型的StrutsWeb层继承在一起,注意,该支持在Spring3.0中deprecated的</p>
+<p>web-porlet模块:提供了用于Portlet环境和Web-Servlet模块的MVC的实现</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>　Spring的概念与理论千篇一律,其实任何框架都是对应实际的业务逻辑的,当我们的业务逻辑使用某个框架更好处理时(例如,节省开发时间,降低代码耦合度,学习框架成本等),才会去选择学习和使用,而spring是一个一站式框架(个人理解为,就像一个加油站,提供各种型号和类别的油),它会去将其余的框架通过xml文件来进行整合,并且其提供的ioc容器很好的帮助我们简化了开发;</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+
+<div>
+
+    <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>其它文章也很精彩哦!-------------</div>
+
+</div>
+
+</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/framework/" rel="tag"><i class="fa fa-tag"></i> framework</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/09/Elasticsearch/" rel="next" title="每周一篇之Elasticsearch">
+                <i class="fa fa-chevron-left"></i> 每周一篇之Elasticsearch
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/09/HighQualityblog/" rel="prev" title="High Quality Blog">
+                High Quality Blog <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/tx.jpg" alt="浅浅">
+            
+              <p class="site-author-name" itemprop="name">浅浅</p>
+              <p class="site-description motion-element" itemprop="description">god helps those who help themselves</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+    
+
+          
+<div id="days"></div>
+
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/12/2018 13:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring是什么"><span class="nav-number">1.1.</span> <span class="nav-text">Spring是什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring能做什么"><span class="nav-number">1.2.</span> <span class="nav-text">Spring能做什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring做了什么"><span class="nav-number">1.3.</span> <span class="nav-text">Spring做了什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IOC故事理解"><span class="nav-number">1.4.</span> <span class="nav-text">IOC故事理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IOC提供的三种注入方式"><span class="nav-number">1.5.</span> <span class="nav-text">IOC提供的三种注入方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring注解的作用"><span class="nav-number">1.6.</span> <span class="nav-text">Spring注解的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring中Bean的作用域"><span class="nav-number">1.7.</span> <span class="nav-text">Spring中Bean的作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring有哪些模块以及模块的用处"><span class="nav-number">1.8.</span> <span class="nav-text">Spring有哪些模块以及模块的用处?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Core模块"><span class="nav-number">1.8.1.</span> <span class="nav-text">Core模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Beans模块"><span class="nav-number">1.8.2.</span> <span class="nav-text">Beans模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Context模块"><span class="nav-number">1.8.3.</span> <span class="nav-text">Context模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Experssion-Language模块"><span class="nav-number">1.8.4.</span> <span class="nav-text">Experssion Language模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JDBC模块"><span class="nav-number">1.8.5.</span> <span class="nav-text">JDBC模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ORM模块"><span class="nav-number">1.8.6.</span> <span class="nav-text">ORM模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OXM-JMS-Transaction"><span class="nav-number">1.8.7.</span> <span class="nav-text">OXM/JMS/Transaction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Web-Web-Servlet-Web-Struts-Web-Porlet"><span class="nav-number">1.8.8.</span> <span class="nav-text">Web/Web-Servlet/Web-Struts/Web-Porlet</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">浅浅</span>
+
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span>|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mYVQfCaDN28mIPACWSc9xGj9-gzGzoHsz',
+        appKey: 'jmk9lXQnNrJdxc4BDrBXi6lE',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":140,"height":260},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

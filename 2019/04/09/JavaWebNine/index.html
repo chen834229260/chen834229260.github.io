@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #ADD8E6; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="BOOK,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第九章节:Servlet工作原理解析;">
+<meta name="keywords" content="BOOK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入分析Java Web技术内幕:第九章">
+<meta property="og:url" content="http://yoursite.com/2019/04/09/JavaWebNine/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第九章节:Servlet工作原理解析;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/JavaWebNine/181029151514.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/09/JavaWebNine/0181029152422.png">
+<meta property="og:updated_time" content="2018-11-09T03:06:56.368Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入分析Java Web技术内幕:第九章">
+<meta name="twitter:description" content="前言 　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第九章节:Servlet工作原理解析;">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/09/JavaWebNine/181029151514.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/09/JavaWebNine/">
+
+
+
+
+
+  <title>深入分析Java Web技术内幕:第九章 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">god helps those who help themselves</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/JavaWebNine/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="浅浅">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入分析Java Web技术内幕:第九章</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-09T20:08:41+08:00">
+                2019-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/09/JavaWebNine/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/09/JavaWebNine/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>　阅读深入分析Java Web技术内幕,对技术点做记录,本篇为第九章节:Servlet工作原理解析;<br><a id="more"></a><br>　本章知识点:<br>　1. Servlet容器是如何工作的<br>　2. 一个Web工程在Servlet容器中是如何启动的<br>　3. Servlet容器如何解析你在web.xml中定义的Servlet<br>　4. 用户的请求是如何被分配给指定的servlet的<br>　5. Servlet容器如何管理Servlet生命周期</p>
+</blockquote>
+<h3 id="从Servlet容器说起"><a href="#从Servlet容器说起" class="headerlink" title="从Servlet容器说起"></a>从Servlet容器说起</h3><blockquote>
+<p>　Servlet与Servlet容器的关系有点像枪和子弹的关系,虽然它们彼此依存,但又相互独立发展,从技术的角度来说是为了解耦,通过标准化接口来相互协作<br>　在tomcat的容器等级中,Context容器直接管理Servlet在容器中的包装类Wrapper,所以Context容器如何运行将直接影响Servlet的工作方式,Tomcat容器模型如下图:<br><img src="181029151514.png" alt="Alt text"><br>　如图,真正管理Servlet的容器是Context容器,一个Context对应一个Web工程</p>
+</blockquote>
+<h4 id="Servlet容器的启动过程"><a href="#Servlet容器的启动过程" class="headerlink" title="Servlet容器的启动过程"></a>Servlet容器的启动过程</h4><blockquote>
+<p>　添加一个Web应用将会创建一个StandardContext容器,并且给这个Context容器设置必要的参数,url和path分别代表这个应用在Tomcat中的访问路径和这个应用实际的物理路径,这两个参数与Tomcat配置中的两个参数是一致的,其中最重要的一个配置是ContextConfig,这个类将会负责整个Web应用配置的解析工作,最后将这个Context容器加到父容器Host中.<br>　接下来将会调用Tomcat的start方法启动Tomcat,<code>Tomcat的启动逻辑是基于观察者模式设计的</code>,所有的容器都会继承Lifecycle接口,它管理着容器的整个生命周期,所有容器的修改和状态的改变都会由它去通知已经注册的观察者()(Listener),Tomcat启动时序图如下;<br><img src="0181029152422.png" alt="Alt text"></p>
+</blockquote>
+<blockquote>
+<p>　当Context容器初始化状态设为init时,添加到Context容器的Listener将会被调用,ContextConfig继承了LifecycleListener接口,它是在调用Tamcat.addWebApp时被加入到StandardContext容器中的,ContextConfig类会负责整个Web应用的配置文件的解析工作<br>　ContextConfig的init方法将会主要完成一下工作:<br>　1. 创建用于解析XML配置文件的contextDigester对象<br>　2.读取默认的context.xml配置文件,如果存在则解析它<br>　3.读取默认的Host配置文件,如果存在则解析它<br>　4.读取默认的Context自身的配置文件,如果存在则解析它<br>　5.设置Context的DocBase</p>
+</blockquote>
+<blockquote>
+<p>　ContextConfig的init方法完成后,Context容器就会执行startInternal方法,这个方法的启动逻辑比较复杂,主要包括如下几部分<br>　1. 创建读取资源文件的对象<br>　2. 创建ClassLoader对象<br>　3. 设置应用的工作目录<br>　4. 启动相关的辅助类,如logger,realm,resources等<br>　5. 修改启动状态,通知感兴趣的观察者(Web应用的配置)<br>　6. 子容器的初始化<br>　7.  获取ServletContext并设置必要的参数<br>　8. 初始化”load on startup”的Servlet</p>
+</blockquote>
+<h4 id="Web应用的初始化工作"><a href="#Web应用的初始化工作" class="headerlink" title="Web应用的初始化工作"></a>Web应用的初始化工作</h4><blockquote>
+<p>　Web应用的初始化工作是在ContextConfig的configueStart方法中实现的,应用的初始化主要是解析web.xml文件,这个文件描述了一个Web应用的关键信息,也是一个Web应用的入口.</p>
+</blockquote>
+<blockquote>
+<p>　WebXml的configureContext方法清楚的描述了如何将Servlet包装成Context容器中的StandardWrapper,这里有个疑问,为什么要将Servlet包装成StandardWrapper而不直接包装成Servlet对象?这里StandardWrapper是Tomcat容器中的一部分,它具有容器的特征,而Servlet作为一个独立的Web开发标准,不应该强耦合在Toncat中</p>
+</blockquote>
+<blockquote>
+<p>　除了将Servlet包装成StandardWrapper并作为子容器添加到Context中外,其他所有的web.xml属性都被解析到Context中,所以说Context容器才是真正运行servletdeServlet容器,一个Web应用对应一个Context容器,容器的配置属性由应用的web.xml指定,这样我们就能理解web.xml到底起什么作用了.</p>
+</blockquote>
+<h3 id="创建Servlet实例"><a href="#创建Servlet实例" class="headerlink" title="创建Servlet实例"></a>创建Servlet实例</h3><blockquote>
+<p>　Servlet对象是如何创建的,以及是如何被初始化的</p>
+</blockquote>
+<h4 id="创建Servlet实例-1"><a href="#创建Servlet实例-1" class="headerlink" title="创建Servlet实例"></a>创建Servlet实例</h4><blockquote>
+<p>　如果Servlet的load-on-startup配置项大于0,那么在Context容器启动时就会被实例化,在解析配置文件时会读取默认的globalWebXml,在conf下的wen.xml文件中定义了一些默认的配置项,其中定义了两个servlet,分别是org.apache.catalina.servlets.DefaultServlet和org.apache.jasper.servlet.JspServlet,它们的load-on-startup分别是1和3,也就是当tomcat启动时,这两个Servlet就会被启动</p>
+</blockquote>
+<h4 id="初始化Servlet"><a href="#初始化Servlet" class="headerlink" title="初始化Servlet"></a>初始化Servlet</h4><blockquote>
+<p>　初始化Servlet在StandardWrapper的initServlet方法中,这个方法很简单,就是调用Servlet的init()方法,同时把包装了StandardWrapper对象的StandardWrapperFacadc作为ServletConfig穿getServlet,如果Servlet关联的是一个JSP文件,那么前面初始化的就是JspServlet,接下来会模拟一次简单的请求,请求调用这个JSP文件,以便编译这个JSP文件为类,并初始化这个类,</p>
+</blockquote>
+<h3 id="Servlet体系结构"><a href="#Servlet体系结构" class="headerlink" title="Servlet体系结构"></a>Servlet体系结构</h3><blockquote>
+<p>　与Servlet主动关联的是三个类,分别是ServletConfig,ServletRequest和ServletResponse,这三个类都是通过容器传递给Servlet的,其中ServletConfig在Servlet初始化时就传给Servlet了,而后两个实在请求到达时调用Servlet传递过来的,<code>ServletConfig和ServletContext对Servlet有何价值呢?这些放大都是为了获取这个Servlet的一些配置属性,而这些配置属性可能在Servlet运行时被用到</code>,`ServletContext又是干什么的呢?Servlet的运行模式是一个典型的”握手型的交互式”,就是这两个模版为了交换数据通常都会准备一个交易场景,这个场景一直跟随这个交易过程直到这个交易完成为止,这个交易场景的初始化是根据这次交易对象指定的参数来定制的,这些指定参数通常就是一个配置类,所以对号入座,交易场景就由ServletContext来描述,而定制的参数集合就由ServletConfig来描述,而ServletRequest和ServletResponse就是交互的具体对象,它们通常都作为运输工具来传递交互结果</p>
+</blockquote>
+<h3 id="Servlet如何工作"><a href="#Servlet如何工作" class="headerlink" title="Servlet如何工作"></a>Servlet如何工作</h3><h4 id="Servlet是如何被调用的呢"><a href="#Servlet是如何被调用的呢" class="headerlink" title="Servlet是如何被调用的呢?"></a>Servlet是如何被调用的呢?</h4><blockquote>
+<p>　在Tomca7中,类org.apapche.tpmcat.util.http.mapper,这个类中保存了tomcat的Container容器中的所有子容器的信息,org.apache.catlina.connector.Request类在进入Container容器之前,Mapper将会根据这次请求的hostname和contextpath将host和context容器设置到Request的mappingData属性中,所有Request进入Container容器之前,对于它要访问哪个自容器就已经确定了.<br>　接下来就是执行Servlet的service方法了,通常情况下,我们自定义servlet并补直接去实现javax.servlet.servlet接口,而是去继承更简单的HttpServlet类或者GenericServlet类,我们可以有选择的覆盖相应的方法去实现要完成的工作,当servlet从servlet容器中移除时,也就表明该Servlet的生命周期结束了,这是Servlet的destroy方法将被调用,做一些扫尾工作</p>
+</blockquote>
+<h3 id="Servlet中的Listener"><a href="#Servlet中的Listener" class="headerlink" title="Servlet中的Listener"></a>Servlet中的Listener</h3><blockquote>
+<p>　在整个Tomcat服务器中,Listener使用的非常广泛,它是基于观察者模式设计的,Listener的设计为开发Servlet应用程序提供了一种快捷的手段,能够方便的从另一个纵向维度控制程序和数据.Listener的实现类可以配置在web.xml<listener>标签中,当然也可以在应用程序中动态添加Listener,需要注意的是ServletContextListener在容器启动之后就不能再添加新的,因为它监听的时间已经不会再出现了,掌握这些Listener的使用方法,能够让我们的程序设计的更加灵活<br>　Spring的org.springframework.web.context.ContextLoaderListener就实现了一个ServletContextListener,当容器加载时启动spring容器,ContextLoaderListener在contextInitialized方法中初始化spring容器,有几种办法可以加载spring容器,通过web.xml的<context-param>标签中配置spring的applicationContext.xml文件.</context-param></listener></p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>　本章从servlet容器的启动,servlet的初始化及Servlet的体系结构等内容进行一遍过程讲述;</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+
+<div>
+
+    <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>其它文章也很精彩哦!-------------</div>
+
+</div>
+
+</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/BOOK/" rel="tag"><i class="fa fa-tag"></i> BOOK</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/09/JavaWebFour/" rel="next" title="深入分析Java Web技术内幕:第四章">
+                <i class="fa fa-chevron-left"></i> 深入分析Java Web技术内幕:第四章
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/09/JavaWebSeven/" rel="prev" title="深入分析Java Web技术内幕:第七章">
+                深入分析Java Web技术内幕:第七章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/tx.jpg" alt="浅浅">
+            
+              <p class="site-author-name" itemprop="name">浅浅</p>
+              <p class="site-description motion-element" itemprop="description">god helps those who help themselves</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+    
+
+          
+<div id="days"></div>
+
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/12/2018 13:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从Servlet容器说起"><span class="nav-number">1.1.</span> <span class="nav-text">从Servlet容器说起</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet容器的启动过程"><span class="nav-number">1.1.1.</span> <span class="nav-text">Servlet容器的启动过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Web应用的初始化工作"><span class="nav-number">1.1.2.</span> <span class="nav-text">Web应用的初始化工作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建Servlet实例"><span class="nav-number">1.2.</span> <span class="nav-text">创建Servlet实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建Servlet实例-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">创建Servlet实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化Servlet"><span class="nav-number">1.2.2.</span> <span class="nav-text">初始化Servlet</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet体系结构"><span class="nav-number">1.3.</span> <span class="nav-text">Servlet体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet如何工作"><span class="nav-number">1.4.</span> <span class="nav-text">Servlet如何工作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet是如何被调用的呢"><span class="nav-number">1.4.1.</span> <span class="nav-text">Servlet是如何被调用的呢?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet中的Listener"><span class="nav-number">1.5.</span> <span class="nav-text">Servlet中的Listener</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">浅浅</span>
+
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span>|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mYVQfCaDN28mIPACWSc9xGj9-gzGzoHsz',
+        appKey: 'jmk9lXQnNrJdxc4BDrBXi6lE',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":140,"height":260},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

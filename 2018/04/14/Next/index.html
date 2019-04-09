@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #ADD8E6; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1209552.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 记录一下Next主题的安装和优化,教程全部来源于百度,自己简单做了个总结.">
+<meta name="keywords" content="Hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Next主題的安裝以及优化">
+<meta property="og:url" content="http://yoursite.com/2018/04/14/Next/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言 记录一下Next主题的安装和优化,教程全部来源于百度,自己简单做了个总结.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/Next/152366705122.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/Next/152366705122.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/Next/1523667504403.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/Next/1523675142207.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/Next/1523669338859.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/Next/1523669452188.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/Next/1523672686434.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/Next/1523672917309.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/Next/1523673037634.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/Next/1523673126612.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/Next/1523675513480.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/Next/1523673439166.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/Next/1523673705784.png">
+<meta property="og:updated_time" content="2018-12-11T02:30:41.159Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Next主題的安裝以及优化">
+<meta name="twitter:description" content="前言 记录一下Next主题的安装和优化,教程全部来源于百度,自己简单做了个总结.">
+<meta name="twitter:image" content="http://yoursite.com/2018/04/14/Next/152366705122.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/14/Next/">
+
+
+
+
+
+  <title>Next主題的安裝以及优化 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">god helps those who help themselves</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/14/Next/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="浅浅">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Next主題的安裝以及优化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-14T08:35:17+08:00">
+                2018-04-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hexo主题/" itemprop="url" rel="index">
+                    <span itemprop="name">Hexo主题</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/14/Next/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/04/14/Next/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote>
+<p>记录一下Next主题的安装和优化,教程全部来源于百度,自己简单做了个总结.<br><a id="more"></a></p>
+</blockquote>
+<h4 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h4><p>安装的过程就一行代码,需要在博客的根目录打开git Bash Here,输入如下命令:</p>
+<blockquote>
+<p>git clone <a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener">https://github.com/theme-next/hexo-theme-next</a> themes / next<br>如下载完成.就可以在博客根目录下的thmees中找到一个为next的文件夹<br><img src="./152366705122.png" alt="Alt text"></p>
+</blockquote>
+<h4 id="使用主题"><a href="#使用主题" class="headerlink" title="使用主题"></a>使用主题</h4><p>当主题下载完成之后,只需要去博客根目录下的配置文件_config.yml中搜索theme,将其修改为主题的名字<br><img src="./152366705122.png" alt="Alt text"></p>
+<p>在博客根目录下的Git Bash Here中输入:</p>
+<blockquote>
+<p> hexo d -g</p>
+</blockquote>
+<p>提示上传成功的话,就可以在自己的博客网站看到Next的默认主题效果了</p>
+<h4 id="Next主题的设置"><a href="#Next主题的设置" class="headerlink" title="Next主题的设置"></a>Next主题的设置</h4><p>当然,Next主题为我们提供了三种不同的主题样式,我们可以通过修改主题的配置文件来对主题的默认样式进行修改,以此找到自己喜欢的样式,themes/next/_config.yml;</p>
+<blockquote>
+<p><img src="./1523667504403.png" alt="Alt text"></p>
+</blockquote>
+<h4 id="设置Next主题个性化之自动更换背景图片"><a href="#设置Next主题个性化之自动更换背景图片" class="headerlink" title="设置Next主题个性化之自动更换背景图片"></a>设置Next主题个性化之自动更换背景图片</h4><h5 id="图片来源"><a href="#图片来源" class="headerlink" title="图片来源"></a>图片来源</h5><p>自动更换背景的实现是修改添加背景的css样式实现。图片来源是</p>
+<blockquote>
+<p><a href="https://source.unsplash.com/" target="_blank" rel="noopener">https://source.unsplash.com/</a></p>
+</blockquote>
+<h5 id="修改背景样式"><a href="#修改背景样式" class="headerlink" title="修改背景样式"></a>修改背景样式</h5><p>修改themes\next\source\css\ _custom\custom.styl文件，这个是Next故意留给用户自己个性化定制一些样式的文件，添加以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">body &#123;</span><br><span class="line">    background:url(https://source.unsplash.com/random/1600x900);</span><br><span class="line">    background-repeat: no-repeat;</span><br><span class="line">    background-attachment:fixed;</span><br><span class="line">    background-position:50% 50%;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果自己不喜欢这个网址提供的图片做背景，那么修改url()里面的路径即可。repeat、attachment、position就是调整图片的位置，不重复出现、不滚动等等。</p>
+<h6 id="修改不透明度"><a href="#修改不透明度" class="headerlink" title="修改不透明度"></a>修改不透明度</h6><p>完成这一步其实背景就会自动更换了，但是会出现一个问题，因为next主题的背景是纯透明的，这样子就造成背景图片的影响看不见文字，这对于博客来说肯定不行。</p>
+<p>那么就需要调整背景的不透明度了。同样是修改themes\next\source\css\ _custom\custom.styl文件。在后面添加如下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.main-inner &#123; </span><br><span class="line">    margin-top: 60px;</span><br><span class="line">    padding: 60px 60px 60px 60px;</span><br><span class="line">    background: #fff;  /*白色*/</span><br><span class="line">    opacity: 0.9; /*透明度*/</span><br><span class="line">    min-height: 500px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果图:<br><img src="./1523675142207.png" alt="Alt text"></p>
+<h6 id="设置主题语言"><a href="#设置主题语言" class="headerlink" title="设置主题语言"></a>设置主题语言</h6><p>在themes\next\languages该路径中,存放着语言的文件,zh-CN(也有可能是zh-Hans),为中文文件,需要去博客根目录的配置文件(_config.yml)中设置:</p>
+<blockquote>
+<p>language: zh-CN</p>
+</blockquote>
+<h5 id="点击出现桃心"><a href="#点击出现桃心" class="headerlink" title="点击出现桃心"></a>点击出现桃心</h5><p>浏览器输入：<a href="http://7u2ss1.com1.z0.glb.clouddn.com/love.js" target="_blank" rel="noopener">http://7u2ss1.com1.z0.glb.clouddn.com/love.js</a></p>
+<p>拷贝所有代码，在/themes/next/source/js/src里面新建love.js，然后在\themes\next\layout_layout.swig文件末尾添加以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 页面点击小红心 --&gt; </span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;/js/src/love.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<h5 id="每篇文章后加入本文结束"><a href="#每篇文章后加入本文结束" class="headerlink" title="每篇文章后加入本文结束"></a>每篇文章后加入本文结束</h5><p>在路径 \themes\next\layout_macro 中新建 passage-end-tag.swig 文件,并添加以下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">&#123;% if not is_index %&#125;</span><br><span class="line">    &lt;div style=&quot;text-align:center;color: #ccc;font-size:14px;&quot;&gt;-------------本文结束&lt;i class=&quot;fa fa-paw&quot;&gt;&lt;/i&gt;感谢您的阅读-------------&lt;/div&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>接着打开\themes\next\layout_macro\post.swig文件，在post-body 之后， 添加以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">&#123;% if not is_index %&#125;</span><br><span class="line">&#123;% include &apos;passage-end-tag.swig&apos; %&#125;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>添加位置如图：<br><img src="./1523669338859.png" alt="Alt text"><br>然后打开主题配置文件（_config.yml),在末尾添加：</p>
+<blockquote>
+<p>文章末尾添加“本文结束”标记<br>passage_end_tag:<br>enabled: true</p>
+</blockquote>
+<h5 id="设置网站图标"><a href="#设置网站图标" class="headerlink" title="设置网站图标"></a>设置网站图标</h5><p>默认的网站图标是一个N，当然是需要制定一个图了，在网上找到图后，将其放在/themes/next/source/images里面，然后在主题配置文件中修改下图所示图片位置</p>
+<p><img src="./1523669452188.png" alt="Alt text"></p>
+<h5 id="代码块样式自定义"><a href="#代码块样式自定义" class="headerlink" title="代码块样式自定义"></a>代码块样式自定义</h5><p>themes\next\source\css_custom\custom.styl配置文件中,添加下面代码,,可自己修改:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// Custom styles.</span><br><span class="line">code &#123;</span><br><span class="line">    color: #ff7600;</span><br><span class="line">    background: #fbf7f8;</span><br><span class="line">    margin: 2px;</span><br><span class="line">&#125;</span><br><span class="line">// 大代码块的自定义样式</span><br><span class="line">.highlight, pre &#123;</span><br><span class="line">    margin: 5px 0;</span><br><span class="line">    padding: 5px;</span><br><span class="line">    border-radius: 3px;</span><br><span class="line">&#125;</span><br><span class="line">.highlight, code, pre &#123;</span><br><span class="line">    border: 1px solid #d6d6d6;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="主页文章添加阴影效果"><a href="#主页文章添加阴影效果" class="headerlink" title="主页文章添加阴影效果"></a>主页文章添加阴影效果</h5><p>打开\themes\next\source\css_custom\custom.styl,向里面加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 主页文章添加阴影效果</span><br><span class="line"> .post &#123;</span><br><span class="line">   margin-top: 60px;</span><br><span class="line">   margin-bottom: 60px;</span><br><span class="line">   padding: 25px;</span><br><span class="line">   -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);</span><br><span class="line">   -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="在网站底部加上访问量"><a href="#在网站底部加上访问量" class="headerlink" title="在网站底部加上访问量"></a>在网站底部加上访问量</h5><p>  打开\themes\next\layout_partials\footer.swig文件,在copyright前加上这句话：<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script async src=&quot;https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>   然后在\themes\next\layout_partials\footer.swig文件中合适的位置添加显示统计的代码:<br>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   &lt;div class=&quot;powered-by&quot;&gt;</span><br><span class="line">&lt;i class=&quot;fa fa-user-md&quot;&gt;&lt;/i&gt;&lt;span id=&quot;busuanzi_container_site_uv&quot;&gt;</span><br><span class="line">  本站访客数:&lt;span id=&quot;busuanzi_value_site_uv&quot;&gt;&lt;/span&gt;</span><br><span class="line">&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<h5 id="网站底部字数统计"><a href="#网站底部字数统计" class="headerlink" title="网站底部字数统计"></a>网站底部字数统计</h5><p>切换到根目录下，然后运行如下代码</p>
+<blockquote>
+<p>$ npm install hexo-wordcount –save</p>
+</blockquote>
+<p>然后在/themes/next/layout/_partials/footer.swig文件尾部加上：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;theme-info&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;powered-by&quot;&gt;&lt;/div&gt;</span><br><span class="line">  &lt;span class=&quot;post-count&quot;&gt;博客全站共&#123;&#123; totalcount(site) &#125;&#125;字&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<h5 id="设置网站的图标Favicon"><a href="#设置网站的图标Favicon" class="headerlink" title="设置网站的图标Favicon"></a>设置网站的图标Favicon</h5><p><img src="./1523672686434.png" alt="Alt text"></p>
+<p>实现方法:<br>在EasyIcon中找一张（32*32）的ico图标,或者去别的网站下载或者制作，并将图标名称改为favicon.ico，然后把图标放在/themes/next/source/images里，并且修改主题配置文件：</p>
+<blockquote>
+<p>Put your favicon.ico into <code>hexo-site/source/</code> directory.<br>favicon: /favicon.ico</p>
+</blockquote>
+<h5 id="隐藏网页底部的powered-By-Hexo-强力驱动"><a href="#隐藏网页底部的powered-By-Hexo-强力驱动" class="headerlink" title="隐藏网页底部的powered By Hexo/强力驱动"></a>隐藏网页底部的powered By Hexo/强力驱动</h5><p>打开themes/next/layout/_partials/footer.swig,使用””隐藏之间的代码即可，或者直接删除。位置如图：<br><img src="./1523672917309.png" alt="Alt text"></p>
+<h5 id="文章加密访问"><a href="#文章加密访问" class="headerlink" title="文章加密访问"></a>文章加密访问</h5><p>打开themes-&gt;next-&gt;layout-&gt;_partials-&gt;head.swig文件,在以下位置插入这样一段代码：<br><img src="./1523673037634.png" alt="Alt text"><br>代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    (function()&#123;</span><br><span class="line">        if(&apos;&#123;&#123; page.password &#125;&#125;&apos;)&#123;</span><br><span class="line">            if (prompt(&apos;请输入文章密码&apos;) !== &apos;&#123;&#123; page.password &#125;&#125;&apos;)&#123;</span><br><span class="line">                alert(&apos;密码错误！&apos;);</span><br><span class="line">                history.back();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)();</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>然后在文章开头上写成类似这样：<br><img src="./1523673126612.png" alt="Alt text"></p>
+<h5 id="添加导航栏"><a href="#添加导航栏" class="headerlink" title="添加导航栏"></a>添加导航栏</h5><blockquote>
+<p>如下图，在配置文件中修改,即可将它们显示</p>
+</blockquote>
+<p><img src="./1523675513480.png" alt="Alt text"></p>
+<p>添加导航栏方式：直接打开hexo安装根目录下的themes文件夹中，我用的是next主题（根据你主题而定），然后打开next文件夹，更改_config.yml文件，用文本方式打开，找到如下位置，默认情况下有些事注释掉的，你可以试着打开，我选择全部不注释，导航栏就是上图所示。<br><img src="./1523673439166.png" alt="Alt text"></p>
+<h5 id="添加导航栏响应页面"><a href="#添加导航栏响应页面" class="headerlink" title="添加导航栏响应页面"></a>添加导航栏响应页面</h5><blockquote>
+<p>导航栏我们刚刚添加成功了，这个时候如果部署 提交，你点击的话，可能是给你报错了，404 提示你找不到页面，这是因为我们只是创建了这个链接，而页面并没有创建，默认情况下home archives 页面都是不用自己创建的，所以分类、标签、关于、404都是要我们自己创建的</p>
+</blockquote>
+<p>在根目录下输入:</p>
+<blockquote>
+<p>hexo new page “categories”</p>
+</blockquote>
+<p>执行完成后,在hexo跟目录下的source文件夹中多出一个categories文件夹,里面默认有一个index.md的文件,这就是我们创建的导航栏分类页面</p>
+<h6 id="将文件分类"><a href="#将文件分类" class="headerlink" title="将文件分类"></a>将文件分类</h6><p>在文章开头添加如下图type:<br><img src="./1523673705784.png" alt="Alt text"></p>
+<h5 id="将侧边栏头像变成圆形-并且鼠标停留发生旋转效果"><a href="#将侧边栏头像变成圆形-并且鼠标停留发生旋转效果" class="headerlink" title="将侧边栏头像变成圆形,并且鼠标停留发生旋转效果"></a>将侧边栏头像变成圆形,并且鼠标停留发生旋转效果</h5><p>修改themes/next/source/css/_common/components/sidebar/sidebar-author.styl：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">.site-author-image &#123;</span><br><span class="line">  display: block;</span><br><span class="line">  margin: 0 auto;</span><br><span class="line">  max-width: 96px;</span><br><span class="line">  height: auto;</span><br><span class="line">  border: 2px solid #333;</span><br><span class="line">  padding: 2px;</span><br><span class="line">  /* start*/</span><br><span class="line">  border-radius: 50%</span><br><span class="line">  webkit-transition: 1.4s all;</span><br><span class="line">  moz-transition: 1.4s all;</span><br><span class="line">  ms-transition: 1.4s all;</span><br><span class="line">  transition: 1.4s all;</span><br><span class="line">  /* end */</span><br><span class="line">&#125;</span><br><span class="line">/* start */</span><br><span class="line">.site-author-image:hover &#123;</span><br><span class="line">  background-color: #55DAE1;</span><br><span class="line">  webkit-transform: rotate(360deg) scale(1.1);</span><br><span class="line">  moz-transform: rotate(360deg) scale(1.1);</span><br><span class="line">  ms-transform: rotate(360deg) scale(1.1);</span><br><span class="line">  transform: rotate(360deg) scale(1.1);</span><br><span class="line">&#125;</span><br><span class="line">/* end */</span><br></pre></td></tr></table></figure>
+<h5 id="将文章进行简单的加密"><a href="#将文章进行简单的加密" class="headerlink" title="将文章进行简单的加密"></a>将文章进行简单的加密</h5><p>找到themes/next/_partials/head.swig,在该文件中添加JS代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    (function()&#123;</span><br><span class="line">        if(&apos;&#123;&#123; page.password &#125;&#125;&apos;)&#123;</span><br><span class="line">            if (prompt(&apos;请输入文章密码&apos;) !== &apos;&#123;&#123; page.password &#125;&#125;&apos;)&#123;</span><br><span class="line">                alert(&apos;密码错误&apos;);</span><br><span class="line">                history.back();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)();</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>之后,在想要加密的文章中设定password 就好了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 文章标题</span><br><span class="line">layout: default</span><br><span class="line">password: 123456</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
+<h2 id="在页面中加入动漫小人"><a href="#在页面中加入动漫小人" class="headerlink" title="在页面中加入动漫小人"></a>在页面中加入动漫小人</h2><blockquote>
+<p>　根据该博客添加<a href="https://www.jianshu.com/p/3a6342e16e57" target="_blank" rel="noopener">博客链接</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+
+<div>
+
+    <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>其它文章也很精彩哦!-------------</div>
+
+</div>
+
+</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hexo/" rel="tag"><i class="fa fa-tag"></i> Hexo</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/07/GitHub-Hexo/" rel="next" title="GitHub Hexo搭建個人博客">
+                <i class="fa fa-chevron-left"></i> GitHub Hexo搭建個人博客
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/12/shiro/" rel="prev" title="每周一篇之Shiro">
+                每周一篇之Shiro <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/tx.jpg" alt="浅浅">
+            
+              <p class="site-author-name" itemprop="name">浅浅</p>
+              <p class="site-description motion-element" itemprop="description">god helps those who help themselves</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+    
+
+          
+<div id="days"></div>
+
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/12/2018 13:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装主题"><span class="nav-number">1.1.</span> <span class="nav-text">安装主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用主题"><span class="nav-number">1.2.</span> <span class="nav-text">使用主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Next主题的设置"><span class="nav-number">1.3.</span> <span class="nav-text">Next主题的设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置Next主题个性化之自动更换背景图片"><span class="nav-number">1.4.</span> <span class="nav-text">设置Next主题个性化之自动更换背景图片</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#图片来源"><span class="nav-number">1.4.1.</span> <span class="nav-text">图片来源</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改背景样式"><span class="nav-number">1.4.2.</span> <span class="nav-text">修改背景样式</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#修改不透明度"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">修改不透明度</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#设置主题语言"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">设置主题语言</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#点击出现桃心"><span class="nav-number">1.4.3.</span> <span class="nav-text">点击出现桃心</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#每篇文章后加入本文结束"><span class="nav-number">1.4.4.</span> <span class="nav-text">每篇文章后加入本文结束</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#设置网站图标"><span class="nav-number">1.4.5.</span> <span class="nav-text">设置网站图标</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码块样式自定义"><span class="nav-number">1.4.6.</span> <span class="nav-text">代码块样式自定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#主页文章添加阴影效果"><span class="nav-number">1.4.7.</span> <span class="nav-text">主页文章添加阴影效果</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在网站底部加上访问量"><span class="nav-number">1.4.8.</span> <span class="nav-text">在网站底部加上访问量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网站底部字数统计"><span class="nav-number">1.4.9.</span> <span class="nav-text">网站底部字数统计</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#设置网站的图标Favicon"><span class="nav-number">1.4.10.</span> <span class="nav-text">设置网站的图标Favicon</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#隐藏网页底部的powered-By-Hexo-强力驱动"><span class="nav-number">1.4.11.</span> <span class="nav-text">隐藏网页底部的powered By Hexo/强力驱动</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#文章加密访问"><span class="nav-number">1.4.12.</span> <span class="nav-text">文章加密访问</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加导航栏"><span class="nav-number">1.4.13.</span> <span class="nav-text">添加导航栏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加导航栏响应页面"><span class="nav-number">1.4.14.</span> <span class="nav-text">添加导航栏响应页面</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#将文件分类"><span class="nav-number">1.4.14.1.</span> <span class="nav-text">将文件分类</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#将侧边栏头像变成圆形-并且鼠标停留发生旋转效果"><span class="nav-number">1.4.15.</span> <span class="nav-text">将侧边栏头像变成圆形,并且鼠标停留发生旋转效果</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#将文章进行简单的加密"><span class="nav-number">1.4.16.</span> <span class="nav-text">将文章进行简单的加密</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#在页面中加入动漫小人"><span class="nav-number"></span> <span class="nav-text">在页面中加入动漫小人</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">浅浅</span>
+
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span>|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mYVQfCaDN28mIPACWSc9xGj9-gzGzoHsz',
+        appKey: 'jmk9lXQnNrJdxc4BDrBXi6lE',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":140,"height":260},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
